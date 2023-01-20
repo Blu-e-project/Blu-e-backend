@@ -1,3 +1,27 @@
+# 🚧 Structure
+```
+📂 Blu-e-backend
+📂 config
+├── 📄 baseResponseStatus.js
+├── 📄 database.js
+├── 📄 express.js
+├── 📄 jwtMiddleware.js
+├── 📄 response.js
+├── 📄 winston.js
+📂 src
+└── 📂 app
+├── 📂 User(예시)
+| ├── 📄 userController.js
+| ├── 📄 userDao.js
+| ├── 📄 userProvider.js
+| ├── 📄 userRoute.js
+| └── 📄 userService.js
+📄 .gitignore
+📄 index.js
+📄 package.json
+📄 README.md
+```
+
 ## 📜 Commit Message Convention
 ### Commit Type
 ➕ [ADD] : 코드 추가 및 라이브러리 추가, 새로운 파일 생성<br>
