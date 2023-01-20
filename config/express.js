@@ -2,6 +2,7 @@ const express = require('express');
 const compression = require('compression');
 const methodOverride = require('method-override');
 var cors = require('cors');
+
 module.exports = function () {
     const app = express();
 
@@ -16,6 +17,7 @@ module.exports = function () {
     app.use(cors());
     
     // 도메인을 추가할 경우 이곳에 Route를 추가
+    require('../src/app/User/userRoute')(app);
     // ex) require('../src/app/User/userRoute')(app);
 
     return app;
