@@ -2,10 +2,10 @@
 module.exports = function(app){
     const user = require('./userController');
 
+    // test 조회
     app.get('/',user.getTest);
 
-    // 1. 회원가입 API
-    app.post('/api/users', user.postUsers);
-
+    // 작성한 Q&A 조회
+    app.get('/service/questions/:userId',user.getQuestion);
 
 };
