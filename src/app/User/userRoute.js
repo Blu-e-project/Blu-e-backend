@@ -17,4 +17,7 @@ module.exports = function(app){
     // 작성한 Q&A 조회
     app.get('/service/questions/:userId',user.getQuestion);
 
+    // Q&A 생성 API
+    app.post('/service/questions/writing', user.postQuestion);
+
 };
