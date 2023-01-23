@@ -73,5 +73,23 @@ module.exports = {
     selectUserAccount,
   };
   
+// Question 생성
+async function insertQuestionInfo(connection, insertQuestionInfoParams) {
+  const insertQuestionInfoQuery = `
+        INSERT INTO question(title, contents, createdAt, updateAt,userId)
+        VALUES (?, ?, now(), now(), ?);
+    `;
+  const insertQuestionInfoRow = await connection.query(
+    insertQuestionInfoQuery,
+    insertQuestionInfoParams,
+  );
 
+  return insertQuestionInfoRow;
+}
+
+  module.exports = {
+    selectQuestion,
+    insertQuestionInfo,
+  };
+  
   
