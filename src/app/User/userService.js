@@ -84,3 +84,23 @@ exports.postSignIn = async function(id, password) {
         return errResponse(baseResponse.DB_ERROR);
     }
 }
+
+exports.createQuestion = async function (title, contents, userId) {
+    try {
+        const insertQuestionInfoParams = [title, contents, userId];
+        console.log(insertQuestionInfoParams);
+
+        const connection = await pool.getConnection(async (conn) => conn);
+
+        const QuestionResult = await userDao.insertQuestionInfo(connection, insertQuestionInfoParams);
+        
+        console.log(`추가된 Question : ${QuestionResult[0].insertId}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+
+    } catch (err) {
+        logger.error(`App - createQuestion Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
