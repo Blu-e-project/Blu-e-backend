@@ -104,3 +104,21 @@ exports.createQuestion = async function (title, contents, userId) {
         return errResponse(baseResponse.DB_ERROR);
     }
 };
+
+
+exports.editQuestion = async function (title, contents, userId, questionId) {
+    try {
+        const updateQuestionInfoParams = [title, contents, userId, questionId];
+        const connection = await pool.getConnection(async (conn) => conn);
+        const editQuesitonResult = await userDao.updateQuestionInfo(connection, updateQuestionInfoParams);
+
+        console.log(`${questionId}의 Question 수정 완료`);
+        connection.release();
+
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - editQuestion Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}

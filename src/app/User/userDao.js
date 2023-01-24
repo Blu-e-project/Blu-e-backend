@@ -87,9 +87,21 @@ async function insertQuestionInfo(connection, insertQuestionInfoParams) {
   return insertQuestionInfoRow;
 }
 
+// Question 수정
+async function updateQuestionInfo(connection, updateQuestionInfoParams) {
+  const updateQuestionQuery = `
+  UPDATE question 
+  SET title = ?, contents = ?, updateAt = now()
+  WHERE (userId = ? and questionId = ?);`;
+
+  const updateQuestionRow = await connection.query(updateQuestionQuery, updateQuestionInfoParams);
+  return updateQuestionRow;
+}
+
   module.exports = {
     selectQuestion,
     insertQuestionInfo,
+    updateQuestionInfo,
   };
   
   
