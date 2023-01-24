@@ -18,6 +18,6 @@ module.exports = function(app){
     app.get('/service/questions/:userId',user.getQuestion);
 
     // Q&A 생성 API
-    app.post('/service/questions/writing', user.postQuestion);
+    app.post('/service/questions/:userId/writing', user.postQuestion);
 
 };
