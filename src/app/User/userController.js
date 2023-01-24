@@ -86,7 +86,7 @@ exports.login = async function (req, res) {
 /**
  * API No. 3
  * API Name : 유저별 작성한 Q&A 조회
- * [GET] /service/questions/{userId}
+ * [GET] /service/questions/:userId
  */
 exports.getQuestion = async function (req, res) {
 
@@ -109,10 +109,13 @@ exports.getQuestion = async function (req, res) {
 exports.postQuestion = async function (req, res) {
 
     /**
-     * Body: userId, title, contents
+     * Path Variable: userId
+     * Body: title, contents
      */
-    const {userId, title, contents} = req.body;
+    const userId = req.params.userId;
+    const {title, contents} = req.body;
     console.log(req.body.title);
+
     // 빈 값 체크
     if (!userId) return res.send('오류 발생');
 
