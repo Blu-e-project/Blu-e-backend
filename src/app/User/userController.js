@@ -103,7 +103,7 @@ exports.getQuestion = async function (req, res) {
 
 /**
  * API No. 2
- * API Name : Q&A 생성 API
+ * API Name : Question 생성 API
  * [POST] /service/questions/:userId/writing
  */
 exports.postQuestion = async function (req, res) {
@@ -114,7 +114,6 @@ exports.postQuestion = async function (req, res) {
      */
     const userId = req.params.userId;
     const {title, contents} = req.body;
-    console.log(req.body.title);
 
     // 빈 값 체크
     if (!userId) return res.send('오류 발생');
@@ -135,4 +134,46 @@ exports.postQuestion = async function (req, res) {
     );
 
     return res.send(createQuestionResponse);
+};
+
+
+
+/**
+ * API No. 3
+ * API Name : Question 수정
+ * [PATCH] /service/questions/:userId/writing/:questionId
+ * path variable : questionId
+ * body : title, contents
+ */
+exports.patchQuestion = async function (req, res) {
+
+    const userId = req.params.userId;
+    const questionId = req.params.questionId;
+
+    const title = req.body.title;
+    const contents = req.body.contents;
+
+    // 빈 값 체크
+    if (!userId) return res.send('오류 발생');
+
+    // 빈 값 체크
+
+    if (!questionId) return res.send('오류 발생');
+
+    // 빈 값 체크
+    if (!title)
+        return res.send('제목이 비어있습니다.');
+
+    // 빈 값 체크
+    if (!contents)
+        return res.send('글내용이 비어있습니다.');
+
+    const updateQuestionResponse = await userService.editQuestion(
+        title,
+        contents,
+        userId,
+        questionId,
+    );
+
+    return res.send(updateQuestionResponse);
 };
