@@ -10,6 +10,16 @@ module.exports = {
     SIGNUP_PASSWORD_LENGTH : { "isSuccess": false, "code": 2004, "message":"비밀번호가 20자리 미만으로 입력해주세요." },
 
     SIGNIN_PASSWORD_EMPTY : { "isSuccess": false, "code": 2005, "message": "비밀번호를 입력 해주세요." },
+    
+    POSTPROBLEM_SUBJECT_EMPTY : { "isSuccess": false, "code": 2006, "message": "과목을 입력 해주세요." },
+    POSTPROBLEM_PROBLEM_EMPTY : { "isSuccess": false, "code": 2007, "message": "문제를 입력 해주세요." },
+    POSTPROBLEM_CONTENTS_EMPTY : { "isSuccess": false, "code": 2008, "message": "질문을 입력 해주세요." },
+    POSTPROBLEM_SUBJECT_LENGTH : { "isSuccess": false, "code": 2009, "message": "과목을 15자리 이내로 입력해주세요." },
+    POSTPROBLEM_UNIT_LENGTH : { "isSuccess": false, "code": 2010, "message": "단원을 20자리 이내로 입력해주세요." },
+    POSTPROBLEM_PROBLEM_LENGTH : { "isSuccess": false, "code": 2011, "message": "문제를 300자 이내로 입력해주세요." },
+    POSTPROBLEM_CONTENTS_LENGTH : { "isSuccess": false, "code": 2012, "message": "질문을 300자 이내로 입력해주세요." },
+ 
+
 
     // response err
     SIGNIN_ID_WRONG : { "isSuccess": false, "code": 3001, "message": "아이디가 잘못 되었습니다." },
