@@ -50,3 +50,35 @@ exports.postProblems = async function (req, res) {
     return res.send(postProblemResponse);
 };
 
+
+/**
+ * API No. 2
+ * API Name : 궁금한 문제 조회 API 
+ * [GET] /problems
+ */
+exports.getProblems = async function (req, res) {
+
+    // 문제 전체 조회
+    const problemListResult = await problemProvider.retrieveProblemList();
+    return res.send(response(baseResponse.SUCCESS, problemListResult));
+
+};
+
+
+/**
+ * API No. 3
+ * API Name : 특정 문제 조회 API
+ * [GET] /problems/:problemId
+ */
+exports.getProblemById = async function (req, res) {
+
+    /**
+     * Path Variable: problemId
+     */
+    const problemId = req.params.problemId;
+
+    if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
+
+    const problemByProblemId = await problemProvider.retrieveProblem(problemId);
+    return res.send(response(baseResponse.SUCCESS, problemByProblemId));
+};
