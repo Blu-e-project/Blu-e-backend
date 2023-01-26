@@ -5,7 +5,7 @@ module.exports = function(app){
     // test 조회
     app.get('/',question.getTest);
 
-    // 작성한 Q&A 조회
+    // 작성한 Q&A 조회 API
     app.get('/service/questions/:userId',question.getQuestion);
 
     // Question 생성 API
@@ -14,4 +14,6 @@ module.exports = function(app){
     // Question 수정 API
     app.post('/service/questions/:userId/writing/:questionId', question.patchQuestion);
 
+    // 답변이 필요한 질문 조회 API (관리자)
+    app.get('/service/questions',question.getQuestionNeedingAnswer);
 };

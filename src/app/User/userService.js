@@ -6,7 +6,7 @@ const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
 const jwtMiddleware = require("../../../config/jwtMiddleware");
 //const jwt = require("jsonwebtoken");
-//const secret_config = require("../../../config/secret");
+const secret_config = require("../../../config/secret");
 
 
 exports.createMentor = async function (userId, id, password, phoneNum, name, nickname, birth, education, department, attendence, grade, currentStatus, address, introduce, hopeSubject, wishForMenteor,

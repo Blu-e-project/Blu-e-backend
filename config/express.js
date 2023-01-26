@@ -19,6 +19,7 @@ module.exports = function () {
     // 도메인을 추가할 경우 이곳에 Route를 추가
     require('../src/app/User/userRoute')(app);
     require('../src/app/Problem/problemRoute')(app);
+    require('../src/app/Question/QuestionRoute')(app);
 
     return app;
 };

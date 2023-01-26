@@ -111,3 +111,15 @@ exports.patchQuestion = async function (req, res) {
 
     return res.send(updateQuestionResponse);
 };
+
+
+/**
+ * API No. 4
+ * API Name : 답변이 필요한 질문 조회
+ * [GET] /service/questions
+ */
+exports.getQuestionNeedingAnswer = async function (req, res) {
+
+    const QuestionNeedingAnswer = await questionProvider.retrieveQuestionNeedingAnswer();
+    return res.send(response(baseResponse.SUCCESS, QuestionNeedingAnswer));
+};
