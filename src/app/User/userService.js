@@ -49,8 +49,8 @@ exports.postSignIn = async function(id, password) {
 
         // DB에 있는 비밀번호와 입력된 비밀번호 값이 다르면 에러 메세지
         // 왜 이럴까...
-        console.log(passwordRows[0], passwordRows[0].password, password)
-        if (passwordRows[0].password !== password) {
+        console.log(passwordRows[0], passwordRows[0][0].password, password)
+        if (passwordRows[0][0].password !== password) {
             return errResponse(baseResponse.SIGNIN_PASSWORD_WRONG)
         }
 
