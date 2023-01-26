@@ -5,7 +5,7 @@ const userDao = require("./userDao");
 const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
 const jwtMiddleware = require("../../../config/jwtMiddleware");
-//const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const secret_config = require("../../../config/secret");
 
 
@@ -59,7 +59,9 @@ exports.postSignIn = async function(id, password) {
         // 0: 탈퇴, 1: 활성
         if (userInfoRows[0].status === 0) {
             return errResponse(baseResponse.SIGNIN_INACTIVE_ACCOUNT);
-        } 
+        } else if (userInfoRows[0].status === 1) {
+            return errResponse(baseResponse.SIGNIN_WITHDRAWAL_ACCOUNT);
+        }
 
         console.log(userInfoRows[0].userId)
 
@@ -77,7 +79,7 @@ exports.postSignIn = async function(id, password) {
         );
         return response(baseResponse.SUCCESS, {'userId': userInfoRows[0].userId, 'jwt': token});
 
-    } catch (err) {
+    } catch {
         logger.error(`App - postSignIn Service error\n: ${err.message} \n${JSON.stringify(err)}`);
         return errResponse(baseResponse.DB_ERROR);
     }

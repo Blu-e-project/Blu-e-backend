@@ -16,7 +16,7 @@ exports.postProblems = async function (req, res) {
      * Body: subject, unit, problem, contents, image
      */
 
- //   const userIdFromJWT = req.verifiedToken.userId;
+    const userId = req.verifiedToken.userId;
     const {subject, unit, problem, contents, image} = req.body;
 
     // 빈 값 체크
@@ -39,7 +39,7 @@ exports.postProblems = async function (req, res) {
 
 
     const postProblemResponse = await problemService.createProblem(
-  //      userId,
+        userId,
         subject,
         unit,
         problem,

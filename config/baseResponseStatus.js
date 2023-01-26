@@ -18,7 +18,7 @@ module.exports = {
     POSTPROBLEM_UNIT_LENGTH : { "isSuccess": false, "code": 2010, "message": "단원을 20자리 이내로 입력해주세요." },
     POSTPROBLEM_PROBLEM_LENGTH : { "isSuccess": false, "code": 2011, "message": "문제를 300자 이내로 입력해주세요." },
     POSTPROBLEM_CONTENTS_LENGTH : { "isSuccess": false, "code": 2012, "message": "질문을 300자 이내로 입력해주세요." },
- 
+
 
 
     // response err
@@ -31,4 +31,6 @@ module.exports = {
      //Connection, Transaction 등의 server err
      DB_ERROR : { "isSuccess": false, "code": 4000, "message": "데이터 베이스 에러"},
      SERVER_ERROR : { "isSuccess": false, "code": 4001, "message": "서버 에러"},
+     TOKEN_EMPTY : { "isSuccess": false, "code": 4002, "message": "토큰을 입력해주세요"},
+     TOKEN_VERIFICATION_FAILURE :  {"isSuccess": false, "code": 4003, "message": "토큰 검증에 실패했습니다."}
 }

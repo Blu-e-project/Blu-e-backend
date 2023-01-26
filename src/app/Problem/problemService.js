@@ -12,10 +12,10 @@ const {errResponse} = require("../../../config/response");
 
 // Service: Create, Update, Delete 비즈니스 로직 처리
 
-exports.createProblem = async function (/*userId, */subject, unit, problem, contents, image) {
+exports.createProblem = async function (userId, subject, unit, problem, contents, image) {
     try {
 
-        const insertProblemParams = [/*userId, */subject, unit, problem, contents, image];
+        const insertProblemParams = [userId, subject, unit, problem, contents, image];
 
         const connection = await pool.getConnection(async (conn) => conn);
 
