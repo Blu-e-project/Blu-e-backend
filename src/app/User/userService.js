@@ -58,10 +58,8 @@ exports.postSignIn = async function(id, password) {
         const userInfoRows = await userProvider.accountCheck(id);
 
         if (userInfoRows[0].status === 0) {
-            return errResponse(baseResponse.SIGNIN_WITHDRAWAL_ACCOUNT);
-        } else if (userInfoRows[0].status === 1) {
             return errResponse(baseResponse.SIGNIN_INACTIVE_ACCOUNT);
-        }
+        } 
 
         console.log(userInfoRows[0].userId)
 
