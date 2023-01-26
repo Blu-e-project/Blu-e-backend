@@ -10,4 +10,9 @@ module.exports = function(app){
 
     // 3. 특정 문제 조회 API
     app.get('/problems/:problemId', jwtMiddleware, problem.getProblemById);
+
+    // 4. 특정 문제 삭제 API
+    app.delete('/problems/:problemId', jwtMiddleware, problem.deleteProblems)
+
+ 
 };

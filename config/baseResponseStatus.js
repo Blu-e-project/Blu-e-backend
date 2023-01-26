@@ -19,6 +19,7 @@ module.exports = {
     POSTPROBLEM_PROBLEM_LENGTH : { "isSuccess": false, "code": 2011, "message": "문제를 300자 이내로 입력해주세요." },
     POSTPROBLEM_CONTENTS_LENGTH : { "isSuccess": false, "code": 2012, "message": "질문을 300자 이내로 입력해주세요." },
 
+    
 
 
     // response err

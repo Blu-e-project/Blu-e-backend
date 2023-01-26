@@ -35,10 +35,20 @@ async function selectProblemId(connection, problemId) {
   return problemRow;
 }
 
+//문제 삭제
+async function deleteProblem(connection, problemId) {
+  const deleteProblemQuery = `
+                DELETE FROM Problem 
+                WHERE problemId = ?;
+                `;
+  const deleteProblemRows = await connection.query(deleteProblemQuery, problemId);
+  return deleteProblemRows;
+}
   
   module.exports = {
     insertProblem,
     selectProblem,
-    selectProblemId
+    selectProblemId,
+    deleteProblem
   };
   
