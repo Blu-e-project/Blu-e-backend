@@ -34,10 +34,22 @@ async function updateQuestionInfo(connection, updateQuestionInfoParams) {
   return updateQuestionRow;
 }
 
+
+// 모든 qusetion 조회
+async function selectQuestionNeedingAnswer(connection) {
+    const selectQuestionNeedingAnswerListQuery = `
+                  SELECT title, contents 
+                  FROM question;
+                  `;
+    const [questionRows] = await connection.query(selectQuestionNeedingAnswerListQuery);
+    return questionRows;
+  }
+
   module.exports = {
     selectQuestion,
     insertQuestionInfo,
     updateQuestionInfo,
-  };
+    selectQuestionNeedingAnswer,
+ };
   
   
