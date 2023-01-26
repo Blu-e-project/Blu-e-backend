@@ -5,7 +5,7 @@ const userDao = require("./userDao");
 const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
 const jwtMiddleware = require("../../../config/jwtMiddleware");
-//const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const secret_config = require("../../../config/secret");
 
 
@@ -77,7 +77,7 @@ exports.postSignIn = async function(id, password) {
                 subject: "user"
             }
         );
-        return response(baseResponse.SUCCESS, {'userId': userInfoRows[0].id, 'jwt': token});
+        return response(baseResponse.SUCCESS, {'userId': userInfoRows[0].userid, 'jwt': token});
 
     } catch {
         logger.error(`App - postSignIn Service error\n: ${err.message} \n${JSON.stringify(err)}`);
