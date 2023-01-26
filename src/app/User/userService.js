@@ -59,9 +59,7 @@ exports.postSignIn = async function(id, password) {
         // 0: 탈퇴, 1: 활성
         if (userInfoRows[0].status === 0) {
             return errResponse(baseResponse.SIGNIN_INACTIVE_ACCOUNT);
-        } else if (userInfoRows[0].status === 1) {
-            return errResponse(baseResponse.SIGNIN_WITHDRAWAL_ACCOUNT);
-        }
+        } 
 
         console.log(userInfoRows[0].userId)
 
