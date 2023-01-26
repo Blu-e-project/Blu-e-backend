@@ -14,13 +14,4 @@ module.exports = function(app){
     // 2. 로그인 API (JWT 생성)
     app.post('/users/login', user.login);
 
-    // 작성한 Q&A 조회
-    app.get('/service/questions/:userId',user.getQuestion);
-
-    // Question 생성 API
-    app.post('/service/questions/:userId/writing', user.postQuestion);
-
-    // Question 수정 API
-    app.post('/service/questions/:userId/writing/:questionId', user.patchQuestion);
-
 };

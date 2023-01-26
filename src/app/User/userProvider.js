@@ -27,12 +27,3 @@ exports.accountCheck = async function(id){
 
   return userAccountResult;
 }
-
-exports.retrieveQuestion = async function (userId) {
-    const connection = await pool.getConnection(async (conn) => conn);
-    const questionListResult = await userDao.selectQuestion(connection, userId);
-  
-    connection.release();
-  
-    return questionListResult;
-  };
