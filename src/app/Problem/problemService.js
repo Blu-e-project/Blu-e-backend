@@ -31,4 +31,16 @@ exports.createProblem = async function (userId, subject, unit, problem, contents
     }
 };
 
+exports.deleteProblem = async function(problemId){
+    try {
+        const connection = await pool.getConnection(async (conn) => conn);
+        const problemIdResult = await problemDao.deleteProblem(connection, problemId);
+        console.log(`삭제된 문제 : ${problemIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
 
+    } catch (err) {
+        logger.error(`App - deleteProblem Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};

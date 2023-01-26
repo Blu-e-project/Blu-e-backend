@@ -82,3 +82,23 @@ exports.getProblemById = async function (req, res) {
     const problemByProblemId = await problemProvider.retrieveProblem(problemId);
     return res.send(response(baseResponse.SUCCESS, problemByProblemId));
 };
+
+/**
+ * API No. 4
+ * API Name : 특정 문제 삭제 API
+ * [DELETE] /problems/:problemId
+ */
+
+exports.deleteProblems = async function(req, res) {
+    /**
+     * Path Variable: problemId
+     */
+
+    const problemId = req.params.problemId;
+
+    if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
+
+    const deleteProblemResponse = await problemService.deleteProblem(problemId);
+    return res.send(deleteProblemResponse);
+}
+
