@@ -3,7 +3,7 @@
   async function insertProblem(connection, insertProblemParams) {
     const insertProblemQuery = `
           INSERT INTO Problem(userId, subject, unit, problem, contents, image)
-          VALUES (1, ?, ?, ?, ?, ?);
+          VALUES (?, ?, ?, ?, ?, ?);
       `;
     const insertProblemRow = await connection.query(
       insertProblemQuery,

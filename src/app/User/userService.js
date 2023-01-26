@@ -59,7 +59,9 @@ exports.postSignIn = async function(id, password) {
 
         if (userInfoRows[0].status === 0) {
             return errResponse(baseResponse.SIGNIN_INACTIVE_ACCOUNT);
-        } 
+        } else if (userInfoRows[0].status === 1) {
+            return errResponse(baseResponse.SIGNIN_WITHDRAWAL_ACCOUNT);
+        }
 
         console.log(userInfoRows[0].userId)
 
@@ -77,7 +79,7 @@ exports.postSignIn = async function(id, password) {
         );
         return response(baseResponse.SUCCESS, {'userId': userInfoRows[0].id, 'jwt': token});
 
-    } catch (err) {
+    } catch {
         logger.error(`App - postSignIn Service error\n: ${err.message} \n${JSON.stringify(err)}`);
         return errResponse(baseResponse.DB_ERROR);
     }
