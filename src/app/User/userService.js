@@ -48,7 +48,6 @@ exports.postSignIn = async function(id, password) {
         const passwordRows = await userProvider.passwordCheck(selectUserPasswordParams)
 
         // DB에 있는 비밀번호와 입력된 비밀번호 값이 다르면 에러 메세지
-        // 왜 이럴까...
         console.log(passwordRows[0], passwordRows[0][0].password, password)
         if (passwordRows[0][0].password !== password) {
             return errResponse(baseResponse.SIGNIN_PASSWORD_WRONG)
@@ -57,6 +56,7 @@ exports.postSignIn = async function(id, password) {
         // 계정 상태 확인
         const userInfoRows = await userProvider.accountCheck(id);
 
+        // 0: 탈퇴, 1: 활성
         if (userInfoRows[0].status === 0) {
             return errResponse(baseResponse.SIGNIN_INACTIVE_ACCOUNT);
         } 
@@ -75,7 +75,7 @@ exports.postSignIn = async function(id, password) {
                 subject: "user"
             }
         );
-        return response(baseResponse.SUCCESS, {'userId': userInfoRows[0].id, 'jwt': token});
+        return response(baseResponse.SUCCESS, {'userId': userInfoRows[0].userId, 'jwt': token});
 
     } catch (err) {
         logger.error(`App - postSignIn Service error\n: ${err.message} \n${JSON.stringify(err)}`);
