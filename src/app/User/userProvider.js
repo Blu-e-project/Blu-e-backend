@@ -27,3 +27,21 @@ exports.accountCheck = async function(id){
 
   return userAccountResult;
 }
+
+exports.retrieveMentorList = async function () {
+
+  const connection = await pool.getConnection(async (conn) => conn);
+  const mentorListResult = await userDao.selectMentor(connection);
+  connection.release();
+
+  return mentorListResult;
+};
+
+exports.retrieveMenteeList = async function () {
+
+  const connection = await pool.getConnection(async (conn) => conn);
+  const menteeListResult = await userDao.selectMentee(connection);
+  connection.release();
+
+  return menteeListResult;
+};

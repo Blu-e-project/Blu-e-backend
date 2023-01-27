@@ -82,3 +82,26 @@ exports.login = async function (req, res) {
 
     return res.send(signInResponse);
 }
+
+
+/**
+ * API No. 3
+ * API Name : 멘토 전체 조회(최근 가입한 순)
+ * [GET] /main/mentors
+ */
+exports.getMentor = async function (req, res) {
+
+    const MentorListResult = await userProvider.retrieveMentorList();
+    return res.send(response(baseResponse.SUCCESS, MentorListResult));
+}
+
+/**
+ * API No. 4
+ * API Name : 멘티 전체 조회(최근 가입한 순)
+ * [GET] /main/mentees
+ */
+exports.getMentee = async function (req, res) {
+
+    const MenteeListResult = await userProvider.retrieveMenteeList();
+    return res.send(response(baseResponse.SUCCESS, MenteeListResult));
+}
