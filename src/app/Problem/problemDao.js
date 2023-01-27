@@ -16,7 +16,7 @@
   // 전체 문제 조회
 async function selectProblem(connection) {
   const selectProblemListQuery = `
-                  SELECT nickname, subject, unit, problem, contents, image 
+                  SELECT problemId, nickname, subject, unit, problem, contents, image 
                   FROM problem 
                   JOIN user ON problem.userId=user.userId;
                 `;
