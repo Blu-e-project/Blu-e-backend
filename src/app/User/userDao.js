@@ -65,12 +65,43 @@ async function selectUserAccount(connection, id) {
     return selectUserAccountRow[0];
 }
 
+
+  // 멘토 전체 조회(최근 가입한 순)
+  async function selectMentor(connection) {
+    const selectMentorListQuery = `
+                  SELECT nickname, userImg 
+                  FROM user 
+                  WHERE role=1
+                  ORDER BY userId DESC;
+                  `;
+    const [mentorRows] = await connection.query(selectMentorListQuery);
+    return mentorRows;
+  }
+
+
+
+  // 멘티 전체 조회(최근 가입한 순)
+  async function selectMentee(connection) {
+    const selectMenteeListQuery = `
+                  SELECT nickname, userImg 
+                  FROM user 
+                  WHERE role=2
+                  ORDER BY userId DESC;
+                  `;
+    const [menteeRows] = await connection.query(selectMenteeListQuery);
+    return menteeRows;
+  }
+
+
+
 module.exports = {
     selectQuestion,
     selectUserId,
     insertUser,
     selectUserPassword,
     selectUserAccount,
+    selectMentee,
+    selectMentor
   };
   
   
