@@ -1,6 +1,7 @@
 const { pool } = require("../../../config/database");
 const { logger } = require("../../../config/winston");
-
+const {response, errResponse} = require("../../../config/response");
+const baseResponse = require("../../../config/baseResponseStatus");
 const userDao = require("./userDao");
 
 // Provider: Read 비즈니스 로직 처리
@@ -45,3 +46,22 @@ exports.retrieveMenteeList = async function () {
 
   return menteeListResult;
 };
+
+exports.retrieveMentor = async function (userId) {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const mentorResult = await userDao.selectMentorById(connection, userId);
+  connection.release();
+
+  return mentorResult[0];
+}
+
+exports.retrieveMentee = async function (userId) {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const menteeResult = await userDao.selectMenteeById(connection, userId);
+  connection.release();
+  console.log(menteeResult[0]);
+  if(typeof menteeResult[0] == "undefined"){
+    return errResponse(baseResponse.USER_USERID_EMPTY);
+  }
+  return menteeResult[0];
+}

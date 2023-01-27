@@ -11,15 +11,17 @@ module.exports = {
 
     SIGNIN_PASSWORD_EMPTY : { "isSuccess": false, "code": 2005, "message": "비밀번호를 입력 해주세요." },
     
-    POSTPROBLEM_SUBJECT_EMPTY : { "isSuccess": false, "code": 2006, "message": "과목을 입력 해주세요." },
-    POSTPROBLEM_PROBLEM_EMPTY : { "isSuccess": false, "code": 2007, "message": "문제를 입력 해주세요." },
-    POSTPROBLEM_CONTENTS_EMPTY : { "isSuccess": false, "code": 2008, "message": "질문을 입력 해주세요." },
-    POSTPROBLEM_SUBJECT_LENGTH : { "isSuccess": false, "code": 2009, "message": "과목을 15자리 이내로 입력해주세요." },
-    POSTPROBLEM_UNIT_LENGTH : { "isSuccess": false, "code": 2010, "message": "단원을 20자리 이내로 입력해주세요." },
-    POSTPROBLEM_PROBLEM_LENGTH : { "isSuccess": false, "code": 2011, "message": "문제를 300자 이내로 입력해주세요." },
-    POSTPROBLEM_CONTENTS_LENGTH : { "isSuccess": false, "code": 2012, "message": "질문을 300자 이내로 입력해주세요." },
+    POSTPROBLEM_SUBJECT_EMPTY : { "isSuccess": false, "code": 2100, "message": "과목을 입력 해주세요." },
+    POSTPROBLEM_PROBLEM_EMPTY : { "isSuccess": false, "code": 2101, "message": "문제를 입력 해주세요." },
+    POSTPROBLEM_CONTENTS_EMPTY : { "isSuccess": false, "code": 2102, "message": "질문을 입력 해주세요." },
+    POSTPROBLEM_SUBJECT_LENGTH : { "isSuccess": false, "code": 2103, "message": "과목을 15자리 이내로 입력해주세요." },
+    POSTPROBLEM_UNIT_LENGTH : { "isSuccess": false, "code": 2104, "message": "단원을 20자리 이내로 입력해주세요." },
+    POSTPROBLEM_PROBLEM_LENGTH : { "isSuccess": false, "code": 2105, "message": "문제를 300자 이내로 입력해주세요." },
+    POSTPROBLEM_CONTENTS_LENGTH : { "isSuccess": false, "code": 2106, "message": "질문을 300자 이내로 입력해주세요." },
 
+    PROBLEM_PROBLEMID_EMPTY : { "isSuccess": false, "code": 2201, "message": "문제ID를 입력해주세요." },
     
+    USER_USERID_EMPTY: { "isSuccess": false, "code": 2201, "message": "사용자ID를 입력해주세요." },
 
 
     // response err

@@ -71,7 +71,7 @@ exports.postSignUpMentee = async function(req, res){
 
 /**
  * API No. 2
- * API Name : 유저별 작성한 Q&A 조회
+ * API Name : 로그인
  * [POST] /users/login
  * id, password
  */
@@ -95,6 +95,7 @@ exports.getMentor = async function (req, res) {
     return res.send(response(baseResponse.SUCCESS, MentorListResult));
 }
 
+
 /**
  * API No. 4
  * API Name : 멘티 전체 조회(최근 가입한 순)
@@ -105,3 +106,43 @@ exports.getMentee = async function (req, res) {
     const MenteeListResult = await userProvider.retrieveMenteeList();
     return res.send(response(baseResponse.SUCCESS, MenteeListResult));
 }
+
+
+/**
+ * API No. 5
+ * API Name : 특정 멘토 프로필 조회
+ * [GET] /main/mentors/:userId
+ */
+exports.getMentorById = async function (req, res) {
+
+    /**
+     * Path Variable: userId
+     */
+    const userId = req.params.userId;
+
+    if (!userId) return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
+   // const isMentor=await userProvider.confirmMentor(userId);
+    const mentorByuserId = await userProvider.retrieveMentor(userId);
+    return res.send(response(baseResponse.SUCCESS, mentorByuserId));
+
+};
+
+
+
+/**
+ * API No. 6
+ * API Name : 특정 멘티 프로필 조회
+ * [GET] /main/mentees/:userId
+ */
+exports.getMenteeById = async function (req, res) {
+
+    /**
+     * Path Variable: userId
+     */
+    const userId = req.params.userId;
+
+    if (!userId) return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
+
+    const menteeByuserId = await userProvider.retrieveMentee(userId);
+    return res.send(response(baseResponse.SUCCESS, menteeByuserId));
+};

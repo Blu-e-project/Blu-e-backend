@@ -93,6 +93,28 @@ async function selectUserAccount(connection, id) {
   }
 
 
+  // 특정 멘토 정보 조회
+  async function selectMentorById(connection, userId){
+    const selectMentorByIdQuery = `
+                SELECT name, nickname, birth, education, department, address, introduce, userImg
+                FROM user
+                WHERE role=1 and userId=?
+                `;
+    const [mentorByuserId] = await connection.query(selectMentorByIdQuery, userId);
+    return mentorByuserId;
+  }
+
+
+  // 특정 멘티 정보 조회
+  async function selectMenteeById(connection, userId){
+    const selectMenteeByIdQuery = `
+                SELECT name, nickname, birth, education, grade, address, introduce, userImg
+                FROM user
+                WHERE role=2 and userId=?
+                `;
+    const [menteeByuserId] = await connection.query(selectMenteeByIdQuery, userId);
+    return menteeByuserId;
+  }
 
 module.exports = {
     selectQuestion,
@@ -101,7 +123,9 @@ module.exports = {
     selectUserPassword,
     selectUserAccount,
     selectMentee,
-    selectMentor
+    selectMentor,
+    selectMentorById,
+    selectMenteeById
   };
   
   

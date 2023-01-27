@@ -22,4 +22,9 @@ module.exports = function(app){
     // 멘티 전체 조회(최근 가입한 순)
     app.get('/main/mentees', jwtMiddleware, user.getMentee);
 
+    // 특정 멘토 프로필 조회
+    app.get('/main/mentors/:userId', jwtMiddleware, user.getMentorById);
+
+    // 특정 멘티 프로필 조회
+    app.get('/main/mentees/:userId', jwtMiddleware, user.getMenteeById);
 };
