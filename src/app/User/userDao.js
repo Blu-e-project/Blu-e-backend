@@ -69,7 +69,7 @@ async function selectUserAccount(connection, id) {
   // 멘토 전체 조회(최근 가입한 순)
   async function selectMentor(connection) {
     const selectMentorListQuery = `
-                  SELECT nickname, userImg 
+                  SELECT userId, nickname, userImg 
                   FROM user 
                   WHERE role=1
                   ORDER BY userId DESC;
@@ -83,7 +83,7 @@ async function selectUserAccount(connection, id) {
   // 멘티 전체 조회(최근 가입한 순)
   async function selectMentee(connection) {
     const selectMenteeListQuery = `
-                  SELECT nickname, userImg 
+                  SELECT userId, nickname, userImg 
                   FROM user 
                   WHERE role=2
                   ORDER BY userId DESC;
