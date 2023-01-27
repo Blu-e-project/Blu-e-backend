@@ -16,8 +16,9 @@
   // 전체 문제 조회
 async function selectProblem(connection) {
   const selectProblemListQuery = `
-                SELECT userId, subject, unit, problem, contents, image 
-                FROM Problem ORDER BY problemId DESC;
+                  SELECT nickname, subject, unit, problem, contents, image 
+                  FROM problem 
+                  JOIN user ON problem.userId=user.userId;
                 `;
   const [problemRows] = await connection.query(selectProblemListQuery);
   return problemRows;
@@ -27,9 +28,9 @@ async function selectProblem(connection) {
 // problemId로 문제 조회
 async function selectProblemId(connection, problemId) {
   const selectProblemIdQuery = `
-                 SELECT userId, subject, unit, problem, contents, image 
-                 FROM Problem
-                 WHERE problemId = ?;
+                 SELECT nickname, subject, unit, problem, contents, image 
+                 FROM user u, problem p 
+                 WHERE u.userId=p.userId and problemId = ?;
                  `;
   const [problemRow] = await connection.query(selectProblemIdQuery, problemId);
   return problemRow;
