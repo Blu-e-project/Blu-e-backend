@@ -1,9 +1,8 @@
 // 모든 qusetion 조회
 async function selectQuestion(connection,userId) {
     const selectQuestionListQuery = `
-                  SELECT title, contents 
-                  FROM question
-                  WHERE userId = ?;
+    select question.title, question.contents, answer.contents from
+    answer right outer join question on answer.questionId = question.questionId where question.userId = ?;
                   `;
     const [questionRows] = await connection.query(selectQuestionListQuery,userId);
     return questionRows;
