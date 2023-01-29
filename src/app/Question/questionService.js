@@ -45,3 +45,18 @@ exports.editQuestion = async function (title, contents, userId, questionId) {
         return errResponse(baseResponse.DB_ERROR);
     }
 }
+
+
+exports.deleteQuestion = async function(questionId){
+    try {
+        const connection = await pool.getConnection(async (conn) => conn);
+        const questionIdResult = await questionDao.deleteQuestion(connection, questionId);
+        console.log(`삭제된 QuestionId : ${questionIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - deleteQuestion Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};

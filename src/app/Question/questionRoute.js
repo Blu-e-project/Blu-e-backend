@@ -1,5 +1,6 @@
 // 예시 파일
 module.exports = function(app){
+    const jwtMiddleware = require("../../../config/jwtMiddleware");
     const question = require('./questionController');
 
     // test 조회
@@ -16,4 +17,8 @@ module.exports = function(app){
 
     // 답변이 필요한 질문 조회 API (관리자)
     app.get('/service/questions',question.getQuestionNeedingAnswer);
+
+    // Question 삭제 API
+    app.delete('/service/questions/:userId/writing/:questionId', question.deleteQuestion);
+
 };
