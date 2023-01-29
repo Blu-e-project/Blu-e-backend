@@ -123,3 +123,24 @@ exports.getQuestionNeedingAnswer = async function (req, res) {
     const QuestionNeedingAnswer = await questionProvider.retrieveQuestionNeedingAnswer();
     return res.send(response(baseResponse.SUCCESS, QuestionNeedingAnswer));
 };
+
+
+
+/**
+ * API No. 5
+ * API Name : Question 삭제 API
+ * [DELETE] /service/questions/:userId/writing/:questionId
+ */
+
+exports.deleteQuestion = async function(req, res) {
+    /**
+     * Path Variable: questionId
+     */
+
+    const questionId = req.params.questionId;
+
+    if (!questionId) return res.send("questionId 오류");
+
+    const deleteQuestionResponse = await questionService.deleteQuestion(questionId);
+    return res.send(deleteQuestionResponse);
+}

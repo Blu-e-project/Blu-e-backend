@@ -44,11 +44,25 @@ async function selectQuestionNeedingAnswer(connection) {
     return questionRows;
   }
 
+
+
+// Question 삭제
+async function deleteQuestion(connection, questionId) {
+  const deleteQuestionQuery = `
+                DELETE FROM question 
+                WHERE questionId = ?;
+                `;
+  const deleteQuestionRows = await connection.query(deleteQuestionQuery, questionId);
+  return deleteQuestionRows;
+}
+
+
   module.exports = {
     selectQuestion,
     insertQuestionInfo,
     updateQuestionInfo,
     selectQuestionNeedingAnswer,
+    deleteQuestion,
  };
   
   
