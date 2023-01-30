@@ -5,8 +5,8 @@ const {logger} = require('./winston');
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    port: '3305',
-    password: 'root',
+    port: '3306',
+    password: 'antifragile',
     database: 'blu_e'
 });
 
