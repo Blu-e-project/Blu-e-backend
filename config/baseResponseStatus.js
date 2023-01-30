@@ -20,10 +20,10 @@ module.exports = {
     SIGNUP_DEPARTMENT_LENGTH : { "isSuccess": false,"code": 2014,"message":"학과는 20자리 이하로 입력해주세요." },
     SIGNUP_ADDRESS_LENGTH : { "isSuccess": false,"code": 2015,"message":"실거주지는 50자 이하로 입력해주세요." },
     SIGNUP_INTRODUCE_LENGTH : { "isSuccess": false,"code": 2016,"message":"자기소개는 100자리 이하로 입력해주세요." },
-    
+
     SIGNIN_PASSWORD_EMPTY : { "isSuccess": false, "code": 2017, "message": "비밀번호를 입력해주세요." },
     USER_USERID_NOT_EXIST : { "isSuccess": false, "code": 2018, "message": "해당 회원이 존재하지 않습니다." },
-
+    
     POSTPROBLEM_SUBJECT_EMPTY : { "isSuccess": false, "code": 2100, "message": "과목을 입력 해주세요." },
     POSTPROBLEM_PROBLEM_EMPTY : { "isSuccess": false, "code": 2101, "message": "문제를 입력 해주세요." },
     POSTPROBLEM_CONTENTS_EMPTY : { "isSuccess": false, "code": 2102, "message": "질문을 입력 해주세요." },

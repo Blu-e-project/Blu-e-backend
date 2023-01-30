@@ -21,24 +21,24 @@ exports.postProblems = async function (req, res) {
     const {subject, unit, problem, contents, image} = req.body;
 
     // 빈 값 체크
-    if (!subject)
+    if (!subject){
         return res.send(response(baseResponse.POSTPROBLEM_SUBJECT_EMPTY));
-    if (!problem)
+    } else if (!problem) {
         return res.send(response(baseResponse.POSTPROBLEM_PROBLEM_EMPTY));
-    if (!contents)
+    } else if (!contents) {
         return res.send(response(baseResponse.POSTPROBLEM_CONTENTS_EMPTY));
-
-    // 길이 체크
-    if (subject.length > 15)
-        return res.send(response(baseResponse.POSTPROBLEM_SUBJECT_LENGTH));
-    if (unit){
-        if (unit.length > 20)
-        return res.send(response(baseResponse.POSTPROBLEM_UNIT_LENGTH));
     }
-    if (problem.length > 300)
+    
+    // 길이 체크
+    if (subject.length > 15){
+        return res.send(response(baseResponse.POSTPROBLEM_SUBJECT_LENGTH));
+    } else if (unit.length > 20){
+        return res.send(response(baseResponse.POSTPROBLEM_UNIT_LENGTH));
+    } else if (problem.length > 300){
         return res.send(response(baseResponse.POSTPROBLEM_PROBLEM_LENGTH));
-    if (contents.length > 300)
+    } else if (contents.length > 300) {
         return res.send(response(baseResponse.POSTPROBLEM_CONTENTS_LENGTH)); 
+    }
 
     const postProblemResponse = await problemService.createProblem(
         userId,
