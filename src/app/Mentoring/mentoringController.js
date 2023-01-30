@@ -32,3 +32,30 @@ exports.getPickMentees = async function (req, res) {
 
 };
 
+
+/**
+ * API No. 3
+ * API Name : 멘토 구인글 부분 조회 (최신 5개)
+ * [GET] /main/find-mentors
+ */
+exports.getPickMentorsMain = async function (req, res) {
+
+    // 멘토 구인글 부분 조회 (최신 5개)
+    const pickMentorMainListResult = await mentoringProvider.retrievePickMentorMainList();
+    return res.send(response(baseResponse.SUCCESS, pickMentorMainListResult));
+
+};
+
+
+/**
+* API No. 4
+ * API Name : 멘티 구인글 부분 조회 (최신 5개)
+ * [GET] /main/find-mentees
+*/
+exports.getPickMenteesMain = async function (req, res) {
+
+    // 멘티 구인글 부분 조회 (최신 5개)
+    const pickMenteeListResult = await mentoringProvider.retrievePickMenteeMainList();
+    return res.send(response(baseResponse.SUCCESS, pickMenteeListResult));
+
+};

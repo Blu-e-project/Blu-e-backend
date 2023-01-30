@@ -47,6 +47,29 @@ exports.retrieveMenteeList = async function () {
   return menteeListResult;
 };
 
+exports.retrieveNewMentorList = async function () {
+
+  const connection = await pool.getConnection(async (conn) => conn);
+  const newMentorListResult = await userDao.selectNewMentor(connection);
+  connection.release();
+
+  return newMentorListResult;
+};
+
+exports.retrieveNewMenteeList = async function () {
+
+  const connection = await pool.getConnection(async (conn) => conn);
+  const newMenteeListResult = await userDao.selectNewMentee(connection);
+  connection.release();
+
+  return newMenteeListResult;
+};
+
+
+
+
+
+
 exports.retrieveMentor = async function (userId) {
   const connection = await pool.getConnection(async (conn) => conn);
   const mentorResult = await userDao.selectMentorById(connection, userId);
