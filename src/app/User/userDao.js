@@ -24,8 +24,8 @@ async function selectUserId(connection, id) {
 // 유저 삽입
 async function insertUser(connection, insertUserParams) {
     const insertUserQuery =`
-                INSERT INTO user (userId, id, password, nickname)
-                VALUES (?, ? ,?, ?);
+              INSERT INTO user (id, password, phoneNum, name, nickname, birth, education, department, grade, address, introduce, role, status, userImg)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                 `;
 
     const insertUserRow = await connection.query(
