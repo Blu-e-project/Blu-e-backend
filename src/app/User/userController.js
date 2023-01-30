@@ -18,8 +18,8 @@ exports.getTest = async function (req, res) {
 
 /**
  * API No. 1
- * API Name : 멘토 회원 가입 API
- * [POST] /users/signup/mentor
+ * API Name : 회원 가입 API
+ * [POST] /users/signup
  */
 
 exports.postSignUpMentor = async function (req, res) {
@@ -31,43 +31,54 @@ exports.postSignUpMentor = async function (req, res) {
      * wishForMentee, role, createdAt, updatedAt, status
      */
 
-    const {userId, id, password, phoneNum, name, nickname, birth, education, department, attendence, grade, currentStatus, address, introduce, hopeSubject, wishForMenteor,
-        possibleSubject, wishForMentee, role, createdAt, updatedAt, status} = req.body;
+    const {id, password, phoneNum, name, nickname, birth, education, department, grade, address, introduce, role, status, userImg} = req.body;
 
     // 빈 값이 되면 안되는 속성값 체크
-    if (!userId || !id || !password || !phoneNum || !name || !nickname || !attendence || !role || !createdAt || !updatedAt || !status)
-        return res.send(response(baseResponse.SIGNUP_ID_EMPTY)); // response 메세지는 추후 추가 및 수정하기
+    if (!id)
+        return res.send(response(baseResponse.SIGNUP_ID_EMPTY));
+    else if (!password)
+        return res.send(response(baseResponse.SIGNUP_PASSWORD_EMPTY));
+    else if (!phoneNum)
+        return res.send(response(baseResponse.SIGNUP_PHONENUM_EMPTY));
+    else if (!name)
+        return res.send(response(baseResponse.SIGNUP_NAME_EMPTY));
+    else if (!nickname)
+        return res.send(response(baseResponse.SIGNUP_NICKNAME_EMPTY));
+    else if (!birth)
+        return res.send(response(baseResponse.SIGNUP_BIRTH_EMPTY));
+    else if (!education)
+        return res.send(response(baseResponse.SIGNUP_EDUCATION_EMPTY));
 
     // 길이 체크
-    // 프론트에서 다 유효성 검증하고 들어오는지 확인 후 추가하기
     if (id.length > 35)
         return res.send(response(baseResponse.SIGNUP_ID_LENGTH));
-    if (password.length > 20)
+    else if (password.length > 20)
         return res.send(response(baseResponse.SIGNUP_PASSWORD_LENGTH));
+    else if (phoneNum.length > 13)
+        return res.send(response(baseResponse.SIGNUP_PHONENUM_LENGTH));
+    else if (name.length > 7)
+        return res.send(response(baseResponse.SIGNUP_NAME_LENGTH));  
+    else if (nickname.length > 7)
+        return res.send(response(baseResponse.SIGNUP_NICKNAME_LENGTH));  
+    else if (education.length > 20)
+        return res.send(response(baseResponse.SIGNUP_EDUCATION_LENGTH));
+    else if (department.length > 20)
+        return res.send(response(baseResponse.SIGNUP_DEPARTMENT_LENGTH));
+    else if (address.length > 20)
+        return res.send(response(baseResponse.SIGNUP_ADDRESS_LENGTH));
+    else if (introduce.length > 20)
+        return res.send(response(baseResponse.SIGNUP_INTRODUCE_LENGTH));
 
 
     // 휴대폰 인증도 추가하기
 
     const signUpResponse = await userService.createMentor(
-        userId, id, password, phoneNum, name, nickname, birth, education, department, attendence, grade, currentStatus, address, introduce, hopeSubject, wishForMenteor,
-        possibleSubject, wishForMentee, role, createdAt, updatedAt, status
+        id, password, phoneNum, name, nickname, birth, education, department, grade, address, introduce, role, status, userImg
     );
     
     return res.send(signUpResponse);
 }
 
-/*
-// 멘티 회원 가입 API
-// [POST] /users/signup/mentee
-exports.postSignUpMentee = async function(req, res){
-    const {userId, id, password, phoneNum, name, nickname, birth, education, department, attendence, grade, currentStatus, address, introduce, hopeSubject, wishForMenteor,
-        possibleSubject, wishForMentee, role, createdAt, updatedAt, status} = req.body;
-
-    if (!userId || !id || !password || !phoneNum || !name || !nickname || !attendence || !role || !createdAt || !updatedAt || !status)
-        return res.send(response(baseResponse.SIGNUP_ID_EMPTY));
-
-} 
-*/
 
 /**
  * API No. 2
