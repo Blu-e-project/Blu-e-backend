@@ -22,3 +22,12 @@ exports.retrieveProblem = async function (problemId) {
 
   return problemResult[0];
 };
+
+exports.retrieveSolutionList = async function (problemId) {
+
+  const connection = await pool.getConnection(async (conn) => conn);
+  const solutionListResult = await problemDao.selectSolution(connection, problemId);
+  connection.release();
+
+  return solutionListResult;
+};
