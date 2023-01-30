@@ -9,8 +9,7 @@ const jwt = require("jsonwebtoken");
 const secret_config = require("../../../config/secret");
 
 
-exports.createMentor = async function (userId, id, password, phoneNum, name, nickname, birth, education, department, attendence, grade, currentStatus, address, introduce, hopeSubject, wishForMenteor,
-    possibleSubject, wishForMentee, role, createdAt, updatedAt, status) {
+exports.createMentor = async function (id, password, phoneNum, name, nickname, birth, education, department, grade, address, introduce, role, status, userImg) {
         try{
             // 아이디 중복 확인
             const idRows = await userProvider.idCheck(id); // Read인 Provider 통해서 확인
@@ -18,8 +17,7 @@ exports.createMentor = async function (userId, id, password, phoneNum, name, nic
                 return errResponse(baseResponse.SIGNUP_REDUNDANT_ID)
             
             // INSERT할 Params
-            const insertUserParams = [userId, id, password, phoneNum, name, nickname, birth, education, department, attendence, grade, currentStatus, address, introduce, hopeSubject, wishForMenteor,
-                possibleSubject, wishForMentee, role, createdAt, updatedAt, status];
+            const insertUserParams = [id, password, phoneNum, name, nickname, birth, education, department, grade, address, introduce, role, status, userImg];
 
             const connection = await pool.getConnection(async (conn) => conn);
 

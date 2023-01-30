@@ -9,7 +9,7 @@ module.exports = function(app){
 
     // 프론트 측에서만 멘토 멘티 나누고 회원가입은 하나로 묶어도 괜찮을 듯
     // 1. 멘토 회원 가입 API
-    app.post('/users/signup/mentor', user.postSignUpMentor);
+    app.post('/users/signup', user.postSignUpMentor);
     // 멘티 회원 가입 API
     //app.post('/users/signup/mentee', user.postSignUpMentee);
 
