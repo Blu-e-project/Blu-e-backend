@@ -12,7 +12,18 @@ module.exports = function(app){
     app.get('/problems/:problemId', jwtMiddleware, problem.getProblemById);
 
     // 4. 특정 문제 삭제 API
-    app.delete('/problems/:problemId', jwtMiddleware, problem.deleteProblems)
+    app.delete('/problems/:problemId', jwtMiddleware, problem.deleteProblems);
 
- 
+   // 5. 해답 작성 API
+   app.post('/problems/:problemId/solutions', jwtMiddleware, problem.postSolutions);
+
+   // 6. 해답 조회 API
+   app.get('/problems/:problemId/solutions', jwtMiddleware, problem.getSolutions);
+
+   // 7. 해답 수정 API
+   app.patch('/problems/:problemId/solutions/:solutionId', jwtMiddleware, problem.patchSolutions);
+
+   // 8. 해답 삭제 API
+   app.delete('/problems/:problemId/solutions/:solutionId', jwtMiddleware, problem.deleteSolutions);
+
 };
