@@ -22,6 +22,12 @@ module.exports = function(app){
     // 멘티 전체 조회(최근 가입한 순)
     app.get('/main/mentees', jwtMiddleware, user.getMentee);
 
+    // 멘토 부분 조회(최신 5개)
+    app.get('/main/new-mentors', jwtMiddleware, user.getNewMentor);
+
+    // 멘티 부분 조회(최신 5개)
+    app.get('/main/new-mentees', jwtMiddleware, user.getNewMentee);
+
     // 특정 멘토 프로필 조회
     app.get('/main/mentors/:userId', jwtMiddleware, user.getMentorById);
 

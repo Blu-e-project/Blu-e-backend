@@ -110,6 +110,29 @@ exports.getMentee = async function (req, res) {
 
 /**
  * API No. 5
+ * API Name : 멘토 부분 조회(최신 5개)
+ * [GET] /main/new-mentors
+ */
+exports.getNewMentor = async function (req, res) {
+
+    const newMentorListResult = await userProvider.retrieveNewMentorList();
+    return res.send(response(baseResponse.SUCCESS, newMentorListResult));
+}
+
+
+/**
+ * API No. 6
+ * API Name : 멘티 부분 조회(최신 5개)
+ * [GET] /main/new-mentees
+ */
+exports.getNewMentee = async function (req, res) {
+
+    const newMenteeListResult = await userProvider.retrieveNewMenteeList();
+    return res.send(response(baseResponse.SUCCESS, newMenteeListResult));
+}
+
+/**
+ * API No. 7
  * API Name : 특정 멘토 프로필 조회
  * [GET] /main/mentors/:userId
  */
@@ -130,7 +153,7 @@ exports.getMentorById = async function (req, res) {
 
 
 /**
- * API No. 6
+ * API No. 8
  * API Name : 특정 멘티 프로필 조회
  * [GET] /main/mentees/:userId
  */

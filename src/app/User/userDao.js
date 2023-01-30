@@ -93,6 +93,35 @@ async function selectUserAccount(connection, id) {
   }
 
 
+    // 멘토 부분 조회(최신 5개)
+    async function selectNewMentor(connection) {
+      const selectNewMentorListQuery = `
+                    SELECT userId, nickname, userImg 
+                    FROM user 
+                    WHERE role=1
+                    ORDER BY userId DESC
+                    LIMIT 5;
+                    `;
+      const [newMentorRows] = await connection.query(selectNewMentorListQuery);
+      return newMentorRows;
+    }
+  
+  
+  
+    // 멘티 부분 조회(최신 5개)
+    async function selectNewMentee(connection) {
+      const selectMenteeListQuery = `
+                    SELECT userId, nickname, userImg 
+                    FROM user 
+                    WHERE role=2
+                    ORDER BY userId DESC
+                    LIMIT 5;;
+                    `;
+      const [newMenteeRows] = await connection.query(selectMenteeListQuery);
+      return newMenteeRows;
+    }
+
+  
   // 특정 멘토 정보 조회
   async function selectMentorById(connection, userId){
     const selectMentorByIdQuery = `
@@ -116,6 +145,7 @@ async function selectUserAccount(connection, id) {
     return menteeByuserId;
   }
 
+
 module.exports = {
     selectQuestion,
     selectUserId,
@@ -124,6 +154,8 @@ module.exports = {
     selectUserAccount,
     selectMentee,
     selectMentor,
+    selectNewMentee,
+    selectNewMentor,
     selectMentorById,
     selectMenteeById
   };
