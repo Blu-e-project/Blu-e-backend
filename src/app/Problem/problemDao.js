@@ -48,7 +48,7 @@ async function deleteProblem(connection, problemId) {
   return deleteProblemRows;
 }
 
-  // 답변 생성
+// 답변 생성
   async function insertSolution(connection, insertSolutionParams) {
     const insertSolutionQuery = `
           INSERT INTO Solution(userId, problemId, contents)
@@ -64,10 +64,6 @@ async function deleteProblem(connection, problemId) {
 
   // 답변 조회
   async function selectSolution(connection, problemId) {
-    // const selectProblemListQuery = `
-    //               SELECT userId, subject, unit, problem, contents, image 
-    //               FROM Solution ORDER BY problemId DESC;
-    //               `;
 
     const selectSolutionListQuery = `
                         SELECT userId, problemId, contents
@@ -80,12 +76,6 @@ async function deleteProblem(connection, problemId) {
 
   // 답변 수정
   async function updateSolution(connection, updateSolutionParams) {
-    // const selectProblemListQuery = `
-    //               SELECT userId, subject, unit, problem, contents, image 
-    //               FROM Solution ORDER BY problemId DESC;
-    //               `;
-    // const [solutionRows] = await connection.query(selectSolutionListQuery);
-    // return solutionRows;
 
     const updateSolutionQuery = `
                         UPDATE solution
@@ -97,8 +87,6 @@ async function deleteProblem(connection, problemId) {
       updateSolutionQuery,
       updateSolutionParams
     );
-    
-    // const [solutionRows] = await connection.query(patchSolutionQuery);
     return updateSolutionRow;
 }
 
