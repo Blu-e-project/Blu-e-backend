@@ -7,7 +7,11 @@ module.exports = function(app){
     // test 조회
     app.get('/',user.getTest);
 
-    // 프론트 측에서만 멘토 멘티 나누고 회원가입은 하나로 묶어도 괜찮을 듯
+    // 문자 인증 전송 API
+    app.post('/users/send', user.send);
+    // 문자 인증 검증 API
+    app.post('/users/verify', user.verify);
+
     // 1. 멘토 회원 가입 API
     app.post('/users/signup', user.postSignUpMentor);
     // 멘티 회원 가입 API
