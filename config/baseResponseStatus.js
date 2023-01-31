@@ -38,6 +38,11 @@ module.exports = {
     USER_USERID_EMPTY: { "isSuccess": false, "code": 2201, "message": "사용자ID를 입력해주세요." },
     USER_USERid_WRONG : { "isSuccess": false, "code": 2201, "message": "사용자ID가 잘못 되었습니다." },
 
+    QUESTION_TITLE_LENGTH : {"isSuccess": false, "code": 2300, "message": "제목을 30자리 이내로 입력해주세요."},
+    QUESTION_CONTENTS_EMPTY : {"isSuccess": false, "code": 2301, "message": "내용을 입력해주세요."},
+    QUESTION_QUESTIONID_EMPTY : { "isSuccess": false, "code": 2302, "message": "QUESTIONID를 입력해주세요." },
+    QUESTION_USERID_EMPTY: { "isSuccess": false, "code": 2303, "message": "사용자ID를 입력해주세요." },
+
 
     // response err
     SIGNUP_REDUNDANT_ID : { "isSuccess": false, "code": 3001, "message":"중복된 아이디입니다." },
