@@ -25,5 +25,4 @@ module.exports = function(app){
 
    // 8. 해답 삭제 API
    app.delete('/problems/:problemId/solutions/:solutionId', jwtMiddleware, problem.deleteSolutions);
-
 };

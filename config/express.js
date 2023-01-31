@@ -21,5 +21,6 @@ module.exports = function () {
     require('../src/app/Problem/problemRoute')(app);
     require('../src/app/Question/QuestionRoute')(app);
     require('../src/app/Mentoring/mentoringRoute')(app);
+    require('../src/app/Review/reviewRoute')(app);
     return app;
 };
