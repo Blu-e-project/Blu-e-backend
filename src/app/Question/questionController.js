@@ -29,7 +29,7 @@ exports.getQuestion = async function (req, res) {
      */
     const userId = req.params.userId;
     console.log(userId);
-    if (!userId) return res.send('오류 발생');
+    if (!userId) return res.send(response(baseResponse,QUESTION_USERID_EMPTY));
 
     const QuestionByUserId = await questionProvider.retrieveQuestion(userId);
     return res.send(response(baseResponse.SUCCESS, QuestionByUserId));
@@ -50,15 +50,11 @@ exports.postQuestion = async function (req, res) {
     const {title, contents} = req.body;
 
     // 빈 값 체크
-    if (!userId) return res.send('오류 발생');
+    if (!title > 30) 
+        return res.send(response(baseResponse.QUESTION_TITLE_LENGTH));
 
-    // 빈 값 체크
-    if (!title)
-        return res.send('제목이 비어있습니다.');
-
-    // 빈 값 체크
     if (!contents)
-        return res.send('글내용이 비어있습니다.');
+        return res.send(response(baseResponse.QUESTION_CONTENTS_EMPTY));
 
 
     const createQuestionResponse = await questionService.createQuestion(
@@ -139,7 +135,7 @@ exports.deleteQuestion = async function(req, res) {
 
     const questionId = req.params.questionId;
 
-    if (!questionId) return res.send("questionId 오류");
+    if (!questionId) return res.send(errResponse(baseResponse.QUESTION_QUESTIONID_EMPTY));
 
     const deleteQuestionResponse = await questionService.deleteQuestion(questionId);
     return res.send(deleteQuestionResponse);

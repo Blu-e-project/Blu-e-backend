@@ -11,7 +11,7 @@ async function selectQuestion(connection,userId) {
 // Question 생성
 async function insertQuestionInfo(connection, insertQuestionInfoParams) {
   const insertQuestionInfoQuery = `
-        INSERT INTO question(title, contents, createdAt, updateAt,userId)
+        INSERT INTO question(title, contents, createdAt, updatedAt, userId)
         VALUES (?, ?, now(), now(), ?);
     `;
   const insertQuestionInfoRow = await connection.query(
