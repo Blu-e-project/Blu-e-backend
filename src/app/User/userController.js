@@ -7,6 +7,37 @@ const {response, errResponse} = require("../../../config/response");
 // const regexEmail = require("regex-email");
 const {emit} = require("nodemon");
 
+// secret_sms가 ignore파일에 있어서 인증번호 서비스 필요시 연락바람!
+// const secret_key = require("../../../config/secret_sms");
+
+// 인증번호 사용시 밑에 3가지 install 필요 
+const axios = require('axios');
+const Cache = require('memory-cache');
+const CryptoJS = require('crypto-js');
+
+const date = Date.now().toString();
+const uri = secret_key.NCP_serviceID;
+const secretKey = secret_key.NCP_secretKey;
+const accessKey = secret_key.NCP_accessKEY;
+const method = 'POST';
+const space = " ";
+const newLine = "\n";
+const url = `https://sens.apigw.ntruss.com/sms/v2/services/${uri}/messages`;
+const url2 = `/sms/v2/services/${uri}/messages`;
+
+const  hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, secretKey);
+
+hmac.update(method);
+hmac.update(space);
+hmac.update(url2);
+hmac.update(newLine);
+hmac.update(date);
+hmac.update(newLine);
+hmac.update(accessKey);
+
+const hash = hmac.finalize();
+const signature = hash.toString(CryptoJS.enc.Base64);
+
 /**
  * API No. 0
  * API Name : 테스트 API
@@ -18,6 +49,82 @@ exports.getTest = async function (req, res) {
 
 /**
  * API No. 1
+ * API Name : 휴대폰 인증 번호 발송
+ * [POST] /users/send
+ */
+exports.send = async function (req, res) {
+    const phoneNumber = req.body.phoneNumber;
+  
+    Cache.del(phoneNumber);
+  
+    //인증번호 생성
+    const verifyCode = Math.floor(Math.random() * (999999 - 100000)) + 100000;
+  
+    Cache.put(phoneNumber, verifyCode.toString());
+  
+    axios({
+      method: method,
+      json: true,
+      url: url,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-ncp-iam-access-key': accessKey,
+        'x-ncp-apigw-timestamp': date,
+        'x-ncp-apigw-signature-v2': signature,
+      },
+      data: {
+        type: 'SMS',
+        contentType: 'COMM',
+        countryCode: '82',
+        // from은 발송번호
+        from: '',
+        content: `[본인 확인] 인증번호 [${verifyCode}]를 입력해주세요.`,
+        messages: [
+          {
+            to: `${phoneNumber}`,
+          },
+        ],
+      }, 
+      })
+    .then(function (res) {
+      console.log('response',res.data, res['data']);
+      res.send(response(baseResponse.SUCCESS));
+      //res.json({isSuccess: true, code: 202, message: "본인인증 문자 발송 성공", result: res.data });
+    })
+    .catch((err) => {
+      // console.log(err.res);
+      if(err.res == undefined){
+        res.send(response(baseResponse.SUCCESS));
+        //res.json({isSuccess: true, code: 200, message: "본인인증 문자 발송 성공", result: res.data });
+      }
+      else res.sned(errResponse(baseResponse.SMS_SEND_FAILURE));
+      //res.json({isSuccess: true, code: 204, message: "본인인증 문자 발송에 문제가 있습니다.", result: err.res });
+    });
+};
+
+/**
+ * API No. 2
+ * API Name : 테스트 API
+ * [POST] /users/verify
+ */
+exports.verify = async function (req, res) {
+    const phoneNumber = req.body.phoneNumber;
+    const verifyCode = req.body.verifyCode;
+
+    const CacheData = Cache.get(phoneNumber);
+
+    if (!CacheData) {
+        return res.send(errResponse(baseResponse.FAILURE_SMS_AUTHENTICATION));
+    } else if (CacheData !== verifyCode) {
+        return res.send(errResponse(baseResponse.FAILURE_SMS_AUTHENTICATION));
+    } else {
+      Cache.del(phoneNumber);
+      return res.send(response(baseResponse.SUCCESS));     
+    }
+  };
+
+/**
+ * API No. 3
  * API Name : 회원 가입 API
  * [POST] /users/signup
  */
@@ -81,7 +188,7 @@ exports.postSignUpMentor = async function (req, res) {
 
 
 /**
- * API No. 2
+ * API No. 4
  * API Name : 로그인
  * [POST] /users/login
  * id, password
@@ -96,7 +203,7 @@ exports.login = async function (req, res) {
 
 
 /**
- * API No. 3
+ * API No. 5
  * API Name : 멘토 전체 조회(최근 가입한 순)
  * [GET] /main/mentors
  */
@@ -108,7 +215,7 @@ exports.getMentor = async function (req, res) {
 
 
 /**
- * API No. 4
+ * API No. 6
  * API Name : 멘티 전체 조회(최근 가입한 순)
  * [GET] /main/mentees
  */
@@ -120,7 +227,7 @@ exports.getMentee = async function (req, res) {
 
 
 /**
- * API No. 5
+ * API No. 7
  * API Name : 멘토 부분 조회(최신 5개)
  * [GET] /main/new-mentors
  */
@@ -132,7 +239,7 @@ exports.getNewMentor = async function (req, res) {
 
 
 /**
- * API No. 6
+ * API No. 8
  * API Name : 멘티 부분 조회(최신 5개)
  * [GET] /main/new-mentees
  */
@@ -143,7 +250,7 @@ exports.getNewMentee = async function (req, res) {
 }
 
 /**
- * API No. 7
+ * API No. 9
  * API Name : 특정 멘토 프로필 조회
  * [GET] /main/mentors/:userId
  */
@@ -164,7 +271,7 @@ exports.getMentorById = async function (req, res) {
 
 
 /**
- * API No. 8
+ * API No. 10
  * API Name : 특정 멘티 프로필 조회
  * [GET] /main/mentees/:userId
  */
