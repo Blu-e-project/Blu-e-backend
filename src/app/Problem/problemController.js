@@ -32,7 +32,7 @@ exports.postProblems = async function (req, res) {
     // 길이 체크
     if (subject.length > 15){
         return res.send(response(baseResponse.POSTPROBLEM_SUBJECT_LENGTH));
-    } else if (unit.length > 20){
+    } else if (unit.length > 20){//unit=null인 상황 체크
         return res.send(response(baseResponse.POSTPROBLEM_UNIT_LENGTH));
     } else if (problem.length > 300){
         return res.send(response(baseResponse.POSTPROBLEM_PROBLEM_LENGTH));
