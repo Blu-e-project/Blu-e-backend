@@ -114,10 +114,9 @@ exports.postSolutions = async function (req, res) {
      * Body:contents
      * Path Variable: problemId
      */
- //   const userIdFromJWT = req.verifiedToken.userId;
+    const userId = req.verifiedToken.userId;
     const {contents} = req.body;
     const problemId = req.params.problemId;
-    const userId=10
     // 빈 값 체크
     if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
     if (!contents)
