@@ -16,8 +16,7 @@ exports.postProblems = async function (req, res) {
      * Body: subject, unit, problem, contents, image
      */
 
-    // const userId = req.verifiedToken.userId;
-    const userId = 10;
+    const userId = req.verifiedToken.userId;
     const {subject, unit, problem, contents, image} = req.body;
 
     // 빈 값 체크
@@ -32,7 +31,8 @@ exports.postProblems = async function (req, res) {
     // 길이 체크
     if (subject.length > 15){
         return res.send(response(baseResponse.POSTPROBLEM_SUBJECT_LENGTH));
-    } else if (unit.length > 20){//unit=null인 상황 체크
+    } else if (unit){
+        if(unit.length > 20)
         return res.send(response(baseResponse.POSTPROBLEM_UNIT_LENGTH));
     } else if (problem.length > 300){
         return res.send(response(baseResponse.POSTPROBLEM_PROBLEM_LENGTH));
@@ -78,7 +78,7 @@ exports.getProblemById = async function (req, res) {
      * Path Variable: problemId
      */
     const problemId = req.params.problemId;
-
+    // 빈 값 체크
     if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
 
     const problemByProblemId = await problemProvider.retrieveProblem(problemId);
@@ -97,12 +97,12 @@ exports.deleteProblems = async function(req, res) {
      */
 
     const problemId = req.params.problemId;
-
+    // 빈 값 체크
     if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
 
     const deleteProblemResponse = await problemService.deleteProblem(problemId);
     return res.send(deleteProblemResponse);
-}
+};
 
 /**
  * API No. 5
@@ -119,6 +119,7 @@ exports.postSolutions = async function (req, res) {
     const problemId = req.params.problemId;
     const userId=10
     // 빈 값 체크
+    if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
     if (!contents)
         return res.send(response(baseResponse.POSTSOLUTION_CONTENTS_EMPTY));
     // 길이 체크
@@ -144,6 +145,9 @@ exports.getSolutions = async function (req, res) {
      * Path Variable: problemId
      */
     const problemId = req.params.problemId;
+    //빈 값 체크
+    if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
+
     const solutionListResult = await problemProvider.retrieveSolutionList(problemId);
     return res.send(response(baseResponse.SUCCESS, solutionListResult));
 
@@ -163,8 +167,10 @@ exports.patchSolutions = async function (req, res) {
     const problemId = req.params.problemId;
     const solutionId = req.params.solutionId;
     // 빈 값 체크
+    if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
+    if (!solutionId) return res.send(errResponse(baseResponse.PROBLEM_SOLUTIONID_EMPTY));
     if (!contents)
-        return res.send(response(baseResponse.POSTSOLUTION_CONTENTS_EMPTY)); //오류메세지 다시쓰기?
+        return res.send(response(baseResponse.POSTSOLUTION_CONTENTS_EMPTY));
     // 길이 체크
     if (contents.length > 300)
         return res.send(response(baseResponse.POSTSOLUTION_CONTENTS_LENGTH)); 
@@ -190,12 +196,13 @@ exports.deleteSolutions = async function(req, res) {
      */
     const problemId = req.params.problemId;
     const solutionId = req.params.solutionId;
-
-    // if (!solutionId) return res.send(errResponse(baseResponse.PROBLEM_SOLUTIONID_EMPTY));
+    // 빈 값 체크
+    if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
+    if (!solutionId) return res.send(errResponse(baseResponse.PROBLEM_SOLUTIONID_EMPTY));
 
     const deleteSolutionResponse = await problemService.deleteSolution(
         problemId,
         solutionId
     );
     return res.send(deleteSolutionResponse);
-}
+};
