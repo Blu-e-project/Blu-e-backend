@@ -22,8 +22,6 @@ async function selectProblem(connection) {
                 `;
   const [problemRows] = await connection.query(selectProblemListQuery);
   return problemRows;
-
-
 }
 
 
@@ -66,9 +64,9 @@ async function deleteProblem(connection, problemId) {
   async function selectSolution(connection, problemId) {
 
     const selectSolutionListQuery = `
-                        SELECT userId, problemId, contents
+                        SELECT solutionId, problemId, nickname, contents
                         FROM solution
-                        WHERE problemId = ?;
+                        JOIN user ON solution.userId=user.userId and problemId = ?;
                         `
     const [solutionRows] = await connection.query(selectSolutionListQuery, problemId);
     return solutionRows;
