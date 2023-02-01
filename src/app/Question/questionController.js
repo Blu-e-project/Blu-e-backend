@@ -50,10 +50,12 @@ exports.postQuestion = async function (req, res) {
     const {title, contents} = req.body;
 
     // 빈 값 체크
-    if (!title > 30) 
+    if (!userId) return res.send(response(baseResponse,QUESTION_USERID_EMPTY));
+
+    if (!title > 20) 
         return res.send(response(baseResponse.QUESTION_TITLE_LENGTH));
 
-    if (!contents)
+    if (!contents > 500)
         return res.send(response(baseResponse.QUESTION_CONTENTS_EMPTY));
 
 
