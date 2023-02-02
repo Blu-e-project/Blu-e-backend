@@ -63,9 +63,20 @@ async function selectPickMentor(connection) {
     
       return insertPickMentorsRows;
     }
+    
     // 멘티 구인글 작성
-
-
+    async function insertPickMentees(connection, insertPickMenteesParams) {
+      const insertPickMenteesQuery = `
+            INSERT INTO Pick(userId, title, contents, status, area, mentoringMethod, menteeLevel, subject, periodStart, periodEnd, wishGender, role, viewCount)
+            VALUES (?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, 1, 0);
+        `;
+      const insertPickMenteesRows = await connection.query(
+        insertPickMenteesQuery,
+        insertPickMenteesParams
+      );
+    
+      return insertPickMenteesRows;
+    }
 
   
   module.exports = {
@@ -73,6 +84,7 @@ async function selectPickMentor(connection) {
     selectPickMentor,
     selectPickMentorMain,
     selectPickMenteeMain,
-    insertPickMentors
+    insertPickMentors,
+    insertPickMentees
   };
   

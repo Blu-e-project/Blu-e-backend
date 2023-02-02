@@ -115,7 +115,7 @@ exports.postPickMentors = async function (req, res) {
         return res.send(errResponse(baseResponse.POSTPICK_WISHGENDER_LENGTH)); 
     }
 
-    const postPickResponse = await mentoringService.createPickMentors(
+    const postPickMentorsResponse = await mentoringService.createPickMentors(
         userId,
         title, 
         contents, 
@@ -128,5 +128,76 @@ exports.postPickMentors = async function (req, res) {
         wishGender
     );
 
-    return res.send(postPickResponse);
+    return res.send(postPickMentorsResponse);
+};
+
+
+/**
+ * API No. 6
+ * API Name : 멘티 구인글 작성
+ * [POST] /mentoring/mentees
+ */
+exports.postPickMentees = async function (req, res) {
+
+    /**
+     * Body: title, contents, subject, area, mentoringMethod, menteeLevel, periodStart, periodEnd, wishGender
+     */
+
+    const userId = req.verifiedToken.userId;
+    const {title, contents, subject, area, mentoringMethod, menteeLevel, periodStart, periodEnd, wishGender} = req.body;
+
+    // 빈 값 체크
+    if (!title){
+        return res.send(errResponse(baseResponse.POSTPICK_TITLE_EMPTY));
+    } else if (!contents) {
+        return res.send(errResponse(baseResponse.POSTPICK_CONTENTS_EMPTY));
+    } else if (!subject) {
+        return res.send(errResponse(baseResponse.POSTPICK_SUBJECT_EMPTY));
+    } else if (!area) {
+        return res.send(errResponse(baseResponse.POSTPICK_AREA_EMPTY));
+    } else if (!mentoringMethod) {
+        return res.send(errResponse(baseResponse.POSTPICK_MENTORINGMETHOD_EMPTY));
+    } else if (!menteeLevel) {
+        return res.send(errResponse(baseResponse.POSTPICK_MENTEELEVEL_EMPTY));
+    } else if (!periodStart) {
+        return res.send(errResponse(baseResponse.POSTPICK_PERIODSTART_EMPTY));
+    } else if (!periodEnd) {
+        return res.send(errResponse(baseResponse.POSTPICK_PERIODEND_EMPTY));
+    } else if (!wishGender) {
+        return res.send(errResponse(baseResponse.POSTPICK_WISHGENDER_EMPTY));
+    }
+    
+    
+    
+    // 길이 체크
+    if (title.length > 30){
+        return res.send(errResponse(baseResponse.POSTPICK_TITLE_LENGTH));
+    } else if (contents.length > 300){
+        return res.send(errResponse(baseResponse.POSTPICK_CONTENTS_LENGTH));
+    } else if (subject.length > 15){
+        return res.send(errResponse(baseResponse.POSTPICK_SUBJECT_LENGTH));
+    } else if (area.length > 50) {
+        return res.send(errResponse(baseResponse.POSTPICKM_AREA_LENGTH)); 
+    } else if (mentoringMethod.length > 10) {
+        return res.send(errResponse(baseResponse.POSTPICK_MENTORINGMETHOD_LENGTH)); 
+    } else if (menteeLevel.length > 10) {
+        return res.send(errResponse(baseResponse.POSTPICK_MENTEELEVEL_LENGTH)); 
+    } else if (wishGender.length > 10) {
+        return res.send(errResponse(baseResponse.POSTPICK_WISHGENDER_LENGTH)); 
+    }
+
+    const postPickMenteesResponse = await mentoringService.createPickMentees(
+        userId,
+        title, 
+        contents, 
+        area, 
+        mentoringMethod, 
+        menteeLevel,
+        subject,  
+        periodStart, 
+        periodEnd, 
+        wishGender
+    );
+
+    return res.send(postPickMenteesResponse);
 };

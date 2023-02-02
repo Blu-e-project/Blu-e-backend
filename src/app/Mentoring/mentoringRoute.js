@@ -18,7 +18,7 @@ module.exports = function(app){
     app.post('/mentoring/mentors', jwtMiddleware, mentoring.postPickMentors);
 
     // 멘티 구인글 생성
- //   app.post('/mentoring/mentees', jwtMiddleware, mentoring.postPickMentees);
+    app.post('/mentoring/mentees', jwtMiddleware, mentoring.postPickMentees);
 
 
     // 특정 멘토 구인글 조회
