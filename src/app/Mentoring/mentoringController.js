@@ -309,3 +309,92 @@ exports.deletePickMentee= async function(req, res){
     return res.send(deletePickMenteeResponse);
 
 }
+
+
+/**
+ * API No. 13
+ * API Name : 멘토 구하는 글에 댓글 생성
+ * [POST] /mentoring/mentors/{pickId}/comments
+ */
+// 유효성 검사 추가하기
+exports.postPickMentorsCom = async function (req, res) {
+    const userId = req.verifiedToken.userId;
+    const pickId = req.params.pickId;
+    const {contents} = req.body;
+
+    // 댓글은 한 번만 쓸 수 있게 하기
+
+    if (!pickId) return res.send(errResponse(baseResponse.PICKMENTORS_PICKID_EMPTY))
+    if (!contents)
+        return res.send(errResponse(baseResponse.PICKMENTORS_COMMENT_EMPTY))
+    if (contents.length > 300)
+        return res.send(errResponse(baseResponse.PICKMENTORS_COMMENT_LENGTH))
+
+    // userId가 댓글 단 사람 ID, pickId가 글 번호, role이 멘토인지 멘티인지, contents는 댓글 내용
+    const postPickMentorsComResponse = await mentoringService.createMentorsCom(
+        userId,
+        pickId,
+        contents
+    )
+    return res.send(postPickMentorsComResponse)
+
+}
+
+/**
+ * API No. 14
+ * API Name : 멘토 구하는 글에 댓글 조회
+ * [GET] /mentoring/mentors/{pickId}/comments
+ */
+exports.getPickMentorsCom = async function (req, res){
+    const pickId = req.params.pickId;
+
+    if (!pickId) return res.send(errResponse(baseResponse.PICKMENTORS_PICKID_EMPTY))
+    const pickMentorsComListResult = await mentoringProvider.retrievePickMentorComList(pickId);
+    return res.send(response(baseResponse.SUCCESS, pickMentorsComListResult))
+    
+}
+
+/**
+ * API No. 15
+ * API Name : 멘토 구하는 글에 댓글 수정
+ * [PATCH] /mentoring/mentors/{pickId}/comments/{pickCommentId}
+ */
+exports.patchPickMentorsCom = async function(req, res) {
+    const userId = req.verifiedToken.userId;
+    const {contents} = req.body;
+    const pickId = req.params.pickId;
+    const pickCommentId = req.params.pickCommentId;
+
+    // 내가 작성한 댓글만 수정할 수 있도록 고칠 예정
+    if (!pickId) return res.send(errResponse(baseResponse.PICKMENTORS_PICKID_EMPTY))
+    if (!pickCommentId) return res.send(errResponse(baseResponse.PICKMENTORS_COMMENTID_EMPTY))
+    if (!contents) return res.send(errResponse(baseResponse.PICKMENTORS_COMMENT_EMPTY))
+    if (contents.length > 300) return res.send(errResponse(baseResponse.PICKMENTORS_COMMENT_LENGTH))
+
+    const updatePickMentorsComResponse = await mentoringService.updateMentorsCom(
+        contents,
+        pickId,
+        pickCommentId,
+    );
+    return res.send(updatePickMentorsComResponse);
+}
+
+/**
+ * API No. 16
+ * API Name : 멘토 구하는 글에 댓글 삭제
+ * [PATCH] /mentoring/mentors/{pickId}/comments/{pickCommentId}
+ */
+exports.deletePickMentorsCom = async function(req, res){
+    const pickId = req.params.pickId;
+    const pickCommentId = req.params.pickCommentId;
+
+    // 내가 작성한 댓글만 삭제할 수 있도록 고치기
+    if (!pickId) return res.send(errResponse(baseResponse.PICKMENTORS_PICKID_EMPTY))
+    if (!pickCommentId) return res.send(errResponse(baseResponse.PICKMENTORS_COMMENTID_EMPTY))
+
+    const deletePickMentorsComResponse = await mentoringService.deleteMentorsCom(
+        pickId,
+        pickCommentId
+    )
+    return res.send(deletePickMentorsComResponse);
+}

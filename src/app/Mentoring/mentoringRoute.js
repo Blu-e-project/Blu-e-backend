@@ -37,4 +37,17 @@ module.exports = function(app){
 
     // 멘티 구인글 삭제
     app.delete('/mentoring/mentees/:pickId', jwtMiddleware, mentoring.deletePickMentee);
+    
+    // 멘토 구인글 댓글 생성
+    app.post('/mentoring/mentors/:pickId/comments', jwtMiddleware, mentoring.postPickMentorsCom);
+    
+    // 멘토 구인글 댓글 조회
+    app.get('/mentoring/mentors/:pickId/comments', jwtMiddleware, mentoring.getPickMentorsCom);
+    
+    // 멘토 구인글 댓글 수정
+    app.patch('/mentoring/mentors/:pickId/comments/:pickCommentId', jwtMiddleware, mentoring.patchPickMentorsCom)
+    
+    // 멘토 구인글 댓글 삭제
+    app.delete('/mentoring/mentors/:pickId/comments/:pickCommentId', jwtMiddleware, mentoring.deletePickMentorsCom)
+
 };

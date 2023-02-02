@@ -58,3 +58,19 @@ exports.retrievePickMentee = async function (pickId) {
 
   return pickMenteeByIdResult;
 };
+
+exports.roleCheck = async function(userId){
+  const connection = await pool.getConnection(async (conn) => conn);
+  const roleCheckResult = await mentoringDao.selectUserRole(connection, userId);
+  connection.release();
+
+  return roleCheckResult;
+}
+
+exports.retrievePickMentorComList = async function(pickId) {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const pickMentorComListResult = await mentoringDao.selectMentorCom(connection, pickId);
+  connection.release();
+
+  return pickMentorComListResult
+}
