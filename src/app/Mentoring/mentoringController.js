@@ -237,3 +237,75 @@ exports.getPickMenteesById = async function (req, res) {
     const pickMenteesById = await mentoringProvider.retrievePickMentee(pickId);
     return res.send(response(baseResponse.SUCCESS, pickMenteesById));
 };
+
+/**
+ * API No. 9
+ * API Name : 멘토 구하는 글 수정
+ * [PATCH] /mentoring/mentors/:pickId
+ * path variable : pickId
+ */
+exports.patchPickMentor = async function (req, res) {
+
+    const pickId = req.params.pickId;
+    const {title, contents, subject, area, mentoringMethod, mentorCareer, periodStart, periodEnd, wishGender} = req.body;
+
+    
+
+  //  if (!content) res.send(errResponse(baseResponse.USER_NICKNAME_EMPTY));
+
+    const patchPickMentorsResponse = await mentoringService.updatePickMentor(
+        pickId,
+        title, 
+        contents, 
+        area, 
+        mentoringMethod, 
+        mentorCareer,
+        subject,  
+        periodStart, 
+        periodEnd, 
+        wishGender
+    );
+
+    return res.send(patchPickMentorsResponse);
+    
+};
+
+/**
+ * API No. 10
+ * API Name : 멘티 구하는 글 수정
+ * [PATCH] /mentoring/mentees/:pickId
+ * path variable : pickId
+ */
+
+
+/**
+ * API No. 11
+ * API Name : 멘토 구하는 글 삭제
+ * [DELETE] /mentoring/mentors/:pickId
+ * path variable : pickId
+ */
+exports.deletePickMentor= async function(req, res){
+    const pickId=req.params.pickId;
+
+    if (!pickId) return res.send(errResponse(baseResponse.MENTORING_PICKID_EMPTY));
+
+    const deletePickMentorResponse = await mentoringService.deletePickMentor(pickId);
+    return res.send(deletePickMentorResponse);
+
+}
+
+/**
+ * API No. 12
+ * API Name : 멘티 구하는 글 삭제
+ * [DELETE] /mentoring/mentees/:pickId
+ * path variable : pickId
+ */
+exports.deletePickMentee= async function(req, res){
+    const pickId=req.params.pickId;
+
+    if (!pickId) return res.send(errResponse(baseResponse.MENTORING_PICKID_EMPTY));
+
+    const deletePickMenteeResponse = await mentoringService.deletePickMentee(pickId);
+    return res.send(deletePickMenteeResponse);
+
+}

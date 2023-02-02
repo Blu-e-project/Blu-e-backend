@@ -100,6 +100,37 @@ async function selectPickMentor(connection) {
       const [pickMenteeRow] = await connection.query(selectPickMenteeIdQuery, pickId);
       return pickMenteeRow;
  }
+
+    // 멘토 구인글 수정
+    async function updatePickMentors(connection, updatePickMentorsParams) {
+      const updatePickMentorIdQuery = `
+                  UPDATE pick set title=?, contents=?, area=?, mentoringMethod=?, mentorCareer=?, subject=?, periodStart=?, periodEnd=?, wishGender=?
+                  where pickId=?
+                  `;
+      const [pickMentorRow] = await connection.query(updatePickMentorIdQuery, updatePickMentorsParams);
+      return pickMentorRow;
+ }
+
+    // 멘토 구인글 삭제
+    async function deletePickMentor(connection, pickId) {
+      const deletePickMentorQuery = `
+                    DELETE FROM Pick
+                    WHERE pickId = ?;
+                    `;
+      const deletePickMentorRows = await connection.query(deletePickMentorQuery, pickId);
+      return deletePickMentorRows;
+    }
+
+    // 멘티 구인글 삭제
+    async function deletePickMentee(connection, pickId) {
+      const deletePickMenteeQuery = `
+                    DELETE FROM Pick
+                    WHERE pickId = ?;
+                    `;
+      const deletePickMenteeRows = await connection.query(deletePickMenteeQuery, pickId);
+      return deletePickMenteeRows;
+    }
+    
   
   module.exports = {
     selectPickMentee,
@@ -109,6 +140,9 @@ async function selectPickMentor(connection) {
     insertPickMentors,
     insertPickMentees,
     selectPickMentorById,
-    selectPickMenteeById
+    selectPickMenteeById,
+    updatePickMentors,
+    deletePickMentor,
+    deletePickMentee
   };
   
