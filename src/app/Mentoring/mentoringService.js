@@ -63,3 +63,23 @@ exports.createPickMentors = async function (userId, title, contents, area, mento
         return errResponse(baseResponse.DB_ERROR);
     }
 };
+
+
+exports.createPickMentees = async function (userId, title, contents, area, mentoringMethod, menteeLevel, subject, periodStart, periodEnd, wishGender) {
+    try {
+
+        const insertPickMenteesParams = [userId, title, contents, area, mentoringMethod, menteeLevel, subject, periodStart, periodEnd, wishGender];
+
+        const connection = await pool.getConnection(async (conn) => conn);
+
+        const pickIdResult = await mentoringDao.insertPickMentees(connection, insertPickMenteesParams);
+        console.log(`추가된 구인글 : ${pickIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+
+    } catch (err) {
+        logger.error(`App - createPick Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
