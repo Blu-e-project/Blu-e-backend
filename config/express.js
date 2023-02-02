@@ -23,5 +23,6 @@ module.exports = function () {
     require('../src/app/Mentoring/mentoringRoute')(app);
     require('../src/app/Review/reviewRoute')(app);
     require('../src/app/Report/reportRoute')(app);
+    require('../src/app/Editing/editingRoute')(app);
     return app;
 };
