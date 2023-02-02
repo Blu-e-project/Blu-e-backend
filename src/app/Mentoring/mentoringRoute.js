@@ -20,10 +20,10 @@ module.exports = function(app){
     // 멘티 구인글 생성
     app.post('/mentoring/mentees', jwtMiddleware, mentoring.postPickMentees);
 
-
     // 특정 멘토 구인글 조회
+    app.get('/mentoring/mentors/:pickId', jwtMiddleware, mentoring.getPickMentorsById);
 
     // 특정 멘티 구인글 조회
-
+    app.get('/mentoring/mentees/:pickId', jwtMiddleware, mentoring.getPickMenteesById);
 
 };

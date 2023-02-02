@@ -1,7 +1,7 @@
   // 멘토 구인글 전체 조회
 async function selectPickMentor(connection) {
   const selectPickMentorListQuery = `
-                    SELECT pickMenteeId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
+                    SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
                     FROM pick 
                     WHERE role = 2
                     order by pickMenteeId desc;
@@ -14,7 +14,7 @@ async function selectPickMentor(connection) {
   // 멘티 구인글 전체 조회
   async function selectPickMentee(connection) {
     const selectPickMenteeListQuery = `
-                    SELECT pickMenteeId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
+                    SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
                     FROM pick 
                     WHERE role = 1
                     order by pickMenteeId desc;
@@ -26,7 +26,7 @@ async function selectPickMentor(connection) {
     // 멘토 구인글 부분 조회(5개)
    async function selectPickMentorMain(connection) {
     const selectPickMentorMainListQuery = `
-                      SELECT pickMenteeId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
+                      SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
                       FROM pick
                       WHERE role = 2
                       ORDER BY viewCount desc
@@ -40,7 +40,7 @@ async function selectPickMentor(connection) {
     // 멘티 구인글 부분 조회(5개)
     async function selectPickMenteeMain(connection) {
       const selectPickMenteeMainListQuery = `
-                      SELECT pickMenteeId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
+                      SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
                       FROM pick 
                       WHERE role = 1
                       ORDER BY viewCount desc
@@ -63,7 +63,7 @@ async function selectPickMentor(connection) {
     
       return insertPickMentorsRows;
     }
-    
+
     // 멘티 구인글 작성
     async function insertPickMentees(connection, insertPickMenteesParams) {
       const insertPickMenteesQuery = `
@@ -78,6 +78,28 @@ async function selectPickMentor(connection) {
       return insertPickMenteesRows;
     }
 
+
+    // 특정 멘토 구인글 조회
+   async function selectPickMentorById(connection, pickId) {
+     const selectPickMentorIdQuery = `
+                 SELECT userId, title, contents, CASE status when 1 THEN '모집중' else '모집완료' END as status, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender, viewCount, date(createdAt) as 'createdAt', date(updatedAt) as 'updatedAt' 
+                 FROM pick 
+                 WHERE role=2 AND pickId=?;
+                 `;
+     const [pickMentorRow] = await connection.query(selectPickMentorIdQuery, pickId);
+     return pickMentorRow;
+}
+
+    // 특정 멘티 구인글 조회
+    async function selectPickMenteeById(connection, pickId) {
+      const selectPickMenteeIdQuery = `
+                  SELECT userId, title, contents, CASE status when 1 THEN '모집중' else '모집완료' END as status, mentoringMethod, menteeLevel, subject, periodStart, periodEnd, wishGender, viewCount, date(createdAt) as 'createdAt', date(updatedAt) as 'updatedAt' 
+                  FROM pick 
+                  WHERE role=1 AND pickId=?;
+                  `;
+      const [pickMenteeRow] = await connection.query(selectPickMenteeIdQuery, pickId);
+      return pickMenteeRow;
+ }
   
   module.exports = {
     selectPickMentee,
@@ -85,6 +107,8 @@ async function selectPickMentor(connection) {
     selectPickMentorMain,
     selectPickMenteeMain,
     insertPickMentors,
-    insertPickMentees
+    insertPickMentees,
+    selectPickMentorById,
+    selectPickMenteeById
   };
   
