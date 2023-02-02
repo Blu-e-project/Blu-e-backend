@@ -22,30 +22,6 @@ async function insertQuestionInfo(connection, insertQuestionInfoParams) {
   return insertQuestionInfoRow;
 }
 
-// Question 수정
-async function updateQuestionInfo(connection, updateQuestionInfoParams) {
-  const updateQuestionQuery = `
-  UPDATE question 
-  SET title = ?, contents = ?, updateAt = now()
-  WHERE (userId = ? and questionId = ?);`;
-
-  const updateQuestionRow = await connection.query(updateQuestionQuery, updateQuestionInfoParams);
-  return updateQuestionRow;
-}
-
-
-// 모든 qusetion 조회
-async function selectQuestionNeedingAnswer(connection) {
-    const selectQuestionNeedingAnswerListQuery = `
-                  SELECT title, contents 
-                  FROM question;
-                  `;
-    const [questionRows] = await connection.query(selectQuestionNeedingAnswerListQuery);
-    return questionRows;
-  }
-
-
-
 // Question 삭제
 async function deleteQuestion(connection, questionId) {
   const deleteQuestionQuery = `
@@ -60,9 +36,5 @@ async function deleteQuestion(connection, questionId) {
   module.exports = {
     selectQuestion,
     insertQuestionInfo,
-    updateQuestionInfo,
-    selectQuestionNeedingAnswer,
     deleteQuestion,
  };
-  
-  

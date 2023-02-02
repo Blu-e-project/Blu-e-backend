@@ -13,14 +13,3 @@ exports.retrieveQuestion = async function (userId) {
   
     return questionListResult;
   };
-
-
-
-exports.retrieveQuestionNeedingAnswer = async function () {
-    const connection = await pool.getConnection(async (conn) => conn);
-    const QuestionNeedingAnswerListResult = await questionDao.selectQuestionNeedingAnswer(connection);
-  
-    connection.release();
-  
-    return QuestionNeedingAnswerListResult;
-  };

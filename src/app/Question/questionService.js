@@ -28,25 +28,6 @@ exports.createQuestion = async function (title, contents, userId) {
     }
 };
 
-
-exports.editQuestion = async function (title, contents, userId, questionId) {
-    try {
-        const updateQuestionInfoParams = [title, contents, userId, questionId];
-        const connection = await pool.getConnection(async (conn) => conn);
-        const editQuesitonResult = await questionDao.updateQuestionInfo(connection, updateQuestionInfoParams);
-
-        console.log(`${questionId}의 Question 수정 완료`);
-        connection.release();
-
-        return response(baseResponse.SUCCESS);
-
-    } catch (err) {
-        logger.error(`App - editQuestion Service error\n: ${err.message}`);
-        return errResponse(baseResponse.DB_ERROR);
-    }
-}
-
-
 exports.deleteQuestion = async function(questionId){
     try {
         const connection = await pool.getConnection(async (conn) => conn);
