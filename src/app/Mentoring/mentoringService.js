@@ -83,3 +83,53 @@ exports.createPickMentees = async function (userId, title, contents, area, mento
         return errResponse(baseResponse.DB_ERROR);
     }
 };
+
+exports.createMentorsCom = async function (userId, pickId, contents){
+    try {
+        const roleRows = await mentoringProvider.roleCheck(userId);
+
+        console.log(roleRows[0], roleRows[0].role)
+        const role = roleRows[0].role
+        const insertMentorsComParams = [userId, pickId, role, contents];
+
+        const connection = await pool.getConnection(async (conn) => conn);
+        const mentorComIdResult = await mentoringDao.insertMentorsCom(connection,insertMentorsComParams);
+        console.log(`추가된 댓글 : ${mentorComIdResult[0]}`)
+        connection.release();
+
+        return response(baseResponse.SUCCESS);
+    } catch(err){
+        logger.error(`App - createComment Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+
+}
+
+exports.updateMentorsCom= async function(contents, pickId, pickCommentId){
+    try{
+        const updateMentorsComParams = [contents, pickId, pickCommentId]
+        const connection = await pool.getConnection(async (conn) => conn);
+        const mentorComIdResult = await mentoringDao.updateMentorsCom(connection,updateMentorsComParams);
+        console.log(`수정된 댓글 : ${mentorComIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+    } catch(err){
+        logger.error(`App - updateComment Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}
+
+exports.deleteMentorsCom = async function(pickId, pickCommentId){
+    try{
+        const deleteMentorsComParams = [pickId, pickCommentId]
+        const connection = await pool.getConnection(async (conn) => conn);
+        const mentorComIdResult = await mentoringDao.deleteMentorsCom(connection,deleteMentorsComParams);
+        console.log(`삭제된 댓글 : ${mentorComIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+    } catch(err) {
+        logger.error(`App - deleteComment Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}

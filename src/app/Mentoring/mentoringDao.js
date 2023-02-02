@@ -100,6 +100,71 @@ async function selectPickMentor(connection) {
       const [pickMenteeRow] = await connection.query(selectPickMenteeIdQuery, pickId);
       return pickMenteeRow;
  }
+
+// 멘토 구인글에 댓글 생성
+async function insertMentorsCom(connection, insertMentorsComParams){
+  const insertMentorsComQuery = `
+      INSERT INTO pickComment(userId, pickId, role, contents)
+      VALUES (?, ?, ?, ?);
+  `;
+  const insertMentorsComRow = await connection.query(
+      insertMentorsComQuery,
+      insertMentorsComParams
+  );
+
+  return insertMentorsComRow;
+}
+
+// 유저 role 조회
+async function selectUserRole(connection, userId){
+  const selectUserRoleQuery = `
+                  SELECT userId, id, role
+                  FROM user
+                  WHERE userId = ?;
+  `
+  const [roleRows] = await connection.query(selectUserRoleQuery, userId);
+  return roleRows;
+}
+
+// 멘토 구인글에 달린 댓글 조회
+async function selectMentorCom(connection, pickId) {
+  const selectMentorComQuery = `
+      SELECT pickCommentId, pickId, nickname, contents
+      FROM pickcomment
+      JOIN user ON pickcomment.userId=user.userId and pickId = ?;
+  `
+  const [mentorComRows] = await connection.query(selectMentorComQuery, pickId);
+  return mentorComRows;
+}
+
+// 멘토 구인글 댓글 수정
+async function updateMentorsCom(connection, updateMentorsComParams){
+  const updateMentorsComQuery = `
+      UPDATE pickcomment
+      SET contents = ?
+      WHERE pickId = ? and pickCommentId = ?;
+  `
+  const updateMentorsComRow = await connection.query(
+      updateMentorsComQuery,
+      updateMentorsComParams
+  )
+  return updateMentorsComRow
+}
+
+// 멘토 구인글 댓글 삭제
+async function deleteMentorsCom(connection, deleteMentorsComParams){
+  const deleteMentorsComQuery = `
+      DELETE FROM pickcomment
+      WHERE pickId = ? and pickCommentId = ?;
+  `
+  const deleteMentorsComRow = await connection.query(
+      deleteMentorsComQuery,
+      deleteMentorsComParams
+  );
+
+  return deleteMentorsComRow
+
+}
   
   module.exports = {
     selectPickMentee,
@@ -109,6 +174,11 @@ async function selectPickMentor(connection) {
     insertPickMentors,
     insertPickMentees,
     selectPickMentorById,
-    selectPickMenteeById
+    selectPickMenteeById,
+    insertMentorsCom,
+    selectUserRole,
+    selectMentorCom,
+    updateMentorsCom,
+    deleteMentorsCom
   };
   
