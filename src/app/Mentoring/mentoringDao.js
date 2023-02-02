@@ -27,9 +27,9 @@ async function selectPickMentor(connection) {
    async function selectPickMentorMain(connection) {
     const selectPickMentorMainListQuery = `
                       SELECT pickMenteeId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
-                      FROM pick 
+                      FROM pick
                       WHERE role = 2
-                      ORDER BY pickMenteeId desc
+                      ORDER BY viewCount desc
                       LIMIT 5;
                   `;
     const [pickMentorMainRows] = await connection.query(selectPickMentorMainListQuery);
@@ -43,7 +43,7 @@ async function selectPickMentor(connection) {
                       SELECT pickMenteeId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
                       FROM pick 
                       WHERE role = 1
-                      ORDER BY pickMenteeId desc
+                      ORDER BY viewCount desc
                       LIMIT 5;;
                     `;
       const [pickMenteeMainRows] = await connection.query(selectPickMenteeMainListQuery);
