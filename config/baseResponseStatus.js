@@ -62,6 +62,26 @@ module.exports = {
     EDITING_EDUCATION_LENGTH: { "isSuccess": false, "code": 2506, "message": "학력을 20자 이내로 입력해주세요." },
     EDITING_ADDRESS_LENGTH: { "isSuccess": false, "code": 2507, "message": "주소를 50자 이내로 입력해주세요." },
     EDITING_INTRODUCE_LENGTH: { "isSuccess": false, "code": 2508, "message": "한줄소개를 100자 이내로 입력해주세요." },
+    POSTPICK_TITLE_EMPTY : {"isSuccess": false, "code": 2600, "message": "제목을 입력해주세요."},
+    POSTPICK_CONTENTS_EMPTY : {"isSuccess": false, "code": 2601, "message": "내용을 입력해주세요."},
+    POSTPICK_SUBJECT_EMPTY : {"isSuccess": false, "code": 2602, "message": "과목을 입력해주세요."},
+    POSTPICK_AREA_EMPTY: {"isSuccess": false, "code": 2603, "message": "지역을 입력해주세요."},
+    POSTPICK_MENTORINGMETHOD_EMPTY : {"isSuccess": false, "code": 2604, "message": "멘토링 방식을 입력해주세요."},
+    POSTPICK_MENTORCAREER_EMPTY : {"isSuccess": false, "code": 2605, "message": "희망 멘토경력을 입력해주세요."},
+    POSTPICK_PERIODSTART_EMPTY : {"isSuccess": false, "code": 2606, "message": "희망 시작기간을 입력해주세요."},
+    POSTPICK_PERIODEND_EMPTY : {"isSuccess": false, "code": 2607, "message": "희망 종료기간을 입력해주세요."},
+    POSTPICK_WISHGENDER_EMPTY : {"isSuccess": false, "code": 2608, "message": "희망 멘토성별을 입력해주세요."},
+    POSTPICK_TITLE_LENGTH : {"isSuccess": false, "code": 2609, "message": "제목을 30자 이내로 입력해주세요."},
+    POSTPICK_CONTENTS_LENGTH : {"isSuccess": false, "code": 2610, "message": "내용을 300자 이내로 입력해주세요."}, 
+    POSTPICK_SUBJECT_LENGTH : {"isSuccess": false, "code": 2611, "message": "과목을 15자 이내로 입력해주세요."},
+    POSTPICKM_AREA_LENGTH : {"isSuccess": false, "code": 2612, "message": "지역을 50자 이내로 입력해주세요."},
+    POSTPICK_MENTORINGMETHOD_LENGTH : {"isSuccess": false, "code": 2613, "message": "희망 멘토링 방식을 10자 이내로 입력해주세요."},
+    POSTPICK_MENTORCAREER_LENGTH : {"isSuccess": false, "code": 2614, "message": "희망 멘토경력을 10자 이내로 입력해주세요."},
+    POSTPICK_WISHGENDER_LENGTH : {"isSuccess": false, "code": 2615, "message": "희망 멘토성별을 10자 이내로 입력해주세요."},
+
+
+
+
 
     // response err
     SIGNUP_REDUNDANT_ID : { "isSuccess": false, "code": 3001, "message":"중복된 아이디입니다." },

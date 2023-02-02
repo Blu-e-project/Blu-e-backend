@@ -44,3 +44,22 @@ exports.deleteProblem = async function(problemId){
         return errResponse(baseResponse.DB_ERROR);
     }
 };
+
+exports.createPickMentors = async function (userId, title, contents, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender) {
+    try {
+
+        const insertPickMentorsParams = [userId, title, contents, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender];
+
+        const connection = await pool.getConnection(async (conn) => conn);
+
+        const pickIdResult = await mentoringDao.insertPickMentors(connection, insertPickMentorsParams);
+        console.log(`추가된 구인글 : ${pickIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+
+    } catch (err) {
+        logger.error(`App - createPick Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
