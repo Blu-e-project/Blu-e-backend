@@ -42,14 +42,26 @@ module.exports = {
     USER_USERid_WRONG : { "isSuccess": false, "code": 2201, "message": "사용자ID가 잘못 되었습니다." },
 
     QUESTION_TITLE_LENGTH : {"isSuccess": false, "code": 2300, "message": "제목을 20자 이내로 입력해주세요."},
-    QUESTION_CONTENTS_EMPTY : {"isSuccess": false, "code": 2301, "message": "내용을 500자 이내로 입력해주세요."},
+    QUESTION_CONTENTS_LENGTH : {"isSuccess": false, "code": 2301, "message": "내용을 500자 이내로 입력해주세요."},
     QUESTION_QUESTIONID_EMPTY : { "isSuccess": false, "code": 2302, "message": "QUESTIONID를 입력해주세요." },
     QUESTION_USERID_EMPTY: { "isSuccess": false, "code": 2303, "message": "사용자ID를 입력해주세요." },
+    QUESTION_TITLE_EMPTY: { "isSuccess": false, "code": 2304, "message": "제목을 입력해주세요." },
+    QUESTION_CONTENTS_EMPTY: { "isSuccess": false, "code": 2305, "message": "내용을 입력해주세요." },
 
     REPORT_TARGETNICKNAME_EMPTY : {"isSuccess": false, "code": 2400, "message": "신고할 멘토 닉네임을 입력해주세요."},
     REPORT_TITLE_LENGTH : {"isSuccess": false, "code": 2401, "message": "제목을 20자 이내로 입력해주세요."},
     REPORT_CONTENTS_EMPTY : {"isSuccess": false, "code": 2402, "message": "내용을 500자 이내로 입력해주세요."},
 
+    EDITING_USERID_EMPTY: { "isSuccess": false, "code": 2500, "message": "사용자ID를 입력해주세요." },
+    EDITING_NAME_EMPTY: { "isSuccess": false, "code": 2501, "message": "이름을 입력해주세요." },
+    EDITING_NICKNAME_EMPTY: { "isSuccess": false, "code": 2502, "message": "닉네임을 입력해주세요." },
+    EDITING_BIRTH_EMPTY: { "isSuccess": false, "code": 2503, "message": "생일을 입력해주세요." },
+
+    EDITING_NAME_LENGTH : { "isSuccess": false, "code": 2504, "message": "이름을 7자 이내로 입력해주세요." },
+    EDITING_NICKNAME_LENGTH: { "isSuccess": false, "code": 2505, "message": "닉네임을 7자 이내로 입력해주세요." },
+    EDITING_EDUCATION_LENGTH: { "isSuccess": false, "code": 2506, "message": "학력을 20자 이내로 입력해주세요." },
+    EDITING_ADDRESS_LENGTH: { "isSuccess": false, "code": 2507, "message": "주소를 50자 이내로 입력해주세요." },
+    EDITING_INTRODUCE_LENGTH: { "isSuccess": false, "code": 2508, "message": "한줄소개를 100자 이내로 입력해주세요." },
 
     // response err
     SIGNUP_REDUNDANT_ID : { "isSuccess": false, "code": 3001, "message":"중복된 아이디입니다." },
