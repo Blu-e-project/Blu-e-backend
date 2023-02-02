@@ -45,6 +45,7 @@ exports.retrievePickMentor = async function (pickId) {
 
   const connection = await pool.getConnection(async (conn) => conn);
   const pickMentorByIdResult = await mentoringDao.selectPickMentorById(connection, pickId);
+  await mentoringDao.updateViewCount2(connection, pickId);
   connection.release();
 
   return pickMentorByIdResult;
@@ -54,6 +55,7 @@ exports.retrievePickMentee = async function (pickId) {
 
   const connection = await pool.getConnection(async (conn) => conn);
   const pickMenteeByIdResult = await mentoringDao.selectPickMenteeById(connection, pickId);
+  await mentoringDao.updateViewCount1(connection, pickId);
   connection.release();
 
   return pickMenteeByIdResult;

@@ -82,9 +82,9 @@ async function selectPickMentor(connection) {
     // 특정 멘토 구인글 조회
    async function selectPickMentorById(connection, pickId) {
      const selectPickMentorIdQuery = `
-                 SELECT userId, title, contents, CASE status when 1 THEN '모집중' else '모집완료' END as status, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender, viewCount, date(createdAt) as 'createdAt', date(updatedAt) as 'updatedAt' 
-                 FROM pick 
-                 WHERE role=2 AND pickId=?;
+                 SELECT u.nickname, p.title, p.contents, CASE p.status when 1 THEN '모집중' else '모집완료' END as status, p.mentoringMethod, p.mentorCareer, p.subject, p.periodStart, p.periodEnd, p.wishGender, p.viewCount, date(p.createdAt) as 'createdAt', date(p.updatedAt) as 'updatedAt' 
+                 FROM Pick p, User u 
+                 WHERE p.role=2 AND p.pickId=? AND p.userId=u.userId;
                  `;
      const [pickMentorRow] = await connection.query(selectPickMentorIdQuery, pickId);
      return pickMentorRow;
@@ -93,13 +93,35 @@ async function selectPickMentor(connection) {
     // 특정 멘티 구인글 조회
     async function selectPickMenteeById(connection, pickId) {
       const selectPickMenteeIdQuery = `
-                  SELECT userId, title, contents, CASE status when 1 THEN '모집중' else '모집완료' END as status, mentoringMethod, menteeLevel, subject, periodStart, periodEnd, wishGender, viewCount, date(createdAt) as 'createdAt', date(updatedAt) as 'updatedAt' 
-                  FROM pick 
-                  WHERE role=1 AND pickId=?;
+                SELECT u.nickname, p.title, p.contents, CASE p.status when 1 THEN '모집중' else '모집완료' END as status, p.mentoringMethod, p.menteeLevel, p.subject, p.periodStart, p.periodEnd, p.wishGender, p.viewCount, date(p.createdAt) as 'createdAt', date(p.updatedAt) as 'updatedAt' 
+                FROM Pick p, User u 
+                WHERE p.role=1 AND p.pickId=? AND p.userId=u.userId;
                   `;
       const [pickMenteeRow] = await connection.query(selectPickMenteeIdQuery, pickId);
       return pickMenteeRow;
  }
+
+    // 멘토 구인글 조회수 증가
+    async function updateViewCount2(connection, pickId) {
+      const updateViewCountQuery = `
+                UPDATE Pick
+                SET viewCount = viewCount + 1
+                WHERE pickId=? and role=2
+                 `;
+      await connection.query(updateViewCountQuery, pickId);
+      return;
+    }
+
+    // 멘티 구인글 조회수 증가
+    async function updateViewCount1(connection, pickId) {
+      const updateViewCountQuery = `
+                UPDATE Pick
+                SET viewCount = viewCount + 1
+                WHERE pickId=? and role=1
+                 `;
+      await connection.query(updateViewCountQuery, pickId);
+      return;
+    }
 
     // 멘토 구인글 수정
     async function updatePickMentors(connection, updatePickMentorsParams) {
@@ -213,6 +235,8 @@ async function deleteMentorsCom(connection, deleteMentorsComParams){
     selectUserRole,
     selectMentorCom,
     updateMentorsCom,
-    deleteMentorsCom
+    deleteMentorsCom,
+    updateViewCount1,
+    updateViewCount2
   };
   
