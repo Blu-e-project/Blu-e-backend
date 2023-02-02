@@ -84,6 +84,55 @@ exports.createPickMentees = async function (userId, title, contents, area, mento
     }
 };
 
+exports.updatePickMentor = async function (pickId, title, contents, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender) {
+    try {
+
+        const updatePickMentorsParams = [title, contents, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender, pickId];
+
+        const connection = await pool.getConnection(async (conn) => conn);
+
+        const pickIdResult = await mentoringDao.updatePickMentors(connection, updatePickMentorsParams);
+        console.log(`수정된 구인글 : ${pickIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+
+    } catch (err) {
+        logger.error(`App - updatePick Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
+
+exports.deletePickMentor = async function(pickId){
+    try {
+        const connection = await pool.getConnection(async (conn) => conn);
+        console.log(pickId);
+        const pickMentorIdResult = await mentoringDao.deletePickMentor(connection, pickId);
+        console.log(`삭제된 구인글 : ${pickMentorIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - deletePickService error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
+
+
+exports.deletePickMentee = async function(pickId){
+    try {
+        const connection = await pool.getConnection(async (conn) => conn);
+        const pickMenteeIdResult = await mentoringDao.deletePickMentee(connection, pickId);
+        console.log(`삭제된 구인글 : ${pickMenteeIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - deletePickService error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
+
 exports.createMentorsCom = async function (userId, pickId, contents){
     try {
         const roleRows = await mentoringProvider.roleCheck(userId);

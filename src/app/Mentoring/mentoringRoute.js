@@ -26,6 +26,18 @@ module.exports = function(app){
     // 특정 멘티 구인글 조회
     app.get('/mentoring/mentees/:pickId', jwtMiddleware, mentoring.getPickMenteesById);
 
+    // 멘토 구인글 수정
+  //  app.patch('/mentoring/mentors/:pickId', jwtMiddleware, mentoring.patchPickMentor);
+
+    // 멘티 구인글 수정
+  //  app.patch('/mentoring/mentees/:pickId', jwtMiddleware, mentoring.patchPickMentee);
+
+    // 멘토 구인글 삭제
+    app.delete('/mentoring/mentors/:pickId', jwtMiddleware, mentoring.deletePickMentor);
+
+    // 멘티 구인글 삭제
+    app.delete('/mentoring/mentees/:pickId', jwtMiddleware, mentoring.deletePickMentee);
+    
     // 멘토 구인글 댓글 생성
     app.post('/mentoring/mentors/:pickId/comments', jwtMiddleware, mentoring.postPickMentorsCom);
     
@@ -37,4 +49,5 @@ module.exports = function(app){
     
     // 멘토 구인글 댓글 삭제
     app.delete('/mentoring/mentors/:pickId/comments/:pickCommentId', jwtMiddleware, mentoring.deletePickMentorsCom)
+
 };
