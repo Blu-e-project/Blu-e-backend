@@ -35,12 +35,12 @@ exports.getPickMentees = async function (req, res) {
 
 /**
  * API No. 3
- * API Name : 멘토 구인글 부분 조회 (최신 5개)
- * [GET] /main/find-mentors
+ * API Name : 멘토 구인글 부분 조회 (조회수 많은 순 5개)
+ * [GET] /main/hot-mentors
  */
 exports.getPickMentorsMain = async function (req, res) {
 
-    // 멘토 구인글 부분 조회 (최신 5개)
+    // 멘토 구인글 부분 조회 (조회수 많은 순 5개)
     const pickMentorMainListResult = await mentoringProvider.retrievePickMentorMainList();
     return res.send(response(baseResponse.SUCCESS, pickMentorMainListResult));
 
@@ -49,12 +49,12 @@ exports.getPickMentorsMain = async function (req, res) {
 
 /**
 * API No. 4
- * API Name : 멘티 구인글 부분 조회 (최신 5개)
- * [GET] /main/find-mentees
+ * API Name : 멘티 구인글 부분 조회 (조회수 많은 순 5개)
+ * [GET] /main/hot-mentees
 */
 exports.getPickMenteesMain = async function (req, res) {
 
-    // 멘티 구인글 부분 조회 (최신 5개)
+    // 멘티 구인글 부분 조회 (조회수 많은 순 5개)
     const pickMenteeListResult = await mentoringProvider.retrievePickMenteeMainList();
     return res.send(response(baseResponse.SUCCESS, pickMenteeListResult));
 
