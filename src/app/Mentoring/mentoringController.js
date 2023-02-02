@@ -59,3 +59,74 @@ exports.getPickMenteesMain = async function (req, res) {
     return res.send(response(baseResponse.SUCCESS, pickMenteeListResult));
 
 };
+
+
+/**
+ * API No. 5
+ * API Name : 멘토 구인글 작성
+ * [POST] /mentoring/mentors
+ */
+exports.postPickMentors = async function (req, res) {
+
+    /**
+     * Body: title, contents, subject, area, mentoringMethod, mentorCareer, periodStart, periodEnd, wishGender
+     */
+
+    const userId = req.verifiedToken.userId;
+    const {title, contents, subject, area, mentoringMethod, mentorCareer, periodStart, periodEnd, wishGender} = req.body;
+
+    // 빈 값 체크
+    if (!title){
+        return res.send(errResponse(baseResponse.POSTPICK_TITLE_EMPTY));
+    } else if (!contents) {
+        return res.send(errResponse(baseResponse.POSTPICK_CONTENTS_EMPTY));
+    } else if (!subject) {
+        return res.send(errResponse(baseResponse.POSTPICK_SUBJECT_EMPTY));
+    } else if (!area) {
+        return res.send(errResponse(baseResponse.POSTPICK_AREA_EMPTY));
+    } else if (!mentoringMethod) {
+        return res.send(errResponse(baseResponse.POSTPICK_MENTORINGMETHOD_EMPTY));
+    } else if (!mentorCareer) {
+        return res.send(errResponse(baseResponse.POSTPICK_MENTORCAREER_EMPTY));
+    } else if (!periodStart) {
+        return res.send(errResponse(baseResponse.POSTPICK_PERIODSTART_EMPTY));
+    } else if (!periodEnd) {
+        return res.send(errResponse(baseResponse.POSTPICK_PERIODEND_EMPTY));
+    } else if (!wishGender) {
+        return res.send(errResponse(baseResponse.POSTPICK_WISHGENDER_EMPTY));
+    }
+    
+    
+    
+    // 길이 체크
+    if (title.length > 30){
+        return res.send(errResponse(baseResponse.POSTPICK_TITLE_LENGTH));
+    } else if (contents.length > 300){
+        return res.send(errResponse(baseResponse.POSTPICK_CONTENTS_LENGTH));
+    } else if (subject.length > 15){
+        return res.send(errResponse(baseResponse.POSTPICK_SUBJECT_LENGTH));
+    } else if (area.length > 50) {
+        return res.send(errResponse(baseResponse.POSTPICKM_AREA_LENGTH)); 
+    } else if (mentoringMethod.length > 10) {
+        return res.send(errResponse(baseResponse.POSTPICK_MENTORINGMETHOD_LENGTH)); 
+    } else if (mentorCareer.length > 10) {
+        return res.send(errResponse(baseResponse.POSTPICK_MENTORCAREER_LENGTH)); 
+    } else if (wishGender.length > 10) {
+        return res.send(errResponse(baseResponse.POSTPICK_WISHGENDER_LENGTH)); 
+    }
+
+    const postPickResponse = await mentoringService.createPickMentors(
+        userId,
+        title, 
+        contents, 
+        area, 
+        mentoringMethod, 
+        mentorCareer,
+        subject,  
+        periodStart, 
+        periodEnd, 
+        wishGender
+    );
+
+    return res.send(postPickResponse);
+};

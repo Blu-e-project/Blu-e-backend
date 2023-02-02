@@ -13,4 +13,17 @@ module.exports = function(app){
 
     // 멘티 구인글 부분 조회 (조회수 많은 순 5개)
     app.get('/main/hot-mentees', jwtMiddleware, mentoring.getPickMenteesMain);
+
+    // 멘토 구인글 생성
+    app.post('/mentoring/mentors', jwtMiddleware, mentoring.postPickMentors);
+
+    // 멘티 구인글 생성
+ //   app.post('/mentoring/mentees', jwtMiddleware, mentoring.postPickMentees);
+
+
+    // 특정 멘토 구인글 조회
+
+    // 특정 멘티 구인글 조회
+
+
 };

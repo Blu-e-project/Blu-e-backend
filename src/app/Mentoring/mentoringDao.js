@@ -44,17 +44,35 @@ async function selectPickMentor(connection) {
                       FROM pick 
                       WHERE role = 1
                       ORDER BY viewCount desc
-                      LIMIT 5;;
+                      LIMIT 5;
                     `;
       const [pickMenteeMainRows] = await connection.query(selectPickMenteeMainListQuery);
       return pickMenteeMainRows;
     }
+    
+    // 멘토 구인글 작성
+    async function insertPickMentors(connection, insertPickMentorsParams) {
+      const insertPickMentorsQuery = `
+            INSERT INTO Pick(userId, title, contents, status, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender, role, viewCount)
+            VALUES (?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, 2, 0);
+        `;
+      const insertPickMentorsRows = await connection.query(
+        insertPickMentorsQuery,
+        insertPickMentorsParams
+      );
+    
+      return insertPickMentorsRows;
+    }
+    // 멘티 구인글 작성
+
+
 
   
   module.exports = {
     selectPickMentee,
     selectPickMentor,
     selectPickMentorMain,
-    selectPickMenteeMain
+    selectPickMenteeMain,
+    insertPickMentors
   };
   
