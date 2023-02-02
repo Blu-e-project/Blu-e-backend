@@ -72,7 +72,7 @@ module.exports = {
     POSTPICK_MENTORCAREER_EMPTY : {"isSuccess": false, "code": 2605, "message": "희망 멘토경력을 입력해주세요."},
     POSTPICK_PERIODSTART_EMPTY : {"isSuccess": false, "code": 2606, "message": "희망 시작기간을 입력해주세요."},
     POSTPICK_PERIODEND_EMPTY : {"isSuccess": false, "code": 2607, "message": "희망 종료기간을 입력해주세요."},
-    POSTPICK_WISHGENDER_EMPTY : {"isSuccess": false, "code": 2608, "message": "희망 멘토성별을 입력해주세요."},
+    POSTPICK_WISHGENDER_EMPTY : {"isSuccess": false, "code": 2608, "message": "희망 성별을 입력해주세요."},
     POSTPICK_MENTEELEVEL_EMPTY : {"isSuccess": false, "code": 2609, "message": "희망 멘티수준을 입력해주세요."},
     POSTPICK_TITLE_LENGTH : {"isSuccess": false, "code": 2610, "message": "제목을 30자 이내로 입력해주세요."},
     POSTPICK_CONTENTS_LENGTH : {"isSuccess": false, "code": 2611, "message": "내용을 300자 이내로 입력해주세요."}, 
@@ -80,7 +80,7 @@ module.exports = {
     POSTPICKM_AREA_LENGTH : {"isSuccess": false, "code": 2613, "message": "지역을 50자 이내로 입력해주세요."},
     POSTPICK_MENTORINGMETHOD_LENGTH : {"isSuccess": false, "code": 2614, "message": "희망 멘토링 방식을 10자 이내로 입력해주세요."},
     POSTPICK_MENTORCAREER_LENGTH : {"isSuccess": false, "code": 2615, "message": "희망 멘토경력을 10자 이내로 입력해주세요."},
-    POSTPICK_WISHGENDER_LENGTH : {"isSuccess": false, "code": 2616, "message": "희망 멘토성별을 10자 이내로 입력해주세요."},
+    POSTPICK_WISHGENDER_LENGTH : {"isSuccess": false, "code": 2616, "message": "희망 성별을 10자 이내로 입력해주세요."},
     POSTPICK_MENTEELEVEL_LENGTH : {"isSuccess": false, "code": 2617, "message": "희망 멘티수준을 10자 이내로 입력해주세요."},
 
 
