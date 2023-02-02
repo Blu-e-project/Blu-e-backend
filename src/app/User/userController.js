@@ -8,7 +8,7 @@ const {response, errResponse} = require("../../../config/response");
 const {emit} = require("nodemon");
 
 // secret_sms가 ignore파일에 있어서 인증번호 서비스 필요시 연락바람!
-// const secret_key = require("../../../config/secret_sms");
+const secret_key = require("../../../config/secret_sms");
 
 // 인증번호 사용시 밑에 3가지 install 필요 
 const axios = require('axios');
