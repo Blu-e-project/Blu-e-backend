@@ -208,8 +208,7 @@ async function deleteMentorsCom(connection, deleteMentorsComParams){
     selectPickMenteeById,
     updatePickMentors,
     deletePickMentor,
-    deletePickMentee
-    selectPickMenteeById,
+    deletePickMentee,
     insertMentorsCom,
     selectUserRole,
     selectMentorCom,
