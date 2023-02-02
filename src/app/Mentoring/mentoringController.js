@@ -201,3 +201,39 @@ exports.postPickMentees = async function (req, res) {
 
     return res.send(postPickMenteesResponse);
 };
+
+/**
+ * API No. 7
+ * API Name : 특정 멘토 구인글 조회
+ * [GET] /mentoring/mentors/:pickId
+ */
+exports.getPickMentorsById = async function (req, res) {
+
+    /**
+     * Path Variable: pickId
+     */
+    const pickId = req.params.pickId;
+    // 빈 값 체크
+    if (!pickId) return res.send(errResponse(baseResponse.MENTORING_PICKID_EMPTY));
+
+    const pickMentorsById = await mentoringProvider.retrievePickMentor(pickId);
+    return res.send(response(baseResponse.SUCCESS, pickMentorsById));
+};
+
+/**
+ * API No. 8
+ * API Name : 특정 멘티 구인글 조회
+ * [GET] /mentoring/mentees/:pickId
+ */
+exports.getPickMenteesById = async function (req, res) {
+
+    /**
+     * Path Variable: pickId
+     */
+    const pickId = req.params.pickId;
+    // 빈 값 체크
+    if (!pickId) return res.send(errResponse(baseResponse.MENTORING_PICKID_EMPTY));
+
+    const pickMenteesById = await mentoringProvider.retrievePickMentee(pickId);
+    return res.send(response(baseResponse.SUCCESS, pickMenteesById));
+};

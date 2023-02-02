@@ -14,7 +14,7 @@ exports.retrievePickMentorList = async function () {
     return pickMentorListResult;
 };
 
-exports.retrievePickMenteeList = async function (problemId) {
+exports.retrievePickMenteeList = async function () {
   const connection = await pool.getConnection(async (conn) => conn);
   const pickMenteeListResult = await mentoringDao.selectPickMentee(connection);
 
@@ -32,7 +32,7 @@ exports.retrievePickMentorMainList = async function () {
     return pickMentorListMainResult;
 };
 
-exports.retrievePickMenteeMainList = async function (problemId) {
+exports.retrievePickMenteeMainList = async function () {
   const connection = await pool.getConnection(async (conn) => conn);
   const pickMenteeListMainResult = await mentoringDao.selectPickMenteeMain(connection);
 
@@ -41,3 +41,20 @@ exports.retrievePickMenteeMainList = async function (problemId) {
   return pickMenteeListMainResult;
 };
 
+exports.retrievePickMentor = async function (pickId) {
+
+  const connection = await pool.getConnection(async (conn) => conn);
+  const pickMentorByIdResult = await mentoringDao.selectPickMentorById(connection, pickId);
+  connection.release();
+
+  return pickMentorByIdResult;
+};
+
+exports.retrievePickMentee = async function (pickId) {
+
+  const connection = await pool.getConnection(async (conn) => conn);
+  const pickMenteeByIdResult = await mentoringDao.selectPickMenteeById(connection, pickId);
+  connection.release();
+
+  return pickMenteeByIdResult;
+};
