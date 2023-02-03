@@ -7,7 +7,7 @@ async function updateUserInfo(connection, updateUserInfoParams) {
 
     const updateUserRow = await connection.query(updateUserQuery, updateUserInfoParams);
     return updateUserRow;
-  }
+}
 
 
  // nickname으로 유저 검색
@@ -22,7 +22,20 @@ async function updateUserInfo(connection, updateUserInfoParams) {
 }
 
 
+// 정보 수정
+async function updatePasswordInfo(connection, updatePasswordInfoParams) {
+    const updatePasswordQuery = `
+    UPDATE user 
+    SET password = ?, updatedAt = now()
+    WHERE (userId = ?);`;
+
+    const updatePasswordRow = await connection.query(updatePasswordQuery, updatePasswordInfoParams);
+    return updatePasswordRow;
+}
+
+
 module.exports = {
     updateUserInfo,
     selectUserNickname,
+    updatePasswordInfo,
  };

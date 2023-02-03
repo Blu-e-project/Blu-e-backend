@@ -31,10 +31,10 @@ exports.postreport = async function (req, res) {
         return res.send(response(baseResponse.REPORT_CONTENTS_EMPTY));
 
 
-    if (!title > 20) 
+    if (!title.length > 20) 
         return res.send(response(baseResponse.REPORT_TITLE_LENGTH));
 
-    if (!contents > 500)
+    if (!contents.length > 500)
         return res.send(response(baseResponse.REPORT_CONTENTS_LENGTH));
 
 

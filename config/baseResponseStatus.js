@@ -64,6 +64,8 @@ module.exports = {
     EDITING_EDUCATION_LENGTH: { "isSuccess": false, "code": 2506, "message": "학력을 20자 이내로 입력해주세요." },
     EDITING_ADDRESS_LENGTH: { "isSuccess": false, "code": 2507, "message": "주소를 50자 이내로 입력해주세요." },
     EDITING_INTRODUCE_LENGTH: { "isSuccess": false, "code": 2508, "message": "한줄소개를 100자 이내로 입력해주세요." },
+    EDITING_PASSWORD_EMPTY: { "isSuccess": false, "code": 2509, "message": "비밀번호를 입력해주세요." },
+    EDITING_PASSWORD_LENGTH: { "isSuccess": false, "code": 2510, "message": "비밀번호가 20자리 미만으로 입력해주세요." },
 
 
     POSTPICK_TITLE_EMPTY : {"isSuccess": false, "code": 2600, "message": "제목을 입력해주세요."},
@@ -102,6 +104,7 @@ module.exports = {
     SIGNIN_WITHDRAWAL_ACCOUNT : { "isSuccess": false, "code": 3004, "message": "탈퇴 된 계정입니다. 고객센터에 문의해주세요." },
 
     EDITING_REDUNDANT_NICKNAME : { "isSuccess": false, "code": 3100, "message":"중복된 닉네임입니다." },
+    EDITING_PASSWORD_DIFFERENT: { "isSuccess": false, "code": 3101, "message":"새 비밀번호를 동일하게 입력해주세요." },
 
      //Connection, Transaction 등의 server err
      DB_ERROR : { "isSuccess": false, "code": 4000, "message": "데이터 베이스 에러"},
