@@ -10,6 +10,10 @@ const secret_config = require("../../../config/secret");
 
 exports.editUser = async function (name, nickname, birth, education, address, introduce, userId) {
     try {
+        const nicknameRows = await editingProvider.nicknameCheck(nickname); // Read인 Provider 통해서 확인
+        if (nicknameRows.length > 0)
+            return errResponse(baseResponse.EDITING_REDUNDANT_NICKNAME)
+
         const updateUserInfoParams = [name, nickname, birth, education, address, introduce, userId];
         const connection = await pool.getConnection(async (conn) => conn);
         const editUserResult = await editingDao.updateUserInfo(connection, updateUserInfoParams);

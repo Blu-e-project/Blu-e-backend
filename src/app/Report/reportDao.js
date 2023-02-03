@@ -4,6 +4,7 @@ async function insertReportInfo(connection, insertReportInfoParams) {
           INSERT INTO report(userId, targetId, title, contents, createdAt, updatedAt)
           VALUES (?, ?, ?, ?, now(), now());
       `;
+
     const insertReportInfoRow = await connection.query(
       insertReportInfoQuery,
       insertReportInfoParams,
@@ -12,6 +13,20 @@ async function insertReportInfo(connection, insertReportInfoParams) {
     return insertReportInfoRow;
   }
 
+  async function updateWarningInfo(connection, userId) {
+    const updateWarningInfoQuery = `
+          UPDATE user SET warning=warning+1 where userId = ?;
+      `;
+
+    const updateWarningInfoRow = await connection.query(
+      updateWarningInfoQuery,
+      userId,
+    );
+  
+    return updateWarningInfoRow;
+  }
+  
   module.exports = {
     insertReportInfo,
+    updateWarningInfo,
  };

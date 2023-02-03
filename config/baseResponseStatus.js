@@ -49,8 +49,10 @@ module.exports = {
     QUESTION_CONTENTS_EMPTY: { "isSuccess": false, "code": 2305, "message": "내용을 입력해주세요." },
 
     REPORT_TARGETNICKNAME_EMPTY : {"isSuccess": false, "code": 2400, "message": "신고할 멘토 닉네임을 입력해주세요."},
-    REPORT_TITLE_LENGTH : {"isSuccess": false, "code": 2401, "message": "제목을 20자 이내로 입력해주세요."},
-    REPORT_CONTENTS_EMPTY : {"isSuccess": false, "code": 2402, "message": "내용을 500자 이내로 입력해주세요."},
+    REPORT_TITLE_EMPTY: { "isSuccess": false, "code": 2401, "message": "제목을 입력해주세요." },
+    REPORT_CONTENTS_EMPTY: { "isSuccess": false, "code": 2402, "message": "내용을 입력해주세요." },
+    REPORT_TITLE_LENGTH : {"isSuccess": false, "code": 2403, "message": "제목을 20자 이내로 입력해주세요."},
+    REPORT_CONTENTS_LENGTH : {"isSuccess": false, "code": 2404, "message": "내용을 500자 이내로 입력해주세요."},
 
     EDITING_USERID_EMPTY: { "isSuccess": false, "code": 2500, "message": "사용자ID를 입력해주세요." },
     EDITING_NAME_EMPTY: { "isSuccess": false, "code": 2501, "message": "이름을 입력해주세요." },
@@ -98,6 +100,8 @@ module.exports = {
 
     SIGNIN_INACTIVE_ACCOUNT : { "isSuccess": false, "code": 3003, "message": "비활성화 된 계정입니다. 고객센터에 문의해주세요." },
     SIGNIN_WITHDRAWAL_ACCOUNT : { "isSuccess": false, "code": 3004, "message": "탈퇴 된 계정입니다. 고객센터에 문의해주세요." },
+
+    EDITING_REDUNDANT_NICKNAME : { "isSuccess": false, "code": 3100, "message":"중복된 닉네임입니다." },
 
      //Connection, Transaction 등의 server err
      DB_ERROR : { "isSuccess": false, "code": 4000, "message": "데이터 베이스 에러"},
