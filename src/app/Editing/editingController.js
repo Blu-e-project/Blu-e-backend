@@ -11,13 +11,12 @@ const {emit} = require("nodemon");
 /**
  * API No. 1
  * API Name : 내 정보 수정
- * [PATCH] /mypages/:userId/user
- * path variable : userId
+ * [PATCH] /mypages/user
  * body : name, nickname, birth, education, address, introduce
  */
 exports.patchUser = async function (req, res) {
 
-    const userId = req.params.userId;
+    const userId = req.verifiedToken.userId;
 
     const name = req.body.name;
     const nickname = req.body.nickname;
@@ -35,8 +34,9 @@ exports.patchUser = async function (req, res) {
     if (name.length > 7) return res.send(response(baseResponse.EDITING_NAME_LENGTH));
     if (nickname.length > 7) return res.send(response(baseResponse.EDITING_NICKNAME_LENGTH));
     if (education.length > 20) return res.send(response(baseResponse.EDITING_EDUCATION_LENGTH));
-    if (address.length > 50) return res.send(response(baseResponse.EDITING_ADDRESS_LENGTH));
-    if (introduce.length > 100) return res.send(response(baseResponse.EDITING_INTRODUCE_LENGTH));
+    if (address.length > 20) return res.send(response(baseResponse.EDITING_ADDRESS_LENGTH));
+    if (introduce)
+        if (introduce.length > 20) return res.send(response(baseResponse.EDITING_INTRODUCE_LENGTH));
 
     const updateUserResponse = await editingService.editUser(
         name,
@@ -55,13 +55,12 @@ exports.patchUser = async function (req, res) {
 /**
  * API No. 2
  * API Name : 내 정보 수정
- * [PATCH] /mypages/:userId/password
- * path variable : userId
+ * [PATCH] /mypages/password
  * body : password
  */
 exports.patchPassword = async function (req, res) {
 
-    const userId = req.params.userId;
+    const userId = req.verifiedToken.userId;
 
     const password = req.body.password;
     const password2 = req.body.password2;

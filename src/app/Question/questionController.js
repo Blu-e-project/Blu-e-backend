@@ -14,10 +14,7 @@ const {emit} = require("nodemon");
  */
 exports.getQuestion = async function (req, res) {
 
-    /**
-     * Path Variable: userId
-     */
-    const userId = req.params.userId;
+    const userId = req.verifiedToken.userId;
     console.log(userId);
     if (!userId) return res.send(response(baseResponse.QUESTION_USERID_EMPTY));
 
@@ -28,15 +25,14 @@ exports.getQuestion = async function (req, res) {
 /**
  * API No. 2
  * API Name : Question 생성 API
- * [POST] /service/questions/:userId/writing
+ * [POST] /service/questions/writing
  */
 exports.postQuestion = async function (req, res) {
 
     /**
-     * Path Variable: userId
      * Body: title, contents
      */
-    const userId = req.params.userId;
+    const userId = req.verifiedToken.userId;
     const {title, contents} = req.body;
 
     if (!userId) return res.send(response(baseResponse.QUESTION_USERID_EMPTY));
@@ -63,7 +59,7 @@ exports.postQuestion = async function (req, res) {
 /**
  * API No. 3
  * API Name : Question 삭제 API
- * [DELETE] /service/questions/:userId/writing/:questionId
+ * [DELETE] /service/questions/writing/:questionId
  */
 
 exports.deleteQuestion = async function(req, res) {

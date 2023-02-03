@@ -10,15 +10,14 @@ const {emit} = require("nodemon");
 /**
  * API No. 1
  * API Name : report 생성 API
- * [POST] /service/reports/:userId/writing
+ * [POST] /service/reports/writing
  */
 exports.postreport = async function (req, res) {
 
     /**
-     * Path Variable: userId
      * Body: targetId, title, contents
      */
-    const userId = req.params.userId;
+    const userId = req.verifiedToken.userId;
     const {targetId, title, contents, image} = req.body;
 
     if (!targetId)

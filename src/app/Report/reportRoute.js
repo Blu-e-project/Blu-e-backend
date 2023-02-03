@@ -4,5 +4,5 @@ module.exports = function(app){
     const report = require('./reportController');
 
     // Report 생성 API
-    app.post('/service/reports/:userId/writing', jwtMiddleware, report.postreport);
+    app.post('/service/reports/writing', jwtMiddleware, report.postreport);
 };

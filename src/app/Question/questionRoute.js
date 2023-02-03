@@ -4,12 +4,12 @@ module.exports = function(app){
     const question = require('./questionController');
 
     // 작성한 Q&A 조회 API
-    app.get('/service/questions/:userId', jwtMiddleware, question.getQuestion);
+    app.get('/service/questions', jwtMiddleware, question.getQuestion);
 
     // Question 생성 API
-    app.post('/service/questions/:userId/writing', jwtMiddleware, question.postQuestion);
+    app.post('/service/questions/writing', jwtMiddleware, question.postQuestion);
 
     // Question 삭제 API
-    app.delete('/service/questions/:userId/writing/:questionId', jwtMiddleware, question.deleteQuestion);
+    app.delete('/service/questions/writing/:questionId', jwtMiddleware, question.deleteQuestion);
 
 };
