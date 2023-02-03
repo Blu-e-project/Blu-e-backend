@@ -62,8 +62,8 @@ module.exports = {
     EDITING_NAME_LENGTH : { "isSuccess": false, "code": 2504, "message": "이름을 7자 이내로 입력해주세요." },
     EDITING_NICKNAME_LENGTH: { "isSuccess": false, "code": 2505, "message": "닉네임을 7자 이내로 입력해주세요." },
     EDITING_EDUCATION_LENGTH: { "isSuccess": false, "code": 2506, "message": "학력을 20자 이내로 입력해주세요." },
-    EDITING_ADDRESS_LENGTH: { "isSuccess": false, "code": 2507, "message": "주소를 50자 이내로 입력해주세요." },
-    EDITING_INTRODUCE_LENGTH: { "isSuccess": false, "code": 2508, "message": "한줄소개를 100자 이내로 입력해주세요." },
+    EDITING_ADDRESS_LENGTH: { "isSuccess": false, "code": 2507, "message": "실거주지는 50자 이하로 입력해주세요." },
+    EDITING_INTRODUCE_LENGTH: { "isSuccess": false, "code": 2508, "message": "자기소개는 100자리 이하로 입력해주세요." },
     EDITING_PASSWORD_EMPTY: { "isSuccess": false, "code": 2509, "message": "비밀번호를 입력해주세요." },
     EDITING_PASSWORD_LENGTH: { "isSuccess": false, "code": 2510, "message": "비밀번호가 20자리 미만으로 입력해주세요." },
 
