@@ -18,7 +18,14 @@ exports.createReport = async function (userId, targetId, title, contents, image)
         const ReportResult = await reportDao.insertReportInfo(connection, insertReportInfoParams);
         const UpdateWarning = await reportDao.updateWarningInfo(connection, targetId);
         
-        console.log(`추가된 Report : ${ReportResult[0].insertId}`)
+        console.log(`추가된 Report : ${ReportResult[0].insertId}`);
+        
+        const UpdateStatus = await reportDao.updateStatusInfo(connection, targetId);
+        // // 신고 누적이 3회가 되면, status를 0으로 바꿈
+        // const warningRows = await reportProvider.warningCheck(targetId); // Read인 Provider 통해서 확인
+        // if (warningRows.length > 0)
+        //     const UpdateStatus = await reportDao.updateSatusInfo(connection, targetId)
+
         connection.release();
         return response(baseResponse.SUCCESS);
 
