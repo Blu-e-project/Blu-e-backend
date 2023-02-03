@@ -28,3 +28,21 @@ exports.editUser = async function (name, nickname, birth, education, address, in
         return errResponse(baseResponse.DB_ERROR);
     }
 }
+
+
+exports.editPassword = async function (password, userId) {
+    try {
+        const updatePasswordInfoParams = [password, userId];
+        const connection = await pool.getConnection(async (conn) => conn);
+        const editPasswordResult = await editingDao.updatePasswordInfo(connection, updatePasswordInfoParams);
+
+        console.log(`${userId}의 비밀번호 수정 완료`);
+        connection.release();
+
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - editUser Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}
