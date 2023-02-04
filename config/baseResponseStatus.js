@@ -84,11 +84,6 @@ module.exports = {
     POSTPICK_MENTEELEVEL_LENGTH : {"isSuccess": false, "code": 2617, "message": "희망 멘티수준을 10자 이내로 입력해주세요."},
 
 
-    REVIEW_NICKNAME_EMPTY : { "isSuccess": false, "code": 2800, "message": "닉네임을 입력해주세요." },
-    REVIEW_SUBJECT_EMPTY : { "isSuccess": false, "code": 2801, "message": "과목을 입력해주세요." },
-    REVIEW_CONTENTS_EMPTY : { "isSuccess": false, "code": 2802, "message": "내용을 입력해주세요." },
-    REVIEW_USERID_EMPTY : { "isSuccess": false, "code": 2803, "message": "사용자 ID를 입력해주세요." },
-
 
     // response err
     SIGNUP_REDUNDANT_ID : { "isSuccess": false, "code": 3001, "message":"중복된 아이디입니다." },
