@@ -285,11 +285,14 @@ exports.patchPickMentor = async function (req, res) {
  * path variable : pickId
  */
 exports.deletePickMentor= async function(req, res){
+
+
+    const userId = req.verifiedToken.userId;
     const pickId=req.params.pickId;
 
     if (!pickId) return res.send(errResponse(baseResponse.MENTORING_PICKID_EMPTY));
 
-    const deletePickMentorResponse = await mentoringService.deletePickMentor(pickId);
+    const deletePickMentorResponse = await mentoringService.deletePickMentor(pickId, userId);
     return res.send(deletePickMentorResponse);
 
 }
@@ -301,11 +304,13 @@ exports.deletePickMentor= async function(req, res){
  * path variable : pickId
  */
 exports.deletePickMentee= async function(req, res){
+
+    const userId = req.verifiedToken.userId;
     const pickId=req.params.pickId;
 
     if (!pickId) return res.send(errResponse(baseResponse.MENTORING_PICKID_EMPTY));
 
-    const deletePickMenteeResponse = await mentoringService.deletePickMentee(pickId);
+    const deletePickMenteeResponse = await mentoringService.deletePickMentee(pickId, userId);
     return res.send(deletePickMenteeResponse);
 
 }

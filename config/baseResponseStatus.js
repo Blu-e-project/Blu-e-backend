@@ -87,6 +87,9 @@ module.exports = {
     POSTPICK_WISHGENDER_LENGTH : {"isSuccess": false, "code": 2616, "message": "희망 성별을 10자 이내로 입력해주세요."},
     POSTPICK_MENTEELEVEL_LENGTH : {"isSuccess": false, "code": 2617, "message": "희망 멘티수준을 10자 이내로 입력해주세요."},
 
+    MENTORMENTEE_AUTH : {"isSuccess": false, "code": 2618, "message": "접근 권한이 없습니다."},
+
+
     PICKMENTORS_COMMENT_EMPTY : { "isSuccess": false,"code": 2700,"message":"댓글 내용을 입력해주세요." },
     PICKMENTORS_COMMENT_LENGTH : { "isSuccess": false,"code": 2701,"message":"댓글 내용은 300자 이하로 입력해주세요." },
     PICKMENTORS_PICKID_EMPTY: {"isSuccess": false, "code": 2702, "message": "pickId가 비어있습니다."},
