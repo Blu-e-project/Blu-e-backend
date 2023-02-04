@@ -14,12 +14,9 @@ const {emit} = require("nodemon");
  */
 exports.getQuestion = async function (req, res) {
 
-    /**
-     * Path Variable: userId
-     */
-    const userId = req.params.userId;
+    const userId = req.verifiedToken.userId;
     console.log(userId);
-    if (!userId) return res.send(response(baseResponse,QUESTION_USERID_EMPTY));
+    if (!userId) return res.send(response(baseResponse.QUESTION_USERID_EMPTY));
 
     const QuestionByUserId = await questionProvider.retrieveQuestion(userId);
     return res.send(response(baseResponse.SUCCESS, QuestionByUserId));
@@ -28,25 +25,24 @@ exports.getQuestion = async function (req, res) {
 /**
  * API No. 2
  * API Name : Question 생성 API
- * [POST] /service/questions/:userId/writing
+ * [POST] /service/questions/writing
  */
 exports.postQuestion = async function (req, res) {
 
     /**
-     * Path Variable: userId
      * Body: title, contents
      */
-    const userId = req.params.userId;
+    const userId = req.verifiedToken.userId;
     const {title, contents} = req.body;
 
-    if (!userId) return res.send(response(baseResponse,QUESTION_USERID_EMPTY));
-    if (!title) return res.send(response(baseResponse,QUESTION_TITLE_EMPTY));
-    if (!contents) return res.send(response(baseResponse,QUESTION_CONTENTS_EMPTY));
+    if (!userId) return res.send(response(baseResponse.QUESTION_USERID_EMPTY));
+    if (!title) return res.send(response(baseResponse.QUESTION_TITLE_EMPTY));
+    if (!contents) return res.send(response(baseResponse.QUESTION_CONTENTS_EMPTY));
 
-    if (title > 20) 
+    if (title.length > 20) 
         return res.send(response(baseResponse.QUESTION_TITLE_LENGTH));
 
-    if (contents > 500)
+    if (contents.length > 500)
         return res.send(response(baseResponse.QUESTION_CONTENTS_LENGTH));
 
 
@@ -63,7 +59,7 @@ exports.postQuestion = async function (req, res) {
 /**
  * API No. 3
  * API Name : Question 삭제 API
- * [DELETE] /service/questions/:userId/writing/:questionId
+ * [DELETE] /service/questions/writing/:questionId
  */
 
 exports.deleteQuestion = async function(req, res) {

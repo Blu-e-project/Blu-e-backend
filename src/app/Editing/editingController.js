@@ -11,13 +11,12 @@ const {emit} = require("nodemon");
 /**
  * API No. 1
  * API Name : 내 정보 수정
- * [PATCH] /mypages/:userId/user
- * path variable : userId
+ * [PATCH] /mypages/user
  * body : name, nickname, birth, education, address, introduce
  */
 exports.patchUser = async function (req, res) {
 
-    const userId = req.params.userId;
+    const userId = req.verifiedToken.userId;
 
     const name = req.body.name;
     const nickname = req.body.nickname;
@@ -26,17 +25,18 @@ exports.patchUser = async function (req, res) {
     const address = req.body.address;
     const introduce = req.body.introduce;
 
-    if (!userId) return res.send(response(baseResponse,EDITING_USERID_EMPTY));
-    if (!name) return res.send(response(baseResponse,EDITING_NAME_EMPTY));
-    if (!nickname) return res.send(response(baseResponse,EDITING_NICKNAME_EMPTY));
-    if (!birth) return res.send(response(baseResponse,EDITING_BIRTH_EMPTY));
+    if (!userId) return res.send(response(baseResponse.EDITING_USERID_EMPTY));
+    if (!name) return res.send(response(baseResponse.EDITING_NAME_EMPTY));
+    if (!nickname) return res.send(response(baseResponse.EDITING_NICKNAME_EMPTY));
+    if (!birth) return res.send(response(baseResponse.EDITING_BIRTH_EMPTY));
 
 
-    if (name > 7) return res.send(response(baseResponse,EDITING_NAME_LENGTH));
-    if (nickname > 7) return res.send(response(baseResponse,EDITING_NICKNAME_LENGTH));
-    if (education > 20) return res.send(response(baseResponse,EDITING_EDUCATION_LENGTH));
-    if (address > 50) return res.send(response(baseResponse,EDITING_ADDRESS_LENGTH));
-    if (introduce > 100) return res.send(response(baseResponse,EDITING_INTRODUCE_LENGTH));
+    if (name.length > 7) return res.send(response(baseResponse.EDITING_NAME_LENGTH));
+    if (nickname.length > 7) return res.send(response(baseResponse.EDITING_NICKNAME_LENGTH));
+    if (education.length > 20) return res.send(response(baseResponse.EDITING_EDUCATION_LENGTH));
+    if (address.length > 20) return res.send(response(baseResponse.EDITING_ADDRESS_LENGTH));
+    if (introduce)
+        if (introduce.length > 20) return res.send(response(baseResponse.EDITING_INTRODUCE_LENGTH));
 
     const updateUserResponse = await editingService.editUser(
         name,
@@ -49,4 +49,37 @@ exports.patchUser = async function (req, res) {
     );
 
     return res.send(updateUserResponse);
+};
+
+
+/**
+ * API No. 2
+ * API Name : 내 정보 수정
+ * [PATCH] /mypages/password
+ * body : password
+ */
+exports.patchPassword = async function (req, res) {
+
+    const userId = req.verifiedToken.userId;
+
+    const password = req.body.password;
+    const password2 = req.body.password2;
+
+    if (!userId) return res.send(response(baseResponse.EDITING_USERID_EMPTY));
+    if (!password) return res.send(response(baseResponse.EDITING_PASSWORD_EMPTY));
+    // 비밀번호 재입력값 빈칸 오류
+    if (!password2) return res.send(response(baseResponse.EDITING_PASSWORD_EMPTY));
+    // 비밀번호 입력과 재입력값 비교
+    if (password != password2) res.send(response(baseResponse.EDITING_PASSWORD_DIFFERENT));
+
+    if (password.length > 20) return res.send(response(baseResponse.EDITING_PASSWORD_LENGTH));
+    if (password2.length > 20) return res.send(response(baseResponse.EDITING_PASSWORD_LENGTH));
+
+
+    const updatePasswordResponse = await editingService.editPassword(
+        password,
+        userId,
+    );
+
+    return res.send(updatePasswordResponse);
 };

@@ -83,3 +83,102 @@ exports.createPickMentees = async function (userId, title, contents, area, mento
         return errResponse(baseResponse.DB_ERROR);
     }
 };
+
+exports.updatePickMentor = async function (pickId, title, contents, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender) {
+    try {
+
+        const updatePickMentorsParams = [title, contents, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender, pickId];
+
+        const connection = await pool.getConnection(async (conn) => conn);
+
+        const pickIdResult = await mentoringDao.updatePickMentors(connection, updatePickMentorsParams);
+        console.log(`수정된 구인글 : ${pickIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+
+    } catch (err) {
+        logger.error(`App - updatePick Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
+
+exports.deletePickMentor = async function(pickId){
+    try {
+        const connection = await pool.getConnection(async (conn) => conn);
+        console.log(pickId);
+        const pickMentorIdResult = await mentoringDao.deletePickMentor(connection, pickId);
+        console.log(`삭제된 구인글 : ${pickMentorIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - deletePickService error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
+
+
+exports.deletePickMentee = async function(pickId){
+    try {
+        const connection = await pool.getConnection(async (conn) => conn);
+        const pickMenteeIdResult = await mentoringDao.deletePickMentee(connection, pickId);
+        console.log(`삭제된 구인글 : ${pickMenteeIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - deletePickService error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
+
+exports.createMentorsCom = async function (userId, pickId, contents){
+    try {
+        const roleRows = await mentoringProvider.roleCheck(userId);
+
+        console.log(roleRows[0], roleRows[0].role)
+        const role = roleRows[0].role
+        const insertMentorsComParams = [userId, pickId, role, contents];
+
+        const connection = await pool.getConnection(async (conn) => conn);
+        const mentorComIdResult = await mentoringDao.insertMentorsCom(connection,insertMentorsComParams);
+        console.log(`추가된 댓글 : ${mentorComIdResult[0]}`)
+        connection.release();
+
+        return response(baseResponse.SUCCESS);
+    } catch(err){
+        logger.error(`App - createComment Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+
+}
+
+exports.updateMentorsCom= async function(contents, pickId, pickCommentId){
+    try{
+        const updateMentorsComParams = [contents, pickId, pickCommentId]
+        const connection = await pool.getConnection(async (conn) => conn);
+        const mentorComIdResult = await mentoringDao.updateMentorsCom(connection,updateMentorsComParams);
+        console.log(`수정된 댓글 : ${mentorComIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+    } catch(err){
+        logger.error(`App - updateComment Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}
+
+exports.deleteMentorsCom = async function(pickId, pickCommentId){
+    try{
+        const deleteMentorsComParams = [pickId, pickCommentId]
+        const connection = await pool.getConnection(async (conn) => conn);
+        const mentorComIdResult = await mentoringDao.deleteMentorsCom(connection,deleteMentorsComParams);
+        console.log(`삭제된 댓글 : ${mentorComIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+    } catch(err) {
+        logger.error(`App - deleteComment Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}
