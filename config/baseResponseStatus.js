@@ -27,16 +27,16 @@ module.exports = {
     SMS_SEND_FAILURE:{ "isSuccess": false,"code": 2019,"message":"인증 문자 발신에 실패했습니다." },
     FAILURE_SMS_AUTHENTICATION : { "isSuccess": false,"code": 2020,"message":"휴대폰 번호 인증 실패했습니다." },
 
-    POSTPROBLEM_SUBJECT_EMPTY : { "isSuccess": false, "code": 2100, "message": "과목을 입력 해주세요." },
-    POSTPROBLEM_PROBLEM_EMPTY : { "isSuccess": false, "code": 2101, "message": "문제를 입력 해주세요." },
-    POSTPROBLEM_CONTENTS_EMPTY : { "isSuccess": false, "code": 2102, "message": "질문을 입력 해주세요." },
+    POSTPROBLEM_SUBJECT_EMPTY : { "isSuccess": false, "code": 2100, "message": "과목을 입력해주세요." },
+    POSTPROBLEM_PROBLEM_EMPTY : { "isSuccess": false, "code": 2101, "message": "문제를 입력해주세요." },
+    POSTPROBLEM_CONTENTS_EMPTY : { "isSuccess": false, "code": 2102, "message": "질문을 입력해주세요." },
     POSTPROBLEM_SUBJECT_LENGTH : { "isSuccess": false, "code": 2103, "message": "과목을 15자리 이내로 입력해주세요." },
     POSTPROBLEM_UNIT_LENGTH : { "isSuccess": false, "code": 2104, "message": "단원을 20자리 이내로 입력해주세요." },
     POSTPROBLEM_PROBLEM_LENGTH : { "isSuccess": false, "code": 2105, "message": "문제를 300자 이내로 입력해주세요." },
     POSTPROBLEM_CONTENTS_LENGTH : { "isSuccess": false, "code": 2106, "message": "질문을 300자 이내로 입력해주세요." },
-
-    PROBLEM_PROBLEMID_EMPTY : { "isSuccess": false, "code": 2201, "message": "문제ID를 입력해주세요." },
-    PROBLEM_SOLUTIONID_EMPTY : { "isSuccess": false, "code": 2202, "message": "답변ID를 입력해주세요." },
+    
+    PROBLEM_PROBLEMID_EMPTY : { "isSuccess": false, "code": 2107, "message": "문제ID를 입력해주세요." },
+    PROBLEM_SOLUTIONID_EMPTY : { "isSuccess": false, "code": 2108, "message": "답변ID를 입력해주세요." },
 
     USER_USERID_EMPTY: { "isSuccess": false, "code": 2201, "message": "사용자ID를 입력해주세요." },
     USER_USERid_WRONG : { "isSuccess": false, "code": 2201, "message": "사용자ID가 잘못 되었습니다." },
@@ -84,8 +84,14 @@ module.exports = {
     POSTPICK_MENTEELEVEL_LENGTH : {"isSuccess": false, "code": 2617, "message": "희망 멘티수준을 10자 이내로 입력해주세요."},
 
 
+    REVIEW_NICKNAME_EMPTY : { "isSuccess": false, "code": 2800, "message": "닉네임을 입력해주세요." },
+    REVIEW_SUBJECT_EMPTY : { "isSuccess": false, "code": 2801, "message": "과목을 입력해주세요." },
+    REVIEW_CONTENTS_EMPTY : { "isSuccess": false, "code": 2802, "message": "내용을 입력해주세요." },
+    REVIEW_USERID_EMPTY : { "isSuccess": false, "code": 2803, "message": "사용자 ID를 입력해주세요." },
 
-
+    REVIEW_NICKNAME_LENGTH : { "isSuccess": false, "code": 2804, "message": "닉네임을 7자 이내로 입력해주세요." },
+    REVIEW_SUBJECT_LENGTH : { "isSuccess": false, "code": 2805, "message": "과목을 15자 이내로 입력해주세요." },
+    REVIEW_CONTENTS_LENGTH : { "isSuccess": false, "code": 2806, "message": "내용을 300자 이내로 입력해주세요." },
 
     // response err
     SIGNUP_REDUNDANT_ID : { "isSuccess": false, "code": 3001, "message":"중복된 아이디입니다." },
