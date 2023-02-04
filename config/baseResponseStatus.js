@@ -37,6 +37,7 @@ module.exports = {
     
     PROBLEM_PROBLEMID_EMPTY : { "isSuccess": false, "code": 2107, "message": "문제ID를 입력해주세요." },
     PROBLEM_SOLUTIONID_EMPTY : { "isSuccess": false, "code": 2108, "message": "답변ID를 입력해주세요." },
+    PROBLEM_USERID_EMPTY : { "isSuccess": false, "code": 2109, "message": "사용자ID를 입력해주세요." },
 
     USER_USERID_EMPTY: { "isSuccess": false, "code": 2201, "message": "사용자ID를 입력해주세요." },
     USER_USERid_WRONG : { "isSuccess": false, "code": 2201, "message": "사용자ID가 잘못 되었습니다." },

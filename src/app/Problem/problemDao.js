@@ -28,11 +28,22 @@ async function selectProblem(connection) {
 // problemId로 문제 조회
 async function selectProblemId(connection, problemId) {
   const selectProblemIdQuery = `
-                 SELECT nickname, subject, unit, problem, contents, image 
+                 SELECT problemId, nickname, subject, unit, problem, contents, image 
                  FROM user u, problem p 
                  WHERE u.userId=p.userId and problemId = ?;
                  `;
   const [problemRow] = await connection.query(selectProblemIdQuery, problemId);
+  return problemRow;
+}
+
+// 내가 질문한 문제 조회
+async function selectProblemByUserId(connection, userId) {
+  const selectProblemIdQuery = `
+                 SELECT problemId, nickname, subject, unit, problem, contents, image 
+                 FROM user u, problem p 
+                 WHERE u.userId=p.userId and p.userId = ?;
+                 `;
+  const [problemRow] = await connection.query(selectProblemIdQuery, userId);
   return problemRow;
 }
 
@@ -72,6 +83,18 @@ async function deleteProblem(connection, problemId) {
     return solutionRows;
   }
 
+    // 내가 쓴 답변 조회
+    async function selectSolutionByUserId(connection, userId) {
+
+      const selectSolutionListQuery = `
+                          SELECT solutionId, problemId, nickname, contents
+                          FROM solution
+                          JOIN user ON solution.userId=user.userId and userId = ?;
+                          `
+      const [solutionRows] = await connection.query(selectSolutionListQuery, userId);
+      return solutionRows;
+    }
+
   // 답변 수정
   async function updateSolution(connection, updateSolutionParams) {
 
@@ -105,9 +128,11 @@ async function deleteSolution(connection, deleteSolutionparams) {
     insertProblem,
     selectProblem,
     selectProblemId,
+    selectProblemByUserId,
     deleteProblem,
     insertSolution,
     selectSolution,
+    selectSolutionByUserId,
     updateSolution,
     deleteSolution
   };

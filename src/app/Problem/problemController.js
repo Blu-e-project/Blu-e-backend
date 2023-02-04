@@ -87,6 +87,22 @@ exports.getProblemById = async function (req, res) {
 
 /**
  * API No. 4
+ * API Name : 내가 질문한 문제 조회 API
+ * [GET] /problemByMe
+ */
+exports.getProblemByMe = async function (req, res) {
+
+
+    const userId = req.verifiedToken.userId;
+    // 빈 값 체크
+    if (!userId) return res.send(errResponse(baseResponse.PROBLEM_USERID_EMPTY));
+
+    const problemByMe = await problemProvider.retrieveMyProblemList(userId);
+    return res.send(response(baseResponse.SUCCESS, problemByMe));
+};
+
+/**
+ * API No. 5
  * API Name : 특정 문제 삭제 API
  * [DELETE] /problems/:problemId
  */
@@ -105,7 +121,7 @@ exports.deleteProblems = async function(req, res) {
 };
 
 /**
- * API No. 5
+ * API No. 6
  * API Name : 답변 작성 API
  * [POST] /problems/:problemId/solutions
  */
@@ -120,10 +136,10 @@ exports.postSolutions = async function (req, res) {
     // 빈 값 체크
     if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
     if (!contents)
-        return res.send(response(baseResponse.POSTSOLUTION_CONTENTS_EMPTY));
+        return res.send(errResponse(baseResponse.POSTSOLUTION_CONTENTS_EMPTY));
     // 길이 체크
     if (contents.length > 300)
-        return res.send(response(baseResponse.POSTSOLUTION_CONTENTS_LENGTH)); 
+        return res.send(errResponse(baseResponse.POSTSOLUTION_CONTENTS_LENGTH)); 
 
 
     const postSolutionResponse = await problemService.createSolution(
@@ -135,7 +151,7 @@ exports.postSolutions = async function (req, res) {
 };
 
 /**
- * API No. 6
+ * API No. 7
  * API Name : 답변 조회 API 
  * [GET] /problems/:problemId/solutions
  */
@@ -147,13 +163,29 @@ exports.getSolutions = async function (req, res) {
     //빈 값 체크
     if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
 
-    const solutionListResult = await problemProvider.retrieveSolutionList(problemId);
+    const solutionListResult = await problemProvider.retrieveSolutionListByMe(userId);
     return res.send(response(baseResponse.SUCCESS, solutionListResult));
 
 };
 
 /**
- * API No. 7
+ * API No. 8
+ * API Name : 내가 쓴 답변 조회 API 
+ * [GET] /problems/:problemId/solutions
+ */
+exports.getSolutionsByMe = async function (req, res) {
+
+    const userId = req.verifiedToken.userId;
+    //빈 값 체크
+    // if (!userId) return res.send(errResponse());
+
+    const solutionListResult = await problemProvider.다시쓰기(userId);
+    return res.send(response(baseResponse.SUCCESS, solutionListResult));
+
+};
+
+/**
+ * API No. 9
  * API Name : 답변 수정 API 
  * [PATCH] /problems/:problemId/solutions/:solutionId
  */
@@ -169,10 +201,10 @@ exports.patchSolutions = async function (req, res) {
     if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
     if (!solutionId) return res.send(errResponse(baseResponse.PROBLEM_SOLUTIONID_EMPTY));
     if (!contents)
-        return res.send(response(baseResponse.POSTSOLUTION_CONTENTS_EMPTY));
+        return res.send(errResponse(baseResponse.POSTSOLUTION_CONTENTS_EMPTY));
     // 길이 체크
     if (contents.length > 300)
-        return res.send(response(baseResponse.POSTSOLUTION_CONTENTS_LENGTH)); 
+        return res.send(errResponse(baseResponse.POSTSOLUTION_CONTENTS_LENGTH)); 
     
     const updateSolutionResponse = await problemService.updateSolution(
         contents,
@@ -184,7 +216,7 @@ exports.patchSolutions = async function (req, res) {
 };
 
 /**
- * API No. 8
+ * API No. 10
  * API Name : 답변 삭제 API
  * [DELETE] /problems/:problemId/solutions/:solutionId
  */
