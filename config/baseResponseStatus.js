@@ -27,16 +27,16 @@ module.exports = {
     SMS_SEND_FAILURE:{ "isSuccess": false,"code": 2019,"message":"인증 문자 발신에 실패했습니다." },
     FAILURE_SMS_AUTHENTICATION : { "isSuccess": false,"code": 2020,"message":"휴대폰 번호 인증 실패했습니다." },
 
-    POSTPROBLEM_SUBJECT_EMPTY : { "isSuccess": false, "code": 2100, "message": "과목을 입력 해주세요." },
-    POSTPROBLEM_PROBLEM_EMPTY : { "isSuccess": false, "code": 2101, "message": "문제를 입력 해주세요." },
-    POSTPROBLEM_CONTENTS_EMPTY : { "isSuccess": false, "code": 2102, "message": "질문을 입력 해주세요." },
+    POSTPROBLEM_SUBJECT_EMPTY : { "isSuccess": false, "code": 2100, "message": "과목을 입력해주세요." },
+    POSTPROBLEM_PROBLEM_EMPTY : { "isSuccess": false, "code": 2101, "message": "문제를 입력해주세요." },
+    POSTPROBLEM_CONTENTS_EMPTY : { "isSuccess": false, "code": 2102, "message": "질문을 입력해주세요." },
     POSTPROBLEM_SUBJECT_LENGTH : { "isSuccess": false, "code": 2103, "message": "과목을 15자리 이내로 입력해주세요." },
     POSTPROBLEM_UNIT_LENGTH : { "isSuccess": false, "code": 2104, "message": "단원을 20자리 이내로 입력해주세요." },
     POSTPROBLEM_PROBLEM_LENGTH : { "isSuccess": false, "code": 2105, "message": "문제를 300자 이내로 입력해주세요." },
     POSTPROBLEM_CONTENTS_LENGTH : { "isSuccess": false, "code": 2106, "message": "질문을 300자 이내로 입력해주세요." },
-
-    PROBLEM_PROBLEMID_EMPTY : { "isSuccess": false, "code": 2201, "message": "문제ID를 입력해주세요." },
-    PROBLEM_SOLUTIONID_EMPTY : { "isSuccess": false, "code": 2202, "message": "답변ID를 입력해주세요." },
+    
+    PROBLEM_PROBLEMID_EMPTY : { "isSuccess": false, "code": 2107, "message": "문제ID를 입력해주세요." },
+    PROBLEM_SOLUTIONID_EMPTY : { "isSuccess": false, "code": 2108, "message": "답변ID를 입력해주세요." },
 
     USER_USERID_EMPTY: { "isSuccess": false, "code": 2201, "message": "사용자ID를 입력해주세요." },
     USER_USERid_WRONG : { "isSuccess": false, "code": 2201, "message": "사용자ID가 잘못 되었습니다." },
@@ -87,12 +87,11 @@ module.exports = {
     POSTPICK_WISHGENDER_LENGTH : {"isSuccess": false, "code": 2616, "message": "희망 성별을 10자 이내로 입력해주세요."},
     POSTPICK_MENTEELEVEL_LENGTH : {"isSuccess": false, "code": 2617, "message": "희망 멘티수준을 10자 이내로 입력해주세요."},
 
-
-
     PICKMENTORS_COMMENT_EMPTY : { "isSuccess": false,"code": 2700,"message":"댓글 내용을 입력해주세요." },
     PICKMENTORS_COMMENT_LENGTH : { "isSuccess": false,"code": 2701,"message":"댓글 내용은 300자 이하로 입력해주세요." },
     PICKMENTORS_PICKID_EMPTY: {"isSuccess": false, "code": 2702, "message": "pickId가 비어있습니다."},
     PICKMENTORS_COMMENTID_EMPTY:{"isSuccess": false, "code": 2703, "message": "pickCommentId가 비어있습니다."},
+
 
 
     // response err
