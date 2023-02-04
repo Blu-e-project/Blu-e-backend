@@ -49,7 +49,8 @@ async function selectPickMentor(connection) {
       const [pickMenteeMainRows] = await connection.query(selectPickMenteeMainListQuery);
       return pickMenteeMainRows;
     }
-    
+
+
     // 멘토 구인글 작성
     async function insertPickMentors(connection, insertPickMentorsParams) {
       const insertPickMentorsQuery = `
@@ -123,6 +124,17 @@ async function selectPickMentor(connection) {
       return;
     }
 
+    // 구인글 게시자 확인(권한 확인)
+    async function selectPickUser(connection, pickId){
+      const selectPickUserQuery = `
+                      SELECT userId
+                      FROM pick
+                      WHERE pickId = ?;
+      `
+      const [roleRows] = await connection.query(selectPickUserQuery, pickId);
+      return roleRows;
+    }
+    
     // 멘토 구인글 수정
     async function updatePickMentors(connection, updatePickMentorsParams) {
       const updatePickMentorIdQuery = `
@@ -237,6 +249,7 @@ async function deleteMentorsCom(connection, deleteMentorsComParams){
     updateMentorsCom,
     deleteMentorsCom,
     updateViewCount1,
-    updateViewCount2
+    updateViewCount2,
+    selectPickUser
   };
   

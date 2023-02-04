@@ -48,6 +48,13 @@ exports.deleteProblem = async function(problemId){
 exports.createPickMentors = async function (userId, title, contents, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender) {
     try {
 
+        const roleRows = await mentoringProvider.roleCheck(userId);
+
+        const role = roleRows[0].role
+        if(role!==2){
+            return errResponse(baseResponse.MENTORMENTEE_AUTH);
+        }
+
         const insertPickMentorsParams = [userId, title, contents, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender];
 
         const connection = await pool.getConnection(async (conn) => conn);
@@ -67,6 +74,13 @@ exports.createPickMentors = async function (userId, title, contents, area, mento
 
 exports.createPickMentees = async function (userId, title, contents, area, mentoringMethod, menteeLevel, subject, periodStart, periodEnd, wishGender) {
     try {
+
+        const roleRows = await mentoringProvider.roleCheck(userId);
+
+        const role = roleRows[0].role
+        if(role!==1){
+            return errResponse(baseResponse.MENTORMENTEE_AUTH);
+        }
 
         const insertPickMenteesParams = [userId, title, contents, area, mentoringMethod, menteeLevel, subject, periodStart, periodEnd, wishGender];
 
@@ -103,10 +117,15 @@ exports.updatePickMentor = async function (pickId, title, contents, area, mentor
     }
 };
 
-exports.deletePickMentor = async function(pickId){
+exports.deletePickMentor = async function(pickId, userId){
     try {
+        const roleRows = await mentoringProvider.pickUserCheck(pickId);
+        const userIdCheck = roleRows[0].userId
+        if(userId!==userIdCheck){
+            return errResponse(baseResponse.MENTORMENTEE_AUTH);
+        }
+
         const connection = await pool.getConnection(async (conn) => conn);
-        console.log(pickId);
         const pickMentorIdResult = await mentoringDao.deletePickMentor(connection, pickId);
         console.log(`삭제된 구인글 : ${pickMentorIdResult[0]}`)
         connection.release();
@@ -119,8 +138,14 @@ exports.deletePickMentor = async function(pickId){
 };
 
 
-exports.deletePickMentee = async function(pickId){
+exports.deletePickMentee = async function(pickId, userId){
     try {
+        const roleRows = await mentoringProvider.pickUserCheck(pickId);
+        const userIdCheck = roleRows[0].userId
+        if(userId!==userIdCheck){
+            return errResponse(baseResponse.MENTORMENTEE_AUTH);
+        }
+
         const connection = await pool.getConnection(async (conn) => conn);
         const pickMenteeIdResult = await mentoringDao.deletePickMentee(connection, pickId);
         console.log(`삭제된 구인글 : ${pickMenteeIdResult[0]}`)
