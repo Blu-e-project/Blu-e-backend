@@ -89,9 +89,6 @@ module.exports = {
     REVIEW_CONTENTS_EMPTY : { "isSuccess": false, "code": 2802, "message": "내용을 입력해주세요." },
     REVIEW_USERID_EMPTY : { "isSuccess": false, "code": 2803, "message": "사용자 ID를 입력해주세요." },
 
-    REVIEW_NICKNAME_LENGTH : { "isSuccess": false, "code": 2804, "message": "닉네임을 7자 이내로 입력해주세요." },
-    REVIEW_SUBJECT_LENGTH : { "isSuccess": false, "code": 2805, "message": "과목을 15자 이내로 입력해주세요." },
-    REVIEW_CONTENTS_LENGTH : { "isSuccess": false, "code": 2806, "message": "내용을 300자 이내로 입력해주세요." },
 
     // response err
     SIGNUP_REDUNDANT_ID : { "isSuccess": false, "code": 3001, "message":"중복된 아이디입니다." },
