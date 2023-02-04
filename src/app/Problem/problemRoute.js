@@ -11,18 +11,28 @@ module.exports = function(app){
     // 3. 특정 문제 조회 API
     app.get('/problems/:problemId', jwtMiddleware, problem.getProblemById);
 
-    // 4. 특정 문제 삭제 API
+    // 4 . 내가 질문한 문제 조회 API
+    app.get('/problemByMe', jwtMiddleware, problem.getProblemByMe);
+
+    // 5. 특정 문제 삭제 API
     app.delete('/problems/:problemId', jwtMiddleware, problem.deleteProblems);
 
-   // 5. 해답 작성 API
+    // 6. 해답 작성 API
    app.post('/problems/:problemId/solutions', jwtMiddleware, problem.postSolutions);
 
-   // 6. 해답 조회 API
+    // 7. 해답 조회 API
    app.get('/problems/:problemId/solutions', jwtMiddleware, problem.getSolutions);
 
-   // 7. 해답 수정 API
+   // 8. 내가 쓴 해답 조회 API
+   app.get('/solutionByMe', jwtMiddleware, problem.getSolutionsByMe);
+
+    // 9. 해답 수정 API
    app.patch('/problems/:problemId/solutions/:solutionId', jwtMiddleware, problem.patchSolutions);
 
-   // 8. 해답 삭제 API
+    // 10. 해답 삭제 API
    app.delete('/problems/:problemId/solutions/:solutionId', jwtMiddleware, problem.deleteSolutions);
+   
+
+   //내가 쓴 글 조회 -> 문제 전체조회 쿼리에 where userId=? 조건만 붙이면 될 듯
+   //내가 쓴 댓글 + 그 댓글이 달린 질문글 조회
 };
