@@ -21,7 +21,7 @@ module.exports = function(app){
     app.patch('/reviews/:reviewId', /*jwtMiddleware,*/ review.patchMentorReviews);
 
     // 7. [멘토 -> 멘티] 리뷰 수정 API
-    app.patch('/reviews/:reviewId', /*jwtMiddleware,*/ review.patchMenteeReviews);//?????
+    // app.patch('/reviews/:reviewId', /*jwtMiddleware,*/ review.patchMenteeReviews);
 
     // 8. 리뷰 삭제 API
     app.delete('/reviews/:reviewId', /*jwtMiddleware,*/ review.deleteReviews);
