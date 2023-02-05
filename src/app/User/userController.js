@@ -54,7 +54,7 @@ exports.getTest = async function (req, res) {
  */
 exports.send = async function (req, res) {
     const phoneNumber = req.body.phoneNumber;
-  
+
     Cache.del(phoneNumber);
   
     //인증번호 생성

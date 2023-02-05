@@ -103,8 +103,11 @@ module.exports = {
     SIGNIN_ID_WRONG : { "isSuccess": false, "code": 3002, "message": "아이디가 잘못 되었습니다." },
     SIGNIN_PASSWORD_WRONG : { "isSuccess": false, "code": 3003, "message": "비밀번호가 잘못 되었습니다." },
 
-    SIGNIN_INACTIVE_ACCOUNT : { "isSuccess": false, "code": 3003, "message": "비활성화 된 계정입니다. 고객센터에 문의해주세요." },
-    SIGNIN_WITHDRAWAL_ACCOUNT : { "isSuccess": false, "code": 3004, "message": "탈퇴 된 계정입니다. 고객센터에 문의해주세요." },
+    SIGNIN_INACTIVE_ACCOUNT : { "isSuccess": false, "code": 3004, "message": "비활성화 된 계정입니다. 고객센터에 문의해주세요." },
+    //SIGNIN_WITHDRAWAL_ACCOUNT : { "isSuccess": false, "code": 3005, "message": "탈퇴 된 계정입니다. 고객센터에 문의해주세요." },
+
+    SIGNUP_REDUNDANT_NICKNAME : { "isSuccess": false, "code": 3005, "message":"중복된 닉네임입니다." },
+    SIGNUP_REDUNDANT_PHONENUM: { "isSuccess": false, "code": 3006, "message":"중복된 전화번호입니다." },
 
     EDITING_REDUNDANT_NICKNAME : { "isSuccess": false, "code": 3100, "message":"중복된 닉네임입니다." },
     EDITING_PASSWORD_DIFFERENT: { "isSuccess": false, "code": 3101, "message":"새 비밀번호를 동일하게 입력해주세요." },
