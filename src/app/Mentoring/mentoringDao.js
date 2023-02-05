@@ -220,7 +220,7 @@ async function updateMentorsCom(connection, updateMentorsComParams){
   const updateMentorsComQuery = `
       UPDATE pickcomment
       SET contents = ?
-      WHERE pickId = ? and pickCommentId = ?;
+      WHERE pickId = ? and pickCommentId = ? and userId = ?;
   `
   const updateMentorsComRow = await connection.query(
       updateMentorsComQuery,
@@ -243,7 +243,43 @@ async function deleteMentorsCom(connection, deleteMentorsComParams){
   return deleteMentorsComRow
 
 }
-  
+
+// userId로 이미 댓글 달았는지 확인
+async function selectPickComByUserId(connection, pickCommentId) {
+  const selectPickComUserQuery = `
+                    SELECT userId, contents
+                    FROM pickcomment
+                    WHERE userId = ? AND pickId= ?;
+    `
+    const [roleRows] = await connection.query(selectPickComUserQuery, pickCommentId);
+    return roleRows;
+}
+
+// 멘토 구인글에 댓글 생성
+async function insertMenteesCom(connection, insertMenteesComParams){
+  const insertMenteesComQuery = `
+      INSERT INTO pickComment(userId, pickId, role, contents)
+      VALUES (?, ?, ?, ?);
+  `;
+  const insertMenteesComRow = await connection.query(
+      insertMenteesComQuery,
+      insertMenteesComParams
+  );
+
+  return insertMenteesComRow;
+}
+
+// 멘티 구인글에 달린 댓글 조회
+async function selectMenteeCom(connection, pickId) {
+  const selectMentorComQuery = `
+      SELECT pickCommentId, pickId, nickname, contents
+      FROM pickcomment
+      JOIN user ON pickcomment.userId=user.userId and pickId = ?;
+  `
+  const [menteeComRows] = await connection.query(selectMentorComQuery, pickId);
+  return menteeComRows;
+}
+
   module.exports = {
     selectPickMentee,
     selectPickMentor,
@@ -265,5 +301,8 @@ async function deleteMentorsCom(connection, deleteMentorsComParams){
     updateViewCount1,
     updateViewCount2,
     selectPickUser,
+    selectPickComByUserId,
+    insertMenteesCom,
+    selectMenteeCom,
   };
   

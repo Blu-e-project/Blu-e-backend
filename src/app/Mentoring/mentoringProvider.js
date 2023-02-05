@@ -84,3 +84,19 @@ exports.retrievePickMentorComList = async function(pickId) {
 
   return pickMentorComListResult
 }
+
+exports.retrievePickMenteeComList = async function(pickId) {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const pickMenteeComListResult = await mentoringDao.selectMenteeCom(connection, pickId);
+  connection.release();
+
+  return pickMenteeComListResult
+}
+
+exports.pickComCheckByUserId = async function(pickComCheckParams){
+  const connection = await pool.getConnection(async (conn) => conn);
+  const comCheckResult = await mentoringDao.selectPickComByUserId(connection, pickComCheckParams);
+  connection.release();
+
+  return comCheckResult;
+}

@@ -91,11 +91,11 @@ module.exports = {
     MENTORMENTEE_AUTH : {"isSuccess": false, "code": 2618, "message": "접근 권한이 없습니다."},
 
 
-    PICKMENTORS_COMMENT_EMPTY : { "isSuccess": false,"code": 2700,"message":"댓글 내용을 입력해주세요." },
-    PICKMENTORS_COMMENT_LENGTH : { "isSuccess": false,"code": 2701,"message":"댓글 내용은 300자 이하로 입력해주세요." },
-    PICKMENTORS_PICKID_EMPTY: {"isSuccess": false, "code": 2702, "message": "pickId가 비어있습니다."},
-    PICKMENTORS_COMMENTID_EMPTY:{"isSuccess": false, "code": 2703, "message": "pickCommentId가 비어있습니다."},
-
+    PICKCOMMENT_COMMENT_EMPTY : { "isSuccess": false,"code": 2700,"message":"댓글 내용을 입력해주세요." },
+    PICKCOMMENT_COMMENT_LENGTH : { "isSuccess": false,"code": 2701,"message":"댓글 내용은 300자 이하로 입력해주세요." },
+    PICKCOMMENT_PICKID_EMPTY: {"isSuccess": false, "code": 2702, "message": "pickId가 비어있습니다."},
+    PICKCOMMENT_COMMENTID_EMPTY:{"isSuccess": false, "code": 2703, "message": "pickCommentId가 비어있습니다."},
+    PICKCOMMENT_ROLE_WRONG:{"isSuccess": false, "code": 2704, "message": "댓글을 다는 role이 잘못 되었습니다."},
 
 
     // response err
@@ -111,6 +111,8 @@ module.exports = {
 
     EDITING_REDUNDANT_NICKNAME : { "isSuccess": false, "code": 3100, "message":"중복된 닉네임입니다." },
     EDITING_PASSWORD_DIFFERENT: { "isSuccess": false, "code": 3101, "message":"새 비밀번호를 동일하게 입력해주세요." },
+
+    PICKCOMMENT_COMMENT_REDUNDANT: { "isSuccess": false, "code": 3701, "message":"이미 댓글을 다셨습니다." },
 
      //Connection, Transaction 등의 server err
      DB_ERROR : { "isSuccess": false, "code": 4000, "message": "데이터 베이스 에러"},
