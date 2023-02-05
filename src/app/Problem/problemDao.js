@@ -83,15 +83,15 @@ async function deleteProblem(connection, problemId) {
     return solutionRows;
   }
 
-    // 내가 쓴 답변 조회
-    async function selectSolutionByUserId(connection, userId) {
+    // 내가 답변한 질문글 조회
+    async function selectProblemSolByMe(connection, userId) {
 
-      const selectSolutionListQuery = `
-                          SELECT solutionId, problemId, nickname, contents
-                          FROM solution
-                          JOIN user ON solution.userId=user.userId and userId = ?;
+      const selectProSolutionListQuery = `
+                          SELECT problemId, (select nickname from user where userId = problem.userId) as nickname, subject, unit, problem, contents, image
+                          FROM problem
+                          WHERE problemId in (select problemId from solution where userId = ?);
                           `
-      const [solutionRows] = await connection.query(selectSolutionListQuery, userId);
+      const [solutionRows] = await connection.query(selectProSolutionListQuery, userId);
       return solutionRows;
     }
 
@@ -132,7 +132,7 @@ async function deleteSolution(connection, deleteSolutionparams) {
     deleteProblem,
     insertSolution,
     selectSolution,
-    selectSolutionByUserId,
+    selectProblemSolByMe,
     updateSolution,
     deleteSolution
   };

@@ -25,7 +25,7 @@ exports.retrieveProblem = async function (problemId) {
   return problemResult[0];
 };
 
-// 내가 궁금한 문제
+// 내가 궁금한 문제 목록
 exports.retrieveMyProblemList = async function (userId) {
   const connection = await pool.getConnection(async (conn) => conn);
   const problemListResult = await problemDao.selectProblemByUserId(connection, userId);
@@ -35,7 +35,7 @@ exports.retrieveMyProblemList = async function (userId) {
   return problemListResult;
 };
 
-// 답변 목록
+// 특정 문제 답변 목록
 exports.retrieveSolutionList = async function (problemId) {
 
   const connection = await pool.getConnection(async (conn) => conn);
@@ -45,12 +45,12 @@ exports.retrieveSolutionList = async function (problemId) {
   return solutionListResult;
 };
 
-// 내가 쓴 답변 목록
-exports.retrieveSolutionListByMe = async function (userId) {
+// 내가 답변한 질문글 목록
+exports.retrieveProblemSolByMeList = async function (userId) {
 
   const connection = await pool.getConnection(async (conn) => conn);
-  const solutionListResult = await problemDao.selectSolutionByUserId(connection, userId);
+  const problemListResult = await problemDao.selectProblemSolByMe(connection, userId);
   connection.release();
 
-  return solutionListResult;
+  return problemListResult;
 };

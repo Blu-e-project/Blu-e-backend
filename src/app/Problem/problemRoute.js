@@ -23,8 +23,8 @@ module.exports = function(app){
     // 7. 해답 조회 API
    app.get('/problems/:problemId/solutions', jwtMiddleware, problem.getSolutions);
 
-   // 8. 내가 쓴 해답 조회 API
-   app.get('/solutionByMe', jwtMiddleware, problem.getSolutionsByMe);
+   // 8. 내가 답변한 질문글 조회 API
+   app.get('/proSolutionByMe', jwtMiddleware, problem.getProblemSolByMe);
 
     // 9. 해답 수정 API
    app.patch('/problems/:problemId/solutions/:solutionId', jwtMiddleware, problem.patchSolutions);
@@ -32,7 +32,4 @@ module.exports = function(app){
     // 10. 해답 삭제 API
    app.delete('/problems/:problemId/solutions/:solutionId', jwtMiddleware, problem.deleteSolutions);
    
-
-   //내가 쓴 글 조회 -> 문제 전체조회 쿼리에 where userId=? 조건만 붙이면 될 듯
-   //내가 쓴 댓글 + 그 댓글이 달린 질문글 조회
 };
