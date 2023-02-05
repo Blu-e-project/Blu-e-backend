@@ -27,10 +27,10 @@ module.exports = function(app){
     app.get('/mentoring/mentees/:pickId', jwtMiddleware, mentoring.getPickMenteesById);
 
     // 멘토 구인글 수정
-  //  app.patch('/mentoring/mentors/:pickId', jwtMiddleware, mentoring.patchPickMentor);
+    app.patch('/mentoring/mentors/:pickId', jwtMiddleware, mentoring.patchPickMentor);
 
     // 멘티 구인글 수정
-  //  app.patch('/mentoring/mentees/:pickId', jwtMiddleware, mentoring.patchPickMentee);
+    app.patch('/mentoring/mentees/:pickId', jwtMiddleware, mentoring.patchPickMentee);
 
     // 멘토 구인글 삭제
     app.delete('/mentoring/mentors/:pickId', jwtMiddleware, mentoring.deletePickMentor);

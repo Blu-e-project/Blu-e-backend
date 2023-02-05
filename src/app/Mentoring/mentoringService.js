@@ -207,3 +207,47 @@ exports.deleteMentorsCom = async function(pickId, pickCommentId){
         return errResponse(baseResponse.DB_ERROR);
     }
 }
+
+
+exports.patchPickMentors = async function(pickId, userId, title, contents, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender){
+    try {
+        const roleRows = await mentoringProvider.pickUserCheck(pickId, userId);
+        const userIdCheck = roleRows[0].userId
+        if(userId!==userIdCheck){
+            return errResponse(baseResponse.MENTORMENTEE_AUTH);
+        }
+
+        const patchPickMentorsParams = [title, contents, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender, pickId];
+        const connection = await pool.getConnection(async (conn) => conn);
+        const patchPickMentorIdResult = await mentoringDao.updatePickMentors(connection, patchPickMentorsParams);
+        console.log(`수정된 구인글 : ${patchPickMentorIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - patchPickService error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
+
+
+exports.patchPickMentees = async function(pickId, userId, title, contents, area, mentoringMethod, menteeLevel, subject, periodStart, periodEnd, wishGender){
+    try {
+        const roleRows = await mentoringProvider.pickUserCheck(pickId, userId);
+        const userIdCheck = roleRows[0].userId
+        if(userId!==userIdCheck){
+            return errResponse(baseResponse.MENTORMENTEE_AUTH);
+        }
+
+        const patchPickMenteesParams = [title, contents, area, mentoringMethod, menteeLevel, subject, periodStart, periodEnd, wishGender, pickId];
+        const connection = await pool.getConnection(async (conn) => conn);
+        const patchPickMenteeIdResult = await mentoringDao.updatePickMentees(connection, patchPickMenteesParams);
+        console.log(`수정된 구인글 : ${patchPickMenteeIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - patchPickService error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
