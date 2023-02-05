@@ -15,6 +15,17 @@ exports.createMentor = async function (id, password, phoneNum, name, nickname, b
             const idRows = await userProvider.idCheck(id); // Read인 Provider 통해서 확인
             if (idRows.length > 0)
                 return errResponse(baseResponse.SIGNUP_REDUNDANT_ID)
+
+            // 닉네임 중복 확인
+            const nicknameRows = await userProvider.nicknameCheck(nickname);
+            if (nicknameRows.length > 0)
+                return errResponse(baseResponse.SIGNUP_REDUNDANT_NICKNAME);
+            
+            // 중복된 전화번호 확인
+            const findIdResponse = await userProvider.retrieveIdByPhone(phoneNum);
+            console.log(findIdResponse.length)
+            if (findIdResponse.length > 0)
+                return res.send(errResponse(baseResponse.SIGNUP_REDUNDANT_PHONENUM));
             
             // INSERT할 Params
             const insertUserParams = [id, password, phoneNum, name, nickname, birth, education, department, grade, address, introduce, role, status, userImg];

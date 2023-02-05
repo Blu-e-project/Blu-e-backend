@@ -174,6 +174,17 @@ async function updatePassword(connection, updatePasswordParams){
 }
 
 
+async function selectUserNickname(connection, nickname){
+  const selectUserNicknameQuery = `
+                  SELECT id, nickname
+                  FROM user
+                  WHERE nickname = ?;
+                  `;
+  const [nicknameRows] = await connection.query(selectUserNicknameQuery, nickname);
+  return nicknameRows;
+
+}
+
 module.exports = {
     selectQuestion,
     selectUserId,
@@ -187,7 +198,8 @@ module.exports = {
     selectMentorById,
     selectMenteeById,
     selectId,
-    updatePassword
+    updatePassword,
+    selectUserNickname
 };
   
   

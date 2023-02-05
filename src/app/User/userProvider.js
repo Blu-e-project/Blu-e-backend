@@ -97,3 +97,11 @@ exports.retrieveIdByPhone = async function(phoneNum){
 
   return idByPhoneResult;
 }
+
+exports.nicknameCheck = async function(nickname){
+  const connection = await pool.getConnection(async (conn) => conn);
+  const nicknameCheckResult = await userDao.selectUserNickname(connection, nickname);
+  connection.release();
+
+  return nicknameCheckResult;
+}
