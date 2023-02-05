@@ -146,6 +146,34 @@ async function selectUserAccount(connection, id) {
   }
 
 
+async function selectId(connection, phoneNum){
+    const selectIdQuery = `
+        SELECT id
+        FROM user
+        WHERE phoneNum = ?;
+    `
+
+    const selectIdRow = await connection.query(
+        selectIdQuery,
+        phoneNum
+    );
+
+    return selectIdRow[0];
+}
+
+
+async function updatePassword(connection, updatePasswordParams){
+  const updatePasswordQuery = `
+      UPDATE user 
+      SET password = ?, updatedAt = now()
+      WHERE id = ?;
+    `;
+
+  const updatePasswordRow = await connection.query(updatePasswordQuery, updatePasswordParams);
+  return updatePasswordRow;
+}
+
+
 module.exports = {
     selectQuestion,
     selectUserId,
@@ -157,7 +185,9 @@ module.exports = {
     selectNewMentee,
     selectNewMentor,
     selectMentorById,
-    selectMenteeById
-  };
+    selectMenteeById,
+    selectId,
+    updatePassword
+};
   
   

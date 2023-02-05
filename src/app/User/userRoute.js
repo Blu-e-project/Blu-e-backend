@@ -12,6 +12,12 @@ module.exports = function(app){
     // 문자 인증 검증 API
     app.post('/users/verify', user.verify);
 
+    // 아이디 찾기 API
+    app.get('/users/id', user.findId);
+
+    // 비밀번호 재설정 API
+    app.patch('/users/password', user.resetPassword);
+
     // 1. 멘토 회원 가입 API
     app.post('/users/signup', user.postSignUpMentor);
     // 멘티 회원 가입 API
