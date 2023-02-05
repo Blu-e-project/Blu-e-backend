@@ -160,28 +160,38 @@ exports.deletePickMentee = async function(pickId, userId){
 
 exports.createMentorsCom = async function (userId, pickId, contents){
     try {
+        // 댓글은 한 번만 쓸 수 있도록 함
+        const pickComCheckParams = [userId, pickId]
+        const pickComRows = await mentoringProvider.pickComCheckByUserId(pickComCheckParams);
+        if (pickComRows.length>0)
+            return response(baseResponse.PICKCOMMENT_COMMENT_REDUNDANT);
+
         const roleRows = await mentoringProvider.roleCheck(userId);
 
         console.log(roleRows[0], roleRows[0].role)
         const role = roleRows[0].role
+
+        if (role === 1) // 역할이 멘토이면 안됨
+        return response(baseResponse.PICKCOMMENT_ROLE_WRONG);
+
         const insertMentorsComParams = [userId, pickId, role, contents];
 
         const connection = await pool.getConnection(async (conn) => conn);
         const mentorComIdResult = await mentoringDao.insertMentorsCom(connection,insertMentorsComParams);
-        console.log(`추가된 댓글 : ${mentorComIdResult[0]}`)
+        //console.log(`추가된 댓글 : ${mentorComIdResult[0]}`)
         connection.release();
 
         return response(baseResponse.SUCCESS);
     } catch(err){
-        logger.error(`App - createComment Service error\n: ${err.message}`);
+        logger.error(`App - createMentorComment Service error\n: ${err.message}`);
         return errResponse(baseResponse.DB_ERROR);
     }
 
 }
 
-exports.updateMentorsCom= async function(contents, pickId, pickCommentId){
+exports.updateMentorsCom= async function(userId, contents, pickId, pickCommentId){
     try{
-        const updateMentorsComParams = [contents, pickId, pickCommentId]
+        const updateMentorsComParams = [userId, contents, pickId, pickCommentId]
         const connection = await pool.getConnection(async (conn) => conn);
         const mentorComIdResult = await mentoringDao.updateMentorsCom(connection,updateMentorsComParams);
         console.log(`수정된 댓글 : ${mentorComIdResult[0]}`)
@@ -251,3 +261,33 @@ exports.patchPickMentees = async function(pickId, userId, title, contents, area,
         return errResponse(baseResponse.DB_ERROR);
     }
 };
+
+exports.createMenteesCom = async function (userId, pickId, contents){
+    try {
+        // 댓글은 한 번만 쓸 수 있도록 함
+        const pickComCheckParams = [userId, pickId]
+        const pickComRows = await mentoringProvider.pickComCheckByUserId(pickComCheckParams);
+        if (pickComRows.length>0)
+            return response(baseResponse.PICKCOMMENT_COMMENT_REDUNDANT);
+
+        const roleRows = await mentoringProvider.roleCheck(userId);
+
+        console.log(roleRows[0], roleRows[0].role)
+        const role = roleRows[0].role
+        
+        if (role === 2) // 역할이 멘티이면 안됨
+            return response(baseResponse.PICKCOMMENT_ROLE_WRONG);
+        const insertMenteesComParams = [userId, pickId, role, contents];
+
+        const connection = await pool.getConnection(async (conn) => conn);
+        const menteeComIdResult = await mentoringDao.insertMenteesCom(connection,insertMenteesComParams);
+        console.log(`추가된 댓글 : ${menteeComIdResult[0]}`)
+        connection.release();
+
+        return response(baseResponse.SUCCESS);
+    } catch(err){
+        logger.error(`App - createMenteeComment Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+
+}

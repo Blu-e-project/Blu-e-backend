@@ -50,4 +50,16 @@ module.exports = function(app){
     // 멘토 구인글 댓글 삭제
     app.delete('/mentoring/mentors/:pickId/comments/:pickCommentId', jwtMiddleware, mentoring.deletePickMentorsCom)
 
+    // 멘티 구인글 댓글 생성
+    app.post('/mentoring/mentees/:pickId/comments', jwtMiddleware, mentoring.postPickMenteesCom);
+    
+    // 멘티 구인글 댓글 조회
+    app.get('/mentoring/mentees/:pickId/comments', jwtMiddleware, mentoring.getPickMenteesCom);
+    
+    // 멘티 구인글 댓글 수정
+    //app.patch('/mentoring/mentees/:pickId/comments/:pickCommentId', jwtMiddleware, mentoring.patchPickMenteesCom)
+    
+    // 멘티 구인글 댓글 삭제
+    //app.delete('/mentoring/mentees/:pickId/comments/:pickCommentId', jwtMiddleware, mentoring.deletePickMenteesCom)
+
 };
