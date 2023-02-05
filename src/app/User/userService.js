@@ -80,3 +80,18 @@ exports.postSignIn = async function(id, password) {
         return errResponse(baseResponse.DB_ERROR);
     }
 }
+
+exports.patchResetPassword = async function(id, password){
+    try{
+        const updatePasswordParams = [id, password]
+        const connection = await pool.getConnection(async (conn) => conn);        
+        // Dao로 user를 실제로 insert
+        const updatePasswordResult = await userDao.updatePassword(connection, updatePasswordParams);
+        console.log(`비밀번호 수정된 회원: ${updatePasswordResult[0]} `)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+    } catch (err){
+        logger.error(`App - resetPassword Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}

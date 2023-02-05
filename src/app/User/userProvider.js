@@ -88,3 +88,12 @@ exports.retrieveMentee = async function (userId) {
   }
   return menteeResult[0];
 }
+
+
+exports.retrieveIdByPhone = async function(phoneNum){
+  const connection = await pool.getConnection(async (conn) => conn);
+  const idByPhoneResult = await userDao.selectId(connection, phoneNum);
+  connection.release();
+
+  return idByPhoneResult;
+}

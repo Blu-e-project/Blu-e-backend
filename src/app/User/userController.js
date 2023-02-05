@@ -287,3 +287,58 @@ exports.getMenteeById = async function (req, res) {
     const menteeByuserId = await userProvider.retrieveMentee(userId);
     return res.send(response(baseResponse.SUCCESS, menteeByuserId));
 };
+
+
+/**
+ * API No. 11
+ * API Name : 아이디 찾기
+ * [GET] /users/id
+ */
+
+exports.findId = async function (req, res) {
+    const phoneNum = req.body.phoneNum;
+
+    const findIdResponse = await userProvider.retrieveIdByPhone(phoneNum);
+    console.log(findIdResponse.length)
+    if (findIdResponse.length <= 0)
+        return res.send(errResponse(baseResponse.FIND_ID_WRONG));
+
+    return res.send(response(baseResponse.SUCCESS, findIdResponse));
+}
+
+
+/**
+ * API No. 12
+ * API Name : 비밀번호 재설정
+ * [GET] /users/password
+ */
+exports.resetPassword = async function (req, res) {
+    const {id, phoneNum, password, password_check} = req.body
+
+    if (!id) 
+        return res.send(errResponse(baseResponse.RESETPASSWORD_ID_EMPTY));
+    else if (!password)
+        return res.send(errResponse(baseResponse.RESETPASSWORD_PASSWORD_EMPTY));
+    else if (!password_check)
+        return res.send(errResponse(baseResponse.RESETPASSWORD_PASSWORDCHECK_EMPTY));
+
+    if (id.length > 35)
+        return res.send(errResponse(baseResponse.RESETPASSWORD_ID_LENGTH));
+    else if (password.length > 20)
+        return res.send(errResponse(baseResponse.RESETPASSWORD_PASSWORD_LENGTH));
+    
+    // 가입했는지 확인
+    const findIdResponse = await userProvider.retrieveIdByPhone(phoneNum);
+    if (findIdResponse.length <= 0)
+        return res.send(errResponse(baseResponse.FIND_ID_WRONG));
+    else if (findIdResponse[0].id !== id)
+        return res.send(errResponse(baseResponse.RESETPASSWORD_ID_WRONG));
+    console.log(findIdResponse[0].id);
+
+    if (password !== password_check)
+        return res.send(errResponse(baseResponse.RESETPASSWORD_PASSWORD_WRONG));
+    
+    const resetPasswordResponse = await userService.patchResetPassword(id, password);
+    //console.log(resetPasswordResponse);
+    return res.send(resetPasswordResponse);
+}
