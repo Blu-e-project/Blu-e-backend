@@ -163,24 +163,24 @@ exports.getSolutions = async function (req, res) {
     //빈 값 체크
     if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
 
-    const solutionListResult = await problemProvider.retrieveSolutionListByMe(userId);
+    const solutionListResult = await problemProvider.retrieveSolutionList(userId);
     return res.send(response(baseResponse.SUCCESS, solutionListResult));
 
 };
 
 /**
  * API No. 8
- * API Name : 내가 쓴 답변 조회 API 
- * [GET] /problems/:problemId/solutions
+ * API Name : 내가 답변한 질문글 조회 API
+ * [GET] /problemSolByMe
  */
-exports.getSolutionsByMe = async function (req, res) {
+exports.getProblemSolByMe = async function (req, res) {
 
     const userId = req.verifiedToken.userId;
     //빈 값 체크
     // if (!userId) return res.send(errResponse());
 
-    const solutionListResult = await problemProvider.다시쓰기(userId);
-    return res.send(response(baseResponse.SUCCESS, solutionListResult));
+    const problemSolByMeListResult = await problemProvider.retrieveProblemSolByMeList(userId);
+    return res.send(response(baseResponse.SUCCESS, problemSolByMeListResult));
 
 };
 
