@@ -18,9 +18,9 @@ exports.postreport = async function (req, res) {
      * Body: targetId, title, contents
      */
     const userId = req.verifiedToken.userId;
-    const {targetId, title, contents, image} = req.body;
+    const {targetnickname, title, contents, image} = req.body;
 
-    if (!targetId)
+    if (!targetnickname)
         return res.send(response(baseResponse.REPORT_TARGETNICKNAME_EMPTY));
 
     if (!title)
@@ -39,7 +39,7 @@ exports.postreport = async function (req, res) {
 
     const createReportResponse = await reportService.createReport(
         userId,
-        targetId,
+        targetnickname,
         title,
         contents,
         image,
