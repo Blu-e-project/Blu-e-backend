@@ -29,14 +29,17 @@ exports.patchUser = async function (req, res) {
     if (!name) return res.send(response(baseResponse.EDITING_NAME_EMPTY));
     if (!nickname) return res.send(response(baseResponse.EDITING_NICKNAME_EMPTY));
     if (!birth) return res.send(response(baseResponse.EDITING_BIRTH_EMPTY));
+    if (!education) return res.send(response(baseResponse.EDITING_EDUCATION_EMPTY));
+    if (!address) return res.send(response(baseResponse.EDITING_ADDRESS_EMPTY));
+    if (!introduce) return res.send(response(baseResponse.EDITING_INTRODUCE_EMPTY));
+
 
 
     if (name.length > 7) return res.send(response(baseResponse.EDITING_NAME_LENGTH));
     if (nickname.length > 7) return res.send(response(baseResponse.EDITING_NICKNAME_LENGTH));
     if (education.length > 20) return res.send(response(baseResponse.EDITING_EDUCATION_LENGTH));
     if (address.length > 20) return res.send(response(baseResponse.EDITING_ADDRESS_LENGTH));
-    if (introduce)
-        if (introduce.length > 20) return res.send(response(baseResponse.EDITING_INTRODUCE_LENGTH));
+    if (introduce.length > 20) return res.send(response(baseResponse.EDITING_INTRODUCE_LENGTH));
 
     const updateUserResponse = await editingService.editUser(
         name,
