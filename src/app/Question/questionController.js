@@ -10,7 +10,7 @@ const {emit} = require("nodemon");
 /**
  * API No. 1
  * API Name : 유저별 작성한 Q&A 조회
- * [GET] /service/questions/:userId
+ * [GET] /service/questions
  */
 exports.getQuestion = async function (req, res) {
 

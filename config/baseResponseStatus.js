@@ -59,14 +59,17 @@ module.exports = {
     EDITING_NAME_EMPTY: { "isSuccess": false, "code": 2501, "message": "이름을 입력해주세요." },
     EDITING_NICKNAME_EMPTY: { "isSuccess": false, "code": 2502, "message": "닉네임을 입력해주세요." },
     EDITING_BIRTH_EMPTY: { "isSuccess": false, "code": 2503, "message": "생일을 입력해주세요." },
+    EDITING_EDUCATION_EMPTY: { "isSuccess": false, "code": 2504, "message": "학력을 입력해주세요." },
+    EDITING_ADDRESS_EMPTY: { "isSuccess": false, "code": 2505, "message": "실거주지를 입력해주세요." },
+    EDITING_INTRODUCE_EMPTY: { "isSuccess": false, "code": 2506, "message": "자기소개를 입력해주세요." },
 
-    EDITING_NAME_LENGTH : { "isSuccess": false, "code": 2504, "message": "이름을 7자 이내로 입력해주세요." },
-    EDITING_NICKNAME_LENGTH: { "isSuccess": false, "code": 2505, "message": "닉네임을 7자 이내로 입력해주세요." },
-    EDITING_EDUCATION_LENGTH: { "isSuccess": false, "code": 2506, "message": "학력을 20자 이내로 입력해주세요." },
-    EDITING_ADDRESS_LENGTH: { "isSuccess": false, "code": 2507, "message": "실거주지는 50자 이하로 입력해주세요." },
-    EDITING_INTRODUCE_LENGTH: { "isSuccess": false, "code": 2508, "message": "자기소개는 100자리 이하로 입력해주세요." },
-    EDITING_PASSWORD_EMPTY: { "isSuccess": false, "code": 2509, "message": "비밀번호를 입력해주세요." },
-    EDITING_PASSWORD_LENGTH: { "isSuccess": false, "code": 2510, "message": "비밀번호가 20자리 미만으로 입력해주세요." },
+    EDITING_NAME_LENGTH : { "isSuccess": false, "code": 2507, "message": "이름을 7자 이내로 입력해주세요." },
+    EDITING_NICKNAME_LENGTH: { "isSuccess": false, "code": 2508, "message": "닉네임을 7자 이내로 입력해주세요." },
+    EDITING_EDUCATION_LENGTH: { "isSuccess": false, "code": 2509, "message": "학력을 20자 이내로 입력해주세요." },
+    EDITING_ADDRESS_LENGTH: { "isSuccess": false, "code": 2510, "message": "실거주지는 50자 이하로 입력해주세요." },
+    EDITING_INTRODUCE_LENGTH: { "isSuccess": false, "code": 2511, "message": "자기소개는 100자리 이하로 입력해주세요." },
+    EDITING_PASSWORD_EMPTY: { "isSuccess": false, "code": 2512, "message": "비밀번호를 입력해주세요." },
+    EDITING_PASSWORD_LENGTH: { "isSuccess": false, "code": 2513, "message": "비밀번호가 20자리 미만으로 입력해주세요." },
 
 
     POSTPICK_TITLE_EMPTY : {"isSuccess": false, "code": 2600, "message": "제목을 입력해주세요."},
@@ -109,8 +112,8 @@ module.exports = {
     SIGNUP_REDUNDANT_NICKNAME : { "isSuccess": false, "code": 3005, "message":"중복된 닉네임입니다." },
     SIGNUP_REDUNDANT_PHONENUM: { "isSuccess": false, "code": 3006, "message":"중복된 전화번호입니다." },
 
-    EDITING_REDUNDANT_NICKNAME : { "isSuccess": false, "code": 3100, "message":"중복된 닉네임입니다." },
-    EDITING_PASSWORD_DIFFERENT: { "isSuccess": false, "code": 3101, "message":"새 비밀번호를 동일하게 입력해주세요." },
+    EDITING_REDUNDANT_NICKNAME : { "isSuccess": false, "code": 3500, "message":"중복된 닉네임입니다." },
+    EDITING_PASSWORD_DIFFERENT: { "isSuccess": false, "code": 3501, "message":"새 비밀번호를 동일하게 입력해주세요." },
 
     PICKCOMMENT_COMMENT_REDUNDANT: { "isSuccess": false, "code": 3701, "message":"이미 댓글을 다셨습니다." },
 
