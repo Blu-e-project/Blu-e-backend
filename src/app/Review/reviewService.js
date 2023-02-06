@@ -18,7 +18,7 @@ exports.createReview = async function (userId, nickname, subject, contents) {
 
         const connection = await pool.getConnection(async (conn) => conn);
 
-        const reviewIdResult = await reviewDao.insertReview(connection, insertReviewParams);
+        const reviewIdResult = await reviewDao.insertReview(connection, userId, nickname, subject, contents);
         // console.log(`추가된 리뷰 : ${reviewIdResult[0]}`)
         connection.release();
         return response(baseResponse.SUCCESS);
@@ -31,13 +31,13 @@ exports.createReview = async function (userId, nickname, subject, contents) {
 };
 
 //리뷰수정
-exports.updateReview = async function (name, subject, contents, reviewId) {
+exports.updateReview = async function (contents, reviewId) {
     try {
-        const updateReviewParams = [name, subject, contents, reviewId];
+        const updateReviewParams = [contents, reviewId];
         const connection = await pool.getConnection(async (conn) => conn);
 
         const reviewIdResult = await reviewDao.updateReview(connection, updateReviewParams);
-        console.log(`수정된 리뷰 : ${reviewIdResult[0]}`)
+        // console.log(`수정된 리뷰 : ${reviewIdResult[0]}`)
         connection.release();
         return response(baseResponse.SUCCESS);
 
