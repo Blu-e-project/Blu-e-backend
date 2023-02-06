@@ -483,11 +483,17 @@ exports.patchPickMentorsCom = async function(req, res) {
     const pickId = req.params.pickId;
     const pickCommentId = req.params.pickCommentId;
 
-    // 내가 쓴 댓글인지 확인
-    //const pickComUserIdCheck = await mentoringProvider.selectPickComUser(userId);
 
     if (!pickId) return res.send(errResponse(baseResponse.PICKCOMMENT_PICKID_EMPTY))
     if (!pickCommentId) return res.send(errResponse(baseResponse.PICKCOMMENT_COMMENTID_EMPTY))
+
+    const pickComUserIdCheck = await mentoringProvider.selectPickComUser(pickCommentId);
+    console.log(pickComUserIdCheck[0].userId)
+
+    // 내가 쓴 댓글인지 확인
+    if (userId !== pickComUserIdCheck[0].userId)
+        return res.send(errResponse(baseResponse.PICKCOMMENT_USERID_WRONG))
+
     if (!contents) return res.send(errResponse(baseResponse.PICKCOMMENT_COMMENT_EMPTY))
     if (contents.length > 300) return res.send(errResponse(baseResponse.PICKCOMMENT_COMMENT_LENGTH))
 
@@ -506,12 +512,20 @@ exports.patchPickMentorsCom = async function(req, res) {
  * [PATCH] /mentoring/mentors/{pickId}/comments/{pickCommentId}
  */
 exports.deletePickMentorsCom = async function(req, res){
+    const userId = req.verifiedToken.userId;
     const pickId = req.params.pickId;
     const pickCommentId = req.params.pickCommentId;
 
     // 내가 작성한 댓글만 삭제할 수 있도록 고치기
     if (!pickId) return res.send(errResponse(baseResponse.PICKCOMMENT_PICKID_EMPTY))
     if (!pickCommentId) return res.send(errResponse(baseResponse.PICKCOMMENT_COMMENTID_EMPTY))
+
+    // 내가 쓴 댓글인지 확인
+    const pickComUserIdCheck = await mentoringProvider.selectPickComUser(pickCommentId);
+    console.log(pickComUserIdCheck[0].userId)
+
+    if (userId !== pickComUserIdCheck[0].userId)
+        return res.send(errResponse(baseResponse.PICKCOMMENT_USERID_WRONG))
 
     const deletePickMentorsComResponse = await mentoringService.deleteMentorsCom(
         pickId,
@@ -558,4 +572,64 @@ exports.getPickMenteesCom = async function (req, res){
     const pickMenteesComListResult = await mentoringProvider.retrievePickMenteeComList(pickId);
     return res.send(response(baseResponse.SUCCESS, pickMenteesComListResult))
     
+}
+
+/**
+ * API No. 19
+ * API Name : 멘티 구하는 글에 댓글 수정
+ * [PATCH] /mentoring/mentees/{pickId}/comments/{pickCommentId}
+ */
+exports.patchPickMenteesCom = async function(req, res) {
+    const userId = req.verifiedToken.userId;
+    const {contents} = req.body;
+    const pickId = req.params.pickId;
+    const pickCommentId = req.params.pickCommentId;
+
+    if (!pickId) return res.send(errResponse(baseResponse.PICKCOMMENT_PICKID_EMPTY))
+    if (!pickCommentId) return res.send(errResponse(baseResponse.PICKCOMMENT_COMMENTID_EMPTY))
+
+    // 내가 쓴 댓글인지 확인
+    const pickComUserIdCheck = await mentoringProvider.selectPickComUser(pickCommentId);
+    console.log(pickComUserIdCheck[0].userId)
+
+    if (userId !== pickComUserIdCheck[0].userId)
+        return res.send(errResponse(baseResponse.PICKCOMMENT_USERID_WRONG))
+
+    if (!contents) return res.send(errResponse(baseResponse.PICKCOMMENT_COMMENT_EMPTY))
+    if (contents.length > 300) return res.send(errResponse(baseResponse.PICKCOMMENT_COMMENT_LENGTH))
+
+    const updatePickMentorsComResponse = await mentoringService.updateMenteesCom(
+        contents,
+        pickId,
+        pickCommentId,
+    );
+    return res.send(updatePickMentorsComResponse);
+}
+
+/**
+ * API No. 20
+ * API Name : 멘티 구하는 글에 댓글 삭제
+ * [PATCH] /mentoring/mentees/{pickId}/comments/{pickCommentId}
+ */
+exports.deletePickMenteesCom = async function(req, res){
+    const userId = req.verifiedToken.userId;
+    const pickId = req.params.pickId;
+    const pickCommentId = req.params.pickCommentId;
+
+    // 내가 작성한 댓글만 삭제할 수 있도록 고치기
+    if (!pickId) return res.send(errResponse(baseResponse.PICKCOMMENT_PICKID_EMPTY))
+    if (!pickCommentId) return res.send(errResponse(baseResponse.PICKCOMMENT_COMMENTID_EMPTY))
+
+    // 내가 쓴 댓글인지 확인
+    const pickComUserIdCheck = await mentoringProvider.selectPickComUser(pickCommentId);
+    console.log(pickComUserIdCheck[0].userId)
+
+    if (userId !== pickComUserIdCheck[0].userId)
+        return res.send(errResponse(baseResponse.PICKCOMMENT_USERID_WRONG))
+
+    const deletePickMentorsComResponse = await mentoringService.deleteMenteesCom(
+        pickId,
+        pickCommentId
+    )
+    return res.send(deletePickMentorsComResponse);
 }

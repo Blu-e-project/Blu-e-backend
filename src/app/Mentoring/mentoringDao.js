@@ -220,7 +220,7 @@ async function updateMentorsCom(connection, updateMentorsComParams){
   const updateMentorsComQuery = `
       UPDATE pickcomment
       SET contents = ?
-      WHERE pickId = ? and pickCommentId = ? and userId = ?;
+      WHERE pickId = ? and pickCommentId = ?;
   `
   const updateMentorsComRow = await connection.query(
       updateMentorsComQuery,
@@ -271,13 +271,53 @@ async function insertMenteesCom(connection, insertMenteesComParams){
 
 // 멘티 구인글에 달린 댓글 조회
 async function selectMenteeCom(connection, pickId) {
-  const selectMentorComQuery = `
+  const selectMenteeComQuery = `
       SELECT pickCommentId, pickId, nickname, contents
       FROM pickcomment
       JOIN user ON pickcomment.userId=user.userId and pickId = ?;
   `
-  const [menteeComRows] = await connection.query(selectMentorComQuery, pickId);
+  const [menteeComRows] = await connection.query(selectMenteeComQuery, pickId);
   return menteeComRows;
+}
+
+// 멘티 구인글 댓글 수정
+async function updateMenteesCom(connection, updateMenteesComParams){
+  const updateMenteesComQuery = `
+      UPDATE pickcomment
+      SET contents = ?
+      WHERE pickId = ? and pickCommentId = ?;
+  `
+  const updateMenteesComRow = await connection.query(
+      updateMenteesComQuery,
+      updateMenteesComParams
+  )
+  return updateMenteesComRow
+}
+
+// 멘티 구인글 댓글 삭제
+async function deleteMenteesCom(connection, deleteMenteesComParams){
+  const deleteMenteesComQuery = `
+      DELETE FROM pickcomment
+      WHERE pickId = ? and pickCommentId = ?;
+  `
+  const deleteMenteesComRow = await connection.query(
+      deleteMenteesComQuery,
+      deleteMenteesComParams
+  );
+
+  return deleteMenteesComRow
+
+}
+
+// 댓글 작성자와 userId가 맞는지 확인
+async function selectPickComUser(connection, pickCommentId) {
+  const selectPickComUserQuery = `
+                    SELECT userId
+                    FROM pickcomment
+                    WHERE pickCommentId = ?;
+    `
+    const [roleRows] = await connection.query(selectPickComUserQuery, pickCommentId);
+    return roleRows;
 }
 
   module.exports = {
@@ -304,5 +344,8 @@ async function selectMenteeCom(connection, pickId) {
     selectPickComByUserId,
     insertMenteesCom,
     selectMenteeCom,
+    selectPickComUser,
+    updateMenteesCom,
+    deleteMenteesCom
   };
   

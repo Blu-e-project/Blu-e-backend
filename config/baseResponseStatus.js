@@ -96,7 +96,7 @@ module.exports = {
     PICKCOMMENT_PICKID_EMPTY: {"isSuccess": false, "code": 2702, "message": "pickId가 비어있습니다."},
     PICKCOMMENT_COMMENTID_EMPTY:{"isSuccess": false, "code": 2703, "message": "pickCommentId가 비어있습니다."},
     PICKCOMMENT_ROLE_WRONG:{"isSuccess": false, "code": 2704, "message": "댓글을 다는 role이 잘못 되었습니다."},
-
+    PICKCOMMENT_USERID_WRONG:{"isSuccess": false, "code": 2705, "message": "댓글 작성자와 일치하지 않습니다."},
 
     // response err
     SIGNUP_REDUNDANT_ID : { "isSuccess": false, "code": 3001, "message":"중복된 아이디입니다." },
