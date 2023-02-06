@@ -320,6 +320,43 @@ async function selectPickComUser(connection, pickCommentId) {
     return roleRows;
 }
 
+// 댓글 작성자와 userId가 맞는지 확인
+async function pickStatusCheck(connection, pickId) {
+  const pickStatusCheckQuery = `
+                    SELECT pickId, status
+                    FROM pick
+                    WHERE pickId = ?;
+    `
+    const [pickRows] = await connection.query(pickStatusCheckQuery, pickId);
+    return pickRows;
+}
+
+async function insertMatching(connection, userId, pickId, pickCommentId){
+  const insertMatchingQuery = `
+      INSERT INTO matching(userId, targetId, subject)
+      VALUES (${userId},
+      (SELECT userId
+        FROM pickcomment
+        WHERE pickCommentId=${pickCommentId}),
+      (SELECT subject
+        FROM pick
+        WHERE pickId=${pickId})
+      );
+    `
+    const [matchingRows] = await connection.query(insertMatchingQuery, userId, pickId, pickCommentId);
+    return matchingRows;
+}
+
+async function updateStatus(connection, pickId){
+  const updateStatusQuery = `
+          UPDATE pick
+          SET status = 0
+          WHERE pickId = ?;
+        `
+    const statusRow = await connection.query(updateStatusQuery, pickId);
+    return statusRow;
+}
+
   module.exports = {
     selectPickMentee,
     selectPickMentor,
@@ -346,6 +383,9 @@ async function selectPickComUser(connection, pickCommentId) {
     selectMenteeCom,
     selectPickComUser,
     updateMenteesCom,
-    deleteMenteesCom
+    deleteMenteesCom,
+    pickStatusCheck,
+    insertMatching,
+    updateStatus
   };
   

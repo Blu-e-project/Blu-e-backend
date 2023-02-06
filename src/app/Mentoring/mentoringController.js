@@ -566,10 +566,20 @@ exports.postPickMenteesCom = async function (req, res) {
  * [GET] /mentoring/mentees/{pickId}/comments
  */
 exports.getPickMenteesCom = async function (req, res){
+    const userId = req.verifiedToken.userId;
     const pickId = req.params.pickId;
+    let pickMenteesComListResult;
 
     if (!pickId) return res.send(errResponse(baseResponse.PICKCOMMENT_PICKID_EMPTY))
-    const pickMenteesComListResult = await mentoringProvider.retrievePickMenteeComList(pickId);
+
+    // 1. status가 1이면 매칭 완료 안 된 구인 글 -> 댓글 전부 다 보여주기
+    //                                         -> pick 글 쓴 사람한테는 댓글의 수락 버튼 보여지도록 하기
+    const pickStatus = await mentoringProvider.pickStatusCheck(pickId) // pick의 status 확인
+    console.log(pickStatus[0].status)
+    if (pickStatus[0].status === 1)
+        pickMenteesComListResult = await mentoringProvider.retrievePickMenteeComList(pickId); // 댓글 전부 보여주기
+    //else if (pickStatus[0].status === 0)
+        //pickMenteesComListResult = await mentoringProvider.retrievePickMenteeCom(pickId); // 매칭된 댓글만 보여주기
     return res.send(response(baseResponse.SUCCESS, pickMenteesComListResult))
     
 }
@@ -632,4 +642,31 @@ exports.deletePickMenteesCom = async function(req, res){
         pickCommentId
     )
     return res.send(deletePickMentorsComResponse);
+}
+
+
+/**
+ * API No. 21
+ * API Name : 매칭 수락 버튼 API
+ * [PATCH] /mentoring/mentors/{pickId}/comments/{pickCommentId}/matching
+ */
+exports.postMatching = async function(req, res){
+    const userId = req.verifiedToken.userId;
+    const pickId = req.params.pickId;
+    const pickCommentId = req.params.pickCommentId;
+
+    const pickStatus = await mentoringProvider.pickStatusCheck(pickId) // pick의 status 확인
+    console.log(pickStatus[0].status)
+
+    if (pickStatus[0].status === 0) // status가 0이면 매칭 완료된 구인글로 수락 버튼 클릭 불가능
+        return res.send(errResponse(baseResponse.MATCHING_ACCEPT_INACTIVE))
+
+    // status가 1이면 매칭 완료 안 된 구인글 -> 수락 시 pick의 userId 값과 
+    // pickComment의 userId, pick의 subject를 matching 테이블에 insert
+    const postMatchingResponse = await mentoringService.createMatching(
+        userId,
+        pickId,
+        pickCommentId
+    )
+    return res.send(postMatchingResponse)
 }

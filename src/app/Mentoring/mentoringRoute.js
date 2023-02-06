@@ -62,4 +62,7 @@ module.exports = function(app){
     // 멘티 구인글 댓글 삭제
     app.delete('/mentoring/mentees/:pickId/comments/:pickCommentId', jwtMiddleware, mentoring.deletePickMenteesCom)
 
+    // 매칭 수락
+    app.post('/mentoring/mentors/:pickId/comments/:pickCommentId/matching', jwtMiddleware, mentoring.postMatching);
+
 };

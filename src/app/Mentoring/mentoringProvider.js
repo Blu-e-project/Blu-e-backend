@@ -108,3 +108,11 @@ exports.selectPickComUser = async function(pickCommentId){
 
   return comCheckResult;
 }
+
+exports.pickStatusCheck = async function(pickId){
+  const connection = await pool.getConnection(async (conn) => conn);
+  const pickStatusResult = await mentoringDao.pickStatusCheck(connection, pickId);
+  connection.release();
+
+  return pickStatusResult;
+}
