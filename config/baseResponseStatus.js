@@ -117,6 +117,8 @@ module.exports = {
 
     PICKCOMMENT_COMMENT_REDUNDANT: { "isSuccess": false, "code": 3701, "message":"이미 댓글을 다셨습니다." },
 
+    MATCHING_ACCEPT_INACTIVE: { "isSuccess": false, "code": 3901, "message":"이미 매칭되어 수락 버튼을 활성화 할 수 없습니다." },
+
      //Connection, Transaction 등의 server err
      DB_ERROR : { "isSuccess": false, "code": 4000, "message": "데이터 베이스 에러"},
      SERVER_ERROR : { "isSuccess": false, "code": 4001, "message": "서버 에러"},

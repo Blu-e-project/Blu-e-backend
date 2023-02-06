@@ -320,3 +320,29 @@ exports.createMenteesCom = async function (userId, pickId, contents){
     }
 
 }
+exports.createMatching = async function (userId, pickId, pickCommentId){
+    try {
+        // userId가 해당 구인글 userId와 동일한지 확인
+        const roleRows = await mentoringProvider.pickUserCheck(pickId, userId);
+        const userIdCheck = roleRows[0].userId
+        if(userId!==userIdCheck){
+            return errResponse(baseResponse.MENTORMENTEE_AUTH);
+        }
+        // const pickUserId = await mentoringDao.getPickUserId(pickId);
+        const connection = await pool.getConnection(async (conn) => conn);
+
+        // matching 테이블에 추가
+        const insertMatchingResult = await mentoringDao.insertMatching(connection, userId, pickId, pickCommentId);
+        console.log(`추가된 매칭 : ${insertMatchingResult[0]}`)
+
+        // 매칭 완료이므로, pick 테이블 status는 0으로 업데이트
+        const statusZero = await mentoringDao.updateStatus(connection, pickId);
+        console.log(`업데이트 된 pick의 status: ${statusZero}`)
+        connection.release();
+
+        return response(baseResponse.SUCCESS);
+    } catch(err){
+        logger.error(`App - createMatching Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}
