@@ -94,7 +94,7 @@ exports.postSignIn = async function(id, password) {
 
 exports.patchResetPassword = async function(id, password){
     try{
-        const updatePasswordParams = [id, password]
+        const updatePasswordParams = [password, id]
         const connection = await pool.getConnection(async (conn) => conn);        
         // Dao로 user를 실제로 insert
         const updatePasswordResult = await userDao.updatePassword(connection, updatePasswordParams);
