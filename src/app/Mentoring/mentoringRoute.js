@@ -57,9 +57,9 @@ module.exports = function(app){
     app.get('/mentoring/mentees/:pickId/comments', jwtMiddleware, mentoring.getPickMenteesCom);
     
     // 멘티 구인글 댓글 수정
-    //app.patch('/mentoring/mentees/:pickId/comments/:pickCommentId', jwtMiddleware, mentoring.patchPickMenteesCom)
+    app.patch('/mentoring/mentees/:pickId/comments/:pickCommentId', jwtMiddleware, mentoring.patchPickMenteesCom)
     
     // 멘티 구인글 댓글 삭제
-    //app.delete('/mentoring/mentees/:pickId/comments/:pickCommentId', jwtMiddleware, mentoring.deletePickMenteesCom)
+    app.delete('/mentoring/mentees/:pickId/comments/:pickCommentId', jwtMiddleware, mentoring.deletePickMenteesCom)
 
 };

@@ -171,8 +171,8 @@ exports.createMentorsCom = async function (userId, pickId, contents){
         console.log(roleRows[0], roleRows[0].role)
         const role = roleRows[0].role
 
-        if (role === 1) // 역할이 멘토이면 안됨
-        return response(baseResponse.PICKCOMMENT_ROLE_WRONG);
+        if (role === 2) // 멘토 구인글의 댓글 작성자 역할이 멘티이면 안됨
+            return response(baseResponse.PICKCOMMENT_ROLE_WRONG);
 
         const insertMentorsComParams = [userId, pickId, role, contents];
 
@@ -189,9 +189,9 @@ exports.createMentorsCom = async function (userId, pickId, contents){
 
 }
 
-exports.updateMentorsCom= async function(userId, contents, pickId, pickCommentId){
+exports.updateMentorsCom= async function(contents, pickId, pickCommentId){
     try{
-        const updateMentorsComParams = [userId, contents, pickId, pickCommentId]
+        const updateMentorsComParams = [contents, pickId, pickCommentId]
         const connection = await pool.getConnection(async (conn) => conn);
         const mentorComIdResult = await mentoringDao.updateMentorsCom(connection,updateMentorsComParams);
         console.log(`수정된 댓글 : ${mentorComIdResult[0]}`)
@@ -209,6 +209,35 @@ exports.deleteMentorsCom = async function(pickId, pickCommentId){
         const deleteMentorsComParams = [pickId, pickCommentId]
         const connection = await pool.getConnection(async (conn) => conn);
         const mentorComIdResult = await mentoringDao.deleteMentorsCom(connection,deleteMentorsComParams);
+        console.log(`삭제된 댓글 : ${mentorComIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+    } catch(err) {
+        logger.error(`App - deleteComment Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}
+
+exports.updateMenteesCom= async function(contents, pickId, pickCommentId){
+    try{
+        const updateMentorsComParams = [contents, pickId, pickCommentId]
+        const connection = await pool.getConnection(async (conn) => conn);
+        const mentorComIdResult = await mentoringDao.updateMenteesCom(connection,updateMentorsComParams);
+        console.log(`수정된 댓글 : ${mentorComIdResult[0]}`)
+        connection.release();
+        return response(baseResponse.SUCCESS);
+
+    } catch(err){
+        logger.error(`App - updateComment Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}
+
+exports.deleteMenteesCom = async function(pickId, pickCommentId){
+    try{
+        const deleteMentorsComParams = [pickId, pickCommentId]
+        const connection = await pool.getConnection(async (conn) => conn);
+        const mentorComIdResult = await mentoringDao.deleteMenteesCom(connection,deleteMentorsComParams);
         console.log(`삭제된 댓글 : ${mentorComIdResult[0]}`)
         connection.release();
         return response(baseResponse.SUCCESS);
@@ -275,7 +304,7 @@ exports.createMenteesCom = async function (userId, pickId, contents){
         console.log(roleRows[0], roleRows[0].role)
         const role = roleRows[0].role
         
-        if (role === 2) // 역할이 멘티이면 안됨
+        if (role === 1) // 멘티 구인글의 댓글 작성자 역할이 멘토이면 안됨
             return response(baseResponse.PICKCOMMENT_ROLE_WRONG);
         const insertMenteesComParams = [userId, pickId, role, contents];
 
