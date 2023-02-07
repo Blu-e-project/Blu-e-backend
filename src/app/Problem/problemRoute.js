@@ -24,7 +24,7 @@ module.exports = function(app){
    app.get('/problems/:problemId/solutions', jwtMiddleware, problem.getSolutions);
 
    // 8. 내가 답변한 질문글 조회 API
-   app.get('/proSolutionByMe', jwtMiddleware, problem.getProblemSolByMe);
+   app.get('/problemSolByMe', jwtMiddleware, problem.getProblemSolByMe);
 
     // 9. 해답 수정 API
    app.patch('/problems/:problemId/solutions/:solutionId', jwtMiddleware, problem.patchSolutions);

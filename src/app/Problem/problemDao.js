@@ -16,7 +16,7 @@
   // 전체 문제 조회
 async function selectProblem(connection) {
   const selectProblemListQuery = `
-                  SELECT problemId, nickname, subject, unit, problem, contents, image 
+                  SELECT problemId, nickname, subject, unit, problem, contents, image, problem.createdAt, problem.updatedAt
                   FROM problem 
                   JOIN user ON problem.userId=user.userId;
                 `;
@@ -28,7 +28,7 @@ async function selectProblem(connection) {
 // problemId로 문제 조회
 async function selectProblemId(connection, problemId) {
   const selectProblemIdQuery = `
-                 SELECT problemId, nickname, subject, unit, problem, contents, image 
+                 SELECT problemId, nickname, subject, unit, problem, contents, image, p.createdAt, p.updatedAt
                  FROM user u, problem p 
                  WHERE u.userId=p.userId and problemId = ?;
                  `;
@@ -39,7 +39,7 @@ async function selectProblemId(connection, problemId) {
 // 내가 질문한 문제 조회
 async function selectProblemByUserId(connection, userId) {
   const selectProblemIdQuery = `
-                 SELECT problemId, nickname, subject, unit, problem, contents, image 
+                 SELECT problemId, nickname, subject, unit, problem, contents, image, p.createdAt, p.updatedAt
                  FROM user u, problem p 
                  WHERE u.userId=p.userId and p.userId = ?;
                  `;
@@ -75,7 +75,7 @@ async function deleteProblem(connection, problemId) {
   async function selectSolution(connection, problemId) {
 
     const selectSolutionListQuery = `
-                        SELECT solutionId, problemId, nickname, contents
+                        SELECT solutionId, problemId, nickname, contents, solution.updatedAt
                         FROM solution
                         JOIN user ON solution.userId=user.userId and problemId = ?;
                         `
@@ -87,7 +87,7 @@ async function deleteProblem(connection, problemId) {
     async function selectProblemSolByMe(connection, userId) {
 
       const selectProSolutionListQuery = `
-                          SELECT problemId, (select nickname from user where userId = problem.userId) as nickname, subject, unit, problem, contents, image
+                          SELECT problemId, (select nickname from user where userId = problem.userId) as nickname, subject, unit, problem, contents, image, problem.createdAt, problem.updatedAt
                           FROM problem
                           WHERE problemId in (select problemId from solution where userId = ?);
                           `
