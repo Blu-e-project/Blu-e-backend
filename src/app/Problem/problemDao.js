@@ -28,7 +28,7 @@ async function selectProblem(connection) {
 // problemId로 문제 조회
 async function selectProblemId(connection, problemId) {
   const selectProblemIdQuery = `
-                 SELECT problemId, nickname, subject, unit, problem, contents, image, p.createdAt, p.updatedAt
+                 SELECT problemId, userImg, nickname, subject, unit, problem, contents, image, p.createdAt, p.updatedAt
                  FROM user u, problem p 
                  WHERE u.userId=p.userId and problemId = ?;
                  `;
@@ -75,7 +75,7 @@ async function deleteProblem(connection, problemId) {
   async function selectSolution(connection, problemId) {
 
     const selectSolutionListQuery = `
-                        SELECT solutionId, problemId, nickname, contents, solution.updatedAt
+                        SELECT solutionId, problemId, userImg, nickname, contents, solution.updatedAt
                         FROM solution
                         JOIN user ON solution.userId=user.userId and problemId = ?;
                         `
