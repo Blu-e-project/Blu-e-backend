@@ -16,6 +16,7 @@ exports.createQuestion = async function (title, contents, userId) {
         const connection = await pool.getConnection(async (conn) => conn);
 
         const QuestionResult = await questionDao.insertQuestionInfo(connection, insertQuestionInfoParams);
+        const InsertDefaultAnswer = await questionDao.insertDefaultAnswerInfo(connection, userId);
         
         console.log(`추가된 Question : ${QuestionResult[0].insertId}`)
         connection.release();
