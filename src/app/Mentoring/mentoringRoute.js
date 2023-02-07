@@ -65,4 +65,5 @@ module.exports = function(app){
     // 매칭 수락
     app.post('/mentoring/mentors/:pickId/comments/:pickCommentId/matching', jwtMiddleware, mentoring.postMatching);
 
+    app.get('/myPage/myMentoring',  mentoring.getMyMentoring);
 };

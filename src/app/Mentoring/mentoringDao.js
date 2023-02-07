@@ -380,6 +380,21 @@ async function userIdCheck(connection, pickId){
     return userIdCheckRow;
 }
 
+// 멘토링 내역 조회
+async function mentoringList(connection, userId){
+  const mentoringListQuery = `
+      SELECT matching.userId, user.nickname, IF(datediff(pick.periodEnd,sysdate())>0, 1, 0) as state, user.userImg
+      FROM matching 
+      JOIN user ON user.userId = ${userId}
+      JOIN pick ON pick.userId = ${userId}
+      WHERE matching.userId = ${userId} OR matching.targetId = ${userId}
+  ;
+  `
+  const [mentoringListRows] = await connection.query(mentoringListQuery, userId);
+  return mentoringListRows;
+
+}
+
   module.exports = {
     selectPickMentee,
     selectPickMentor,
@@ -411,6 +426,7 @@ async function userIdCheck(connection, pickId){
     insertMatching,
     updateStatus,
     selectMatchingCom,
-    userIdCheck
+    userIdCheck,
+    mentoringList,
   };
   
