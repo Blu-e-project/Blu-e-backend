@@ -578,8 +578,8 @@ exports.getPickMenteesCom = async function (req, res){
     console.log(pickStatus[0].status)
     if (pickStatus[0].status === 1)
         pickMenteesComListResult = await mentoringProvider.retrievePickMenteeComList(pickId); // 댓글 전부 보여주기
-    //else if (pickStatus[0].status === 0)
-        //pickMenteesComListResult = await mentoringProvider.retrievePickMenteeCom(pickId); // 매칭된 댓글만 보여주기
+    // else if (pickStatus[0].status === 0)
+    //     pickMenteesComListResult = await mentoringProvider.retrievePickMenteeCom(userId, pickId); // 매칭된 댓글만 보여주기
     return res.send(response(baseResponse.SUCCESS, pickMenteesComListResult))
     
 }
@@ -654,6 +654,12 @@ exports.postMatching = async function(req, res){
     const userId = req.verifiedToken.userId;
     const pickId = req.params.pickId;
     const pickCommentId = req.params.pickCommentId;
+
+    // 구인글 쓴 사람한테는 수락 버튼을 보여주기 -> pick 테이블의 userId가 로그인한 userId랑 같을 때만
+    const userIdCheck = await mentoringProvider.userIdCheck(pickId); // pickId로 글쓴 userId 확인
+    console.log(userIdCheck[0][0].userId, userId)
+    if (userIdCheck[0][0].userId !== userId)
+        return res.send(errResponse(baseResponse.MATCHING_USERID_WRONG))
 
     const pickStatus = await mentoringProvider.pickStatusCheck(pickId) // pick의 status 확인
     console.log(pickStatus[0].status)
