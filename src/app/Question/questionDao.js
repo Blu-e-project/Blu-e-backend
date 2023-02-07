@@ -1,7 +1,7 @@
 // 모든 qusetion 조회
 async function selectQuestion(connection,userId) {
     const selectQuestionListQuery = `
-    select question.title, question.contents, answer.contents from
+    select question.title, question.contents, answer.contents as answer from
     answer right outer join question on answer.questionId = question.questionId where question.userId = ?;
                   `;
     const [questionRows] = await connection.query(selectQuestionListQuery,userId);
@@ -33,8 +33,20 @@ async function deleteQuestion(connection, questionId) {
 }
 
 
+// 답변 기본 값으로, [답변 대기 중] 메시지가 출력되게 함
+async function insertDefaultAnswerInfo(connection, userId) {
+  const insertDefaultAnswerQuery = `
+                insert into answer(questionId, userId, contents)
+                values((SELECT questionId FROM question ORDER BY questionId DESC LIMIT 1),${userId},'[답변 대기 중]');
+                `;
+  const insertDefaultAnswerRows = await connection.query(insertDefaultAnswerQuery);
+  return insertDefaultAnswerRows;
+}
+
+
   module.exports = {
     selectQuestion,
     insertQuestionInfo,
     deleteQuestion,
+    insertDefaultAnswerInfo,
  };
