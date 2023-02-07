@@ -7,7 +7,7 @@ async function insertReportInfo(connection, userId, targetnickname, title, conte
 
     const insertReportInfoRow = await connection.query(
       insertReportInfoQuery,
-      userId, targetnickname, title, contents, image
+      userId, targetnickname, title, contents, image,
     );
   
     return insertReportInfoRow;
@@ -39,8 +39,26 @@ async function updateStatusInfo(connection, targetnickname) {
   return updateWarningInfoRow;
 }
 
+
+async function matchingCheck(connection, userId, targetnickname) {
+  const matchingCheckInfoQuery = `
+  select matchingId from matching where (userId = ${userId} and targetId = (select userId from user where nickname = "${targetnickname}"))
+  or (userId = (select userId from user where nickname = "${targetnickname}") and targetId = ${userId}); ;
+    `;
+
+  const matchingCheckInfoRow = await connection.query(
+    matchingCheckInfoQuery,
+    userId, targetnickname,
+  );
+
+  return matchingCheckInfoRow;
+}
+
+
+
   module.exports = {
     insertReportInfo,
     updateWarningInfo,
     updateStatusInfo,
+    matchingCheck,
  };
