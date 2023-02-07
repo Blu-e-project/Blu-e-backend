@@ -22,3 +22,21 @@ exports.retrieveMyPickMenteeList = async function () {
     
     return myPickMenteeListResult;
 };
+
+exports.retrieveMyComPickMentorList = async function () {
+
+    const connection = await pool.getConnection(async (conn) => conn);
+    const myComPickMentorListResult = await myPageDao.selectMyComPickMentor(connection);
+    connection.release();
+    
+    return myComPickMentorListResult;
+};
+
+exports.retrieveMyComPickMenteeList = async function () {
+
+    const connection = await pool.getConnection(async (conn) => conn);
+    const myComPickMenteeListResult = await myPageDao.selectMyComPickMentee(connection);
+    connection.release();
+    
+    return myComPickMenteeListResult;
+};
