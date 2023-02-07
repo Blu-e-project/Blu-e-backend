@@ -13,13 +13,12 @@ exports.createReport = async function (userId, targetnickname, title, contents, 
         const insertReportInfoParams = [userId, targetnickname, title, contents, image];
         console.log(insertReportInfoParams);
 
-        const connection = await pool.getConnection(async (conn) => conn);
+        // 신고하려는 유저와 매칭이 되어 있는 지 확인
+        const matchingCheck = await reportProvider.matchingCheckInfo(userId, targetnickname);
+        if(!matchingCheck[0].length > 0)
+            return errResponse(baseResponse.REPORT_MATCHING_EMPTH);
 
-        // const GetTargetIdByNickname = await reportProvider.getTargetId(targetnickname);
-        // console.log(GetTargetIdByNickname[0]);
-
-        // insertReportInfoParams = [userId, GetTargetIdByNickname[0].userId, title, contents, image];
-        // console.log(insertReportInfoParams);
+        const connection = await pool.getConnection(async (conn) => conn);     
         const ReportResult = await reportDao.insertReportInfo(connection, userId, targetnickname, title, contents, image);
         const UpdateWarning = await reportDao.updateWarningInfo(connection, targetnickname);
         
