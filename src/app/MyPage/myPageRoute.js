@@ -9,9 +9,9 @@ module.exports = function(app){
     app.get('/myPage/myMenteePick', jwtMiddleware, myPage.getPickMenteesByMe);
 
     // 3. 내가 댓글 쓴 멘토 구인글 조회 API
-    // app.get('/myPage/myMentorComPick', jwtMiddleware, myPage.getPickMenteesByMyCom);
+    app.get('/myPage/myMentorComPick', jwtMiddleware, myPage.getPickMentorsByMyCom);
 
     // 4. 내가 댓글 쓴 멘티 구인글 조회 API
-    // app.get('/myPage/myMenteeComPick', jwtMiddleware, myPage.getPickMenteesByMyCom);
+    app.get('/myPage/myMenteeComPick', jwtMiddleware, myPage.getPickMenteesByMyCom);
    
 };

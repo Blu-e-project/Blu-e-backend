@@ -20,8 +20,28 @@ async function selectMyPickMentee(connection, userId) {
 };
 
 //내가 댓글 쓴 멘토 구인글 조회
+async function selectMyComPickMentor(connection, userId) {
+    const selectMyComPickMentorListQuery = `
+                      SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
+                      FROM pick
+                      WHERE role = 2 AND pickId in (SELECT pickId from pickComment where userId = ?);
+                  `;
+    const [myComPickMentorRows] = await connection.query(selectMyComPickMentorListQuery, userId);
+    return myComPickMentorRows;
+};
 //내가 댓글 쓴 멘티 구인글 조회
+async function selectMyComPickMentee(connection, userId) {
+    const selectMyComPickMenteeListQuery = `
+                      SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
+                      FROM pick
+                      WHERE role = 1 AND pickId in (SELECT pickId from pickComment where userId = ?);
+                  `;
+    const [myComPickMenteeRows] = await connection.query(selectMyComPickMenteeListQuery, userId);
+    return myComPickMenteeRows;
+};
 module.exports = {
     selectMyPickMentor,
-    selectMyPickMentee
+    selectMyPickMentee,
+    selectMyComPickMentor,
+    selectMyComPickMentee
 };

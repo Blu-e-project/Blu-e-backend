@@ -31,3 +31,29 @@ exports.getPickMenteesByMe = async function (req, res) {
     return res.send(response(baseResponse.SUCCESS, myPickMenteeListResult));
 
 };
+
+/**
+ * API No. 3
+ * API Name : 내가 댓글 쓴 멘토 구인글 조회 API
+ * [GET] /myPage/myMentorComPick
+ */
+
+exports.getPickMentorsByMyCom = async function (req, res) {
+
+    const myComPickMentorListResult = await myPageProvider.retrieveMyComPickMentorList();
+    return res.send(response(baseResponse.SUCCESS, myComPickMentorListResult));
+
+};
+
+/**
+ * API No. 4
+ * API Name : 내가 댓글 쓴 멘티 구인글 조회 API
+ * [GET] /myPage/myMenteeComPick
+ */
+
+exports.getPickMenteesByMyCom = async function (req, res) {
+
+    const myComPickMenteeListResult = await myPageProvider.retrieveMyComPickMenteeList();
+    return res.send(response(baseResponse.SUCCESS, myComPickMenteeListResult));
+
+};
