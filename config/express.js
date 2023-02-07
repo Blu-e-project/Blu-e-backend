@@ -24,5 +24,6 @@ module.exports = function () {
     require('../src/app/Review/reviewRoute')(app);
     require('../src/app/Report/reportRoute')(app);
     require('../src/app/Editing/editingRoute')(app);
+    require('../src/app/MyPage/myPageRoute')(app);
     return app;
 };
