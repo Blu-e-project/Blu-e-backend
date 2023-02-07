@@ -101,6 +101,8 @@ module.exports = {
     PICKCOMMENT_ROLE_WRONG:{"isSuccess": false, "code": 2704, "message": "댓글을 다는 role이 잘못 되었습니다."},
     PICKCOMMENT_USERID_WRONG:{"isSuccess": false, "code": 2705, "message": "댓글 작성자와 일치하지 않습니다."},
 
+    MATCHING_USERID_WRONG:{"isSuccess": false, "code": 2901, "message": "글 작성자와 일치하지 않습니다."},
+
     // response err
     SIGNUP_REDUNDANT_ID : { "isSuccess": false, "code": 3001, "message":"중복된 아이디입니다." },
     SIGNIN_ID_WRONG : { "isSuccess": false, "code": 3002, "message": "아이디가 잘못 되었습니다." },

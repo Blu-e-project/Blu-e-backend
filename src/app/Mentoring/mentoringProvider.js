@@ -93,6 +93,14 @@ exports.retrievePickMenteeComList = async function(pickId) {
   return pickMenteeComListResult
 }
 
+exports.retrievePickMenteeCom = async function(userId, pickId){
+  const connection = await pool.getConnection(async (conn) => conn);
+  const pickMenteeComListResult = await mentoringDao.selectMatchingCom(connection, userId, pickId);
+  connection.release();
+
+  return pickMenteeComListResult
+}
+
 exports.pickComCheckByUserId = async function(pickComCheckParams){
   const connection = await pool.getConnection(async (conn) => conn);
   const comCheckResult = await mentoringDao.selectPickComByUserId(connection, pickComCheckParams);
@@ -115,4 +123,12 @@ exports.pickStatusCheck = async function(pickId){
   connection.release();
 
   return pickStatusResult;
+}
+
+exports.userIdCheck = async function(pickId){
+  const connection = await pool.getConnection(async (conn) => conn);
+  const userIdCheckResult = await mentoringDao.userIdCheck(connection, pickId);
+  connection.release();
+
+  return userIdCheckResult;
 }

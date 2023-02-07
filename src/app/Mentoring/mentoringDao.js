@@ -357,6 +357,29 @@ async function updateStatus(connection, pickId){
     return statusRow;
 }
 
+// 매칭된 사람 댓글만 보여지게 하기
+// 매칭 테이블은 matchingId, userId, targetId만 있음
+// 알 수 있는 건 userId와 파라미터로 넘어오는 pickId
+async function selectMatchingCom(connection, userId, pickId){
+  const selectMatchingComQuery = `
+          SELECT pickCommentId, pickId, nickname, contents
+          FROM pickcomment
+          JOIN matching ON userId = ? and pickId = ?;
+        `
+    const matchingCom = await connection.query(selectMatchingComQuery, userId, pickId);
+    return matchingCom;
+}
+
+async function userIdCheck(connection, pickId){
+  const userIdCheckQuery = `
+          SELECT userId
+          FROM pick
+          WHERE pickId = ?;
+        `
+    const userIdCheckRow = await connection.query(userIdCheckQuery, pickId);
+    return userIdCheckRow;
+}
+
   module.exports = {
     selectPickMentee,
     selectPickMentor,
@@ -386,6 +409,8 @@ async function updateStatus(connection, pickId){
     deleteMenteesCom,
     pickStatusCheck,
     insertMatching,
-    updateStatus
+    updateStatus,
+    selectMatchingCom,
+    userIdCheck
   };
   
