@@ -163,7 +163,7 @@ exports.getSolutions = async function (req, res) {
     //빈 값 체크
     if (!problemId) return res.send(errResponse(baseResponse.PROBLEM_PROBLEMID_EMPTY));
 
-    const solutionListResult = await problemProvider.retrieveSolutionList(userId);
+    const solutionListResult = await problemProvider.retrieveSolutionList(problemId);
     return res.send(response(baseResponse.SUCCESS, solutionListResult));
 
 };

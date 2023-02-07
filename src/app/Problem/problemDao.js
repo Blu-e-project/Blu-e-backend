@@ -13,12 +13,13 @@
     return insertProblemRow;
   }
   
-  // 전체 문제 조회
+  // 전체 문제 조회(최신순)
 async function selectProblem(connection) {
   const selectProblemListQuery = `
-                  SELECT problemId, nickname, subject, unit, problem, contents, image, problem.createdAt, problem.updatedAt
+                  SELECT problemId, nickname, subject, unit, problem, contents, image
                   FROM problem 
-                  JOIN user ON problem.userId=user.userId;
+                  JOIN user ON problem.userId=user.userId
+                  ORDER BY problemId DESC;
                 `;
   const [problemRows] = await connection.query(selectProblemListQuery);
   return problemRows;
@@ -28,7 +29,7 @@ async function selectProblem(connection) {
 // problemId로 문제 조회
 async function selectProblemId(connection, problemId) {
   const selectProblemIdQuery = `
-                 SELECT problemId, userImg, nickname, subject, unit, problem, contents, image, p.createdAt, p.updatedAt
+                 SELECT problemId, userImg, nickname, subject, unit, problem, contents, image, date_format(p.createdAt, '%Y.%m.%d') as createdAt, date_format(p.updatedAt, '%Y.%m.%d') as updatedAt
                  FROM user u, problem p 
                  WHERE u.userId=p.userId and problemId = ?;
                  `;
@@ -36,10 +37,10 @@ async function selectProblemId(connection, problemId) {
   return problemRow;
 }
 
-// 내가 질문한 문제 조회
+// 내가 질문한 문제 목록 조회
 async function selectProblemByUserId(connection, userId) {
   const selectProblemIdQuery = `
-                 SELECT problemId, nickname, subject, unit, problem, contents, image, p.createdAt, p.updatedAt
+                 SELECT problemId, nickname, subject, unit, problem, contents, image
                  FROM user u, problem p 
                  WHERE u.userId=p.userId and p.userId = ?;
                  `;
@@ -75,7 +76,7 @@ async function deleteProblem(connection, problemId) {
   async function selectSolution(connection, problemId) {
 
     const selectSolutionListQuery = `
-                        SELECT solutionId, problemId, userImg, nickname, contents, solution.updatedAt
+                        SELECT solutionId, problemId, userImg, nickname, contents, date_format(solution.updatedAt, '%Y.%m.%d') as updatedAt
                         FROM solution
                         JOIN user ON solution.userId=user.userId and problemId = ?;
                         `
@@ -87,7 +88,7 @@ async function deleteProblem(connection, problemId) {
     async function selectProblemSolByMe(connection, userId) {
 
       const selectProSolutionListQuery = `
-                          SELECT problemId, (select nickname from user where userId = problem.userId) as nickname, subject, unit, problem, contents, image, problem.createdAt, problem.updatedAt
+                          SELECT problemId, (select nickname from user where userId = problem.userId) as nickname, subject, unit, problem, contents, image
                           FROM problem
                           WHERE problemId in (select problemId from solution where userId = ?);
                           `
