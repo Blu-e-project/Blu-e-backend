@@ -27,7 +27,8 @@ exports.getPickMentorsByMe = async function (req, res) {
 
 exports.getPickMenteesByMe = async function (req, res) {
 
-    const myPickMenteeListResult = await myPageProvider.retrieveMyPickMenteeList();
+    const userId = req.verifiedToken.userId;
+    const myPickMenteeListResult = await myPageProvider.retrieveMyPickMenteeList(userId);
     return res.send(response(baseResponse.SUCCESS, myPickMenteeListResult));
 
 };
@@ -40,7 +41,8 @@ exports.getPickMenteesByMe = async function (req, res) {
 
 exports.getPickMentorsByMyCom = async function (req, res) {
 
-    const myComPickMentorListResult = await myPageProvider.retrieveMyComPickMentorList();
+    const userId = req.verifiedToken.userId;
+    const myComPickMentorListResult = await myPageProvider.retrieveMyComPickMentorList(userId);
     return res.send(response(baseResponse.SUCCESS, myComPickMentorListResult));
 
 };
@@ -53,7 +55,8 @@ exports.getPickMentorsByMyCom = async function (req, res) {
 
 exports.getPickMenteesByMyCom = async function (req, res) {
 
-    const myComPickMenteeListResult = await myPageProvider.retrieveMyComPickMenteeList();
+    const userId = req.verifiedToken.userId;
+    const myComPickMenteeListResult = await myPageProvider.retrieveMyComPickMenteeList(userId);
     return res.send(response(baseResponse.SUCCESS, myComPickMenteeListResult));
 
 };

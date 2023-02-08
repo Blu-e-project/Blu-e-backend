@@ -14,28 +14,28 @@ exports.retrieveMyPickMentorList = async function (userId) {
     return myPickMentorListResult;
 };
 
-exports.retrieveMyPickMenteeList = async function () {
+exports.retrieveMyPickMenteeList = async function (userId) {
 
     const connection = await pool.getConnection(async (conn) => conn);
-    const myPickMenteeListResult = await myPageDao.selectMyPickMentee(connection);
+    const myPickMenteeListResult = await myPageDao.selectMyPickMentee(connection, userId);
     connection.release();
     
     return myPickMenteeListResult;
 };
 
-exports.retrieveMyComPickMentorList = async function () {
+exports.retrieveMyComPickMentorList = async function (userId) {
 
     const connection = await pool.getConnection(async (conn) => conn);
-    const myComPickMentorListResult = await myPageDao.selectMyComPickMentor(connection);
+    const myComPickMentorListResult = await myPageDao.selectMyComPickMentor(connection, userId);
     connection.release();
     
     return myComPickMentorListResult;
 };
 
-exports.retrieveMyComPickMenteeList = async function () {
+exports.retrieveMyComPickMenteeList = async function (userId) {
 
     const connection = await pool.getConnection(async (conn) => conn);
-    const myComPickMenteeListResult = await myPageDao.selectMyComPickMentee(connection);
+    const myComPickMenteeListResult = await myPageDao.selectMyComPickMentee(connection, userId);
     connection.release();
     
     return myComPickMenteeListResult;
