@@ -55,10 +55,25 @@ async function matchingCheck(connection, userId, targetnickname) {
 }
 
 
+async function statusCheck(connection, targetnickname) {
+  const statusCheckInfoQuery = `
+  select status from user where nickname = ?;
+    `;
+
+  const [statusCheckInfoRow] = await connection.query(
+    statusCheckInfoQuery,
+    targetnickname,
+  );
+
+  return statusCheckInfoRow;
+}
+
+
 
   module.exports = {
     insertReportInfo,
     updateWarningInfo,
     updateStatusInfo,
     matchingCheck,
+    statusCheck,
  };
