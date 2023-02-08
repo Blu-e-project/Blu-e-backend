@@ -14,4 +14,6 @@ module.exports = function(app){
     // 4. 내가 댓글 쓴 멘티 구인글 조회 API
     app.get('/myPage/myMenteeComPick', jwtMiddleware, myPage.getPickMenteesByMyCom);
    
+    // 5. 멘토링 내역 조회 API
+    app.get('/myPage/myMentoring',  jwtMiddleware, myPage.getMyMentoring);
 };

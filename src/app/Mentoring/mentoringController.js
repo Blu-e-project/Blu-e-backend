@@ -576,11 +576,12 @@ exports.getPickMenteesCom = async function (req, res){
     //                                         -> pick 글 쓴 사람한테는 댓글의 수락 버튼 보여지도록 하기
     const pickStatus = await mentoringProvider.pickStatusCheck(pickId) // pick의 status 확인
     console.log(pickStatus[0].status)
-    if (pickStatus[0].status === 1)
+    if (pickStatus[0].status === 1){
         pickMenteesComListResult = await mentoringProvider.retrievePickMenteeComList(pickId); // 댓글 전부 보여주기
-    // else if (pickStatus[0].status === 0)
-    //     pickMenteesComListResult = await mentoringProvider.retrievePickMenteeCom(userId, pickId); // 매칭된 댓글만 보여주기
-    return res.send(response(baseResponse.SUCCESS, pickMenteesComListResult))
+        return res.send(response(baseResponse.SUCCESS, pickMenteesComListResult))}
+    else if (pickStatus[0].status === 0){
+        pickMenteesComListResult = await mentoringProvider.retrievePickMenteeCom(pickId); // 매칭된 댓글만 보여주기
+        return res.send(response(baseResponse.SUCCESS, pickMenteesComListResult[0]))}
     
 }
 
@@ -675,20 +676,4 @@ exports.postMatching = async function(req, res){
         pickCommentId
     )
     return res.send(postMatchingResponse)
-}
-
-
-/**
- * API No. 22
- * API Name : 멘토링 내역 조회 API
- * [GET] /myPage/myMentoring
- */
-exports.getMyMentoring = async function(req, res) {
-    //const userId = req.verifiedToken.userId;
-    const userId= 2;
-    const mentoringListResponse = await mentoringProvider.mentoringList(userId);
-    console.log(mentoringListResponse[0].state)
-    
-    // state가 양수면 활동 진행 중, 음수면 활동 종료
-    return res.send(response(baseResponse.SUCCESS, mentoringListResponse))
 }
