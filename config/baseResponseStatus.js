@@ -101,6 +101,19 @@ module.exports = {
     PICKCOMMENT_ROLE_WRONG:{"isSuccess": false, "code": 2704, "message": "댓글을 다는 role이 잘못 되었습니다."},
     PICKCOMMENT_USERID_WRONG:{"isSuccess": false, "code": 2705, "message": "댓글 작성자와 일치하지 않습니다."},
 
+    REVIEW_NICKNAME_EMPTY : { "isSuccess": false, "code": 2800, "message": "닉네임을 입력해주세요." },
+    REVIEW_SUBJECT_EMPTY : { "isSuccess": false, "code": 2801, "message": "과목을 입력해주세요." },
+    REVIEW_CONTENTS_EMPTY : { "isSuccess": false, "code": 2802, "message": "내용을 입력해주세요." },
+    REVIEW_USERID_EMPTY : { "isSuccess": false, "code": 2803, "message": "사용자 ID를 입력해주세요." },
+    REVIEW_REVIEWID_EMPTY : { "isSuccess": false, "code": 2804, "message": "리뷰 ID를 입력해주세요." },
+
+    REVIEW_NICKNAME_LENGTH : { "isSuccess": false, "code": 2805, "message": "닉네임을 7자 이내로 입력해주세요." },
+    REVIEW_SUBJECT_LENGTH : { "isSuccess": false, "code": 2806, "message": "과목을 15자 이내로 입력해주세요." },
+    REVIEW_CONTENTS_LENGTH : { "isSuccess": false, "code": 2807, "message": "내용을 300자 이내로 입력해주세요." },
+    REVIEW_NICKNAME_NOT_EXIST : { "isSuccess": false, "code": 2808, "message": "존재하지 않는 닉네임입니다." },
+    REVIEW_MATCHING_NOT_EXIST : { "isSuccess": false, "code": 2809, "message": "매칭 정보가 존재하지 않습니다." },
+    REVIEW_REVIEW_EXIST : { "isSuccess": false, "code": 2810, "message": "이미 작성한 리뷰입니다." },
+
     MATCHING_USERID_WRONG:{"isSuccess": false, "code": 2901, "message": "글 작성자와 일치하지 않습니다."},
 
     // response err
