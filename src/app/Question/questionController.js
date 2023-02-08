@@ -24,6 +24,23 @@ exports.getQuestion = async function (req, res) {
 
 /**
  * API No. 2
+ * API Name : 특정 Q&A 조회
+ * [GET] /service/questions/:questinoId
+ */
+exports.getQuestionByQuestionId = async function (req, res) {
+
+    const userId = req.verifiedToken.userId;
+    const questionId = req.params.questionId;
+
+    if (!userId) return res.send(response(baseResponse.QUESTION_USERID_EMPTY));
+    if (!questionId) return res.send(errResponse(baseResponse.QUESTION_QUESTIONID_EMPTY));
+
+    const QuestionByQuestionId = await questionProvider.retrieveQuestionByQuestionId(userId, questionId);
+    return res.send(response(baseResponse.SUCCESS, QuestionByQuestionId));
+};
+
+/**
+ * API No. 3
  * API Name : Question 생성 API
  * [POST] /service/questions/writing
  */
@@ -57,7 +74,7 @@ exports.postQuestion = async function (req, res) {
 
 
 /**
- * API No. 3
+ * API No. 4
  * API Name : Question 삭제 API
  * [DELETE] /service/questions/writing/:questionId
  */
