@@ -76,14 +76,13 @@ async function insertReview(connection, userId, nickname, subject, contents) {
 // userId로 내가 쓴 리뷰 조회
 async function selectReviewByMe(connection, userId) {
   const selectReviewByMeQuery = `
-                SELECT reviewId, review.matchingId, nickname, contents
-                FROM review
-                JOIN user ON review.userId=user.userId and review.userId = ?;
+                SELECT reviewId, r.matchingId, m.targetId,(select nickname from user where userId = m.targetId) as nickname,(select userImg from user where userId = m.targetId) as userImg, contents
+                FROM review r, user u, matching m
+                WHERE r.userId=u.userId and r.matchingId = m.matchingId and r.userId = ?;
                  `;
   const [reviewRow] = await connection.query(selectReviewByMeQuery, userId);
   return reviewRow;
-}
-
+};
 // userId로 특정 유저에 대한 리뷰 조회//
 async function selectReviewUserId(connection, userId) {
   const selectReviewUserIdQuery = `
