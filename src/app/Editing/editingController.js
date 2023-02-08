@@ -72,17 +72,18 @@ exports.patchPassword = async function (req, res) {
     if (!password) return res.send(response(baseResponse.EDITING_PASSWORD_EMPTY));
     // 비밀번호 재입력값 빈칸 오류
     if (!password2) return res.send(response(baseResponse.EDITING_PASSWORD_EMPTY));
-    // 비밀번호 입력과 재입력값 비교
-    if (password != password2) res.send(response(baseResponse.EDITING_PASSWORD_DIFFERENT));
 
     if (password.length > 20) return res.send(response(baseResponse.EDITING_PASSWORD_LENGTH));
     if (password2.length > 20) return res.send(response(baseResponse.EDITING_PASSWORD_LENGTH));
 
-
-    const updatePasswordResponse = await editingService.editPassword(
-        password,
-        userId,
-    );
-
-    return res.send(updatePasswordResponse);
+    // 비밀번호 입력과 재입력값 비교
+    if (password != password2) res.send(response(baseResponse.EDITING_PASSWORD_DIFFERENT));
+    else{
+        const updatePasswordResponse = await editingService.editPassword(
+            password,
+            userId,
+        );
+    
+        return res.send(updatePasswordResponse);
+    }
 };
