@@ -71,6 +71,22 @@ exports.postMenteeReviews = async function (req, res){
     const userId = req.verifiedToken.userId; //멘토의 userId
     const {nickname, subject, contents} = req.body;
 
+    
+    //입력 정보 확인
+    const nicknameCheck = await reviewProvider.nicknameCheck(nickname);
+    if (!nicknameCheck[0].nicknameCheck == 0){
+        return res.send(errResponse(baseResponse.REVIEW_NICKNAME_NOT_EXIST));
+    };
+    const matchingCheck = await reviewProvider.matchingCheck(userId, nickname, subject);
+    if (matchingCheck[0].matchingCheck == 0) {
+        return res.send(errResponse(baseResponse.REVIEW_MATCHING_NOT_EXIST));
+    };
+    //리뷰 작성 권한 확인
+    const reviewCheck = await reviewProvider.reviewCheck(userId, nickname);
+    if (reviewCheck[0].reviewCheck !== 0){
+        return res.send(errResponse(baseResponse.REVIEW_REVIEW_EXIST));
+    };
+
     // 빈 값 체크
     if (!nickname){
         return res.send(errResponse(baseResponse.REVIEW_NICKNAME_EMPTY));
