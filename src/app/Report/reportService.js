@@ -18,6 +18,11 @@ exports.createReport = async function (userId, targetnickname, title, contents, 
         if(!matchingCheck[0].length > 0)
             return errResponse(baseResponse.REPORT_MATCHING_EMPTH);
 
+        // 피신고자의 status값을 확인. if) status = 0, 탈퇴한 유저라고 메시지를 띄움
+        const statusCheck = await reportProvider.statusCheckInfo(targetnickname);
+        if(statusCheck[0].status === 0)
+            return errResponse(baseResponse.REPORT_TARGETUSER_STATUS_0);
+
         const connection = await pool.getConnection(async (conn) => conn);     
         const ReportResult = await reportDao.insertReportInfo(connection, insertReportInfoParams);
         const UpdateWarning = await reportDao.updateWarningInfo(connection, targetnickname);

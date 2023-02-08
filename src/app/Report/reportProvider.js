@@ -12,3 +12,12 @@ exports.matchingCheckInfo = async function(userId, targetnickname) {
 
   return matchingCheckResult;
 }
+
+
+exports.statusCheckInfo = async function(targetnickname) {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const statusCheckResult = await reportDao.statusCheck(connection, targetnickname);
+  connection.release();
+
+  return statusCheckResult;
+}

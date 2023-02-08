@@ -115,6 +115,8 @@ module.exports = {
     SIGNUP_REDUNDANT_PHONENUM: { "isSuccess": false, "code": 3006, "message":"중복된 전화번호입니다." },
 
     REPORT_MATCHING_EMPTH : {"isSuccess": false, "code": 3400, "message": "매칭되어 있지 않은 유저입니다."},
+    REPORT_TARGETUSER_STATUS_0 : {"isSuccess": false, "code": 3401, "message": "이미 탈퇴한 유저입니다."},
+    
     EDITING_REDUNDANT_NICKNAME : { "isSuccess": false, "code": 3500, "message":"중복된 닉네임입니다." },
     EDITING_PASSWORD_DIFFERENT: { "isSuccess": false, "code": 3501, "message":"새 비밀번호를 동일하게 입력해주세요." },
 
