@@ -360,13 +360,18 @@ async function updateStatus(connection, pickId){
 // 매칭된 사람 댓글만 보여지게 하기
 // 매칭 테이블은 matchingId, userId, targetId만 있음
 // 알 수 있는 건 userId와 파라미터로 넘어오는 pickId
-async function selectMatchingCom(connection, userId, pickId){
+async function selectMatchingCom(connection, pickId){
   const selectMatchingComQuery = `
-          SELECT pickCommentId, pickId, nickname, contents
-          FROM pickcomment
-          JOIN matching ON userId = ? and pickId = ?;
+        SELECT user.nickname, user.userImg, pickComment.contents, pickComment.updatedAt
+        FROM pickComment
+        JOIN user ON user.userId = pickComment.userId
+        WHERE pickComment.userId = (
+        SELECT targetId
+        FROM matching
+        JOIN pick ON pick.userId = matching.userId
+        JOIN pickComment on pickComment.pickId=${pickId} AND pickComment.userId=matching.targetId)
         `
-    const matchingCom = await connection.query(selectMatchingComQuery, userId, pickId);
+    const matchingCom = await connection.query(selectMatchingComQuery, pickId);
     return matchingCom;
 }
 
@@ -380,20 +385,6 @@ async function userIdCheck(connection, pickId){
     return userIdCheckRow;
 }
 
-// 멘토링 내역 조회
-async function mentoringList(connection, userId){
-  const mentoringListQuery = `
-      SELECT matching.userId, user.nickname, IF(datediff(pick.periodEnd,sysdate())>0, 1, 0) as state, user.userImg
-      FROM matching 
-      JOIN user ON user.userId = ${userId}
-      JOIN pick ON pick.userId = ${userId}
-      WHERE matching.userId = ${userId} OR matching.targetId = ${userId}
-  ;
-  `
-  const [mentoringListRows] = await connection.query(mentoringListQuery, userId);
-  return mentoringListRows;
-
-}
 
   module.exports = {
     selectPickMentee,
@@ -427,6 +418,5 @@ async function mentoringList(connection, userId){
     updateStatus,
     selectMatchingCom,
     userIdCheck,
-    mentoringList,
   };
   

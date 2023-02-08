@@ -57,3 +57,18 @@ exports.getPickMenteesByMyCom = async function (req, res) {
     return res.send(response(baseResponse.SUCCESS, myComPickMenteeListResult));
 
 };
+
+/**
+ * API No. 5
+ * API Name : 멘토링 내역 조회 API
+ * [GET] /myPage/myMentoring
+ */
+exports.getMyMentoring = async function(req, res) {
+    //const userId = req.verifiedToken.userId;
+    const userId= 2;
+    const mentoringListResponse = await myPageProvider.mentoringList(userId);
+    console.log(mentoringListResponse[0].state)
+    
+    // state가 양수면 활동 진행 중, 음수면 활동 종료
+    return res.send(response(baseResponse.SUCCESS, mentoringListResponse))
+}
