@@ -16,21 +16,37 @@ exports.postMentorReviews = async function (req, res){
     const userId = req.verifiedToken.userId; //멘티의 userId
     const {nickname, subject, contents} = req.body;
 
+    //입력 정보 확인
+    const nicknameCheck = await reviewProvider.nicknameCheck(nickname);
+    if (!nicknameCheck[0].nicknameCheck == 0){
+        return res.send(errResponse(baseResponse.REVIEW_NICKNAME_NOT_EXIST));
+    };
+    const matchingCheck = await reviewProvider.matchingCheck(userId, nickname, subject);
+    if (matchingCheck[0].matchingCheck == 0) {
+        return res.send(errResponse(baseResponse.REVIEW_MATCHING_NOT_EXIST));
+    };
+    //리뷰 작성 권한 확인
+    const reviewCheck = await reviewProvider.reviewCheck(userId, nickname);
+    if (reviewCheck[0].reviewCheck !== 0){
+        return res.send(errResponse(baseResponse.REVIEW_REVIEW_EXIST));
+    };
+    
+    
     // 빈 값 체크
     if (!nickname){
-        return res.send(errResponse(REVIEW_NICKNAME_EMPTY));
+        return res.send(errResponse(baseResponse.REVIEW_NICKNAME_EMPTY));
     } else if (!subject) {
-        return res.send(errResponse(REVIEW_SUBJECT_EMPTY));
+        return res.send(errResponse(baseResponse.REVIEW_SUBJECT_EMPTY));
     } else if (!contents) {
-        return res.send(errResponse(REVIEW_CONTENTS_EMPTY));
+        return res.send(errResponse(baseResponse.REVIEW_CONTENTS_EMPTY));
     }
     // 길이 체크
     if (nickname.length > 7){
-        return res.send(errResponse(REVIEW_NICKNAME_LENGTH));
+        return res.send(errResponse(baseResponse.REVIEW_NICKNAME_LENGTH));
     } else if (subject.length > 15){
-        return res.send(errResponse(REVIEW_SUBJECT_LENGTH));
+        return res.send(errResponse(baseResponse.REVIEW_SUBJECT_LENGTH));
     } else if (contents.length > 300) {
-        return res.send(errResponse(REVIEW_CONTENTS_LENGTH)); 
+        return res.send(errResponse(baseResponse.REVIEW_CONTENTS_LENGTH)); 
     }
 
     const postReviewResponse = await reviewService.createReview(
@@ -57,19 +73,19 @@ exports.postMenteeReviews = async function (req, res){
 
     // 빈 값 체크
     if (!nickname){
-        return res.send(errResponse(REVIEW_NICKNAME_EMPTY));
+        return res.send(errResponse(baseResponse.REVIEW_NICKNAME_EMPTY));
     } else if (!subject) {
-        return res.send(errResponse(REVIEW_SUBJECT_EMPTY));
+        return res.send(errResponse(baseResponse.REVIEW_SUBJECT_EMPTY));
     } else if (!contents) {
-        return res.send(errResponse(REVIEW_CONTENTS_EMPTY));
+        return res.send(errResponse(baseResponse.REVIEW_CONTENTS_EMPTY));
     }
     // 길이 체크
     if (nickname.length > 7){
-        return res.send(errResponse(REVIEW_NICKNAME_LENGTH));
+        return res.send(errResponse(baseResponse.REVIEW_NICKNAME_LENGTH));
     } else if (subject.length > 15){
-        return res.send(errResponse(REVIEW_SUBJECT_LENGTH));
+        return res.send(errResponse(baseResponse.REVIEW_SUBJECT_LENGTH));
     } else if (contents.length > 300) {
-        return res.send(errResponse(REVIEW_CONTENTS_LENGTH)); 
+        return res.send(errResponse(baseResponse.REVIEW_CONTENTS_LENGTH)); 
     }
 
     const postReviewResponse = await reviewService.createReview(
@@ -84,7 +100,8 @@ exports.postMenteeReviews = async function (req, res){
 /**
  * API No. 3
  * API Name : 특정 유저에 대한 리뷰 조회 API
- * [GET] /reviews/:userId
+ * [GET] /main/mentees/:userId/review
+ * [GET] /main/mentors/:userId/review
  */
 exports.getReviewById = async function (req, res) {
 
@@ -93,7 +110,7 @@ exports.getReviewById = async function (req, res) {
      */
     const userId = req.params.userId;
 
-    if (!userId) return res.send(errResponse(REVIEW_USERID_EMPTY));
+    if (!userId) return res.send(errResponse(baseResponse.REVIEW_USERID_EMPTY));
 
     const reviewByUserId = await reviewProvider.retrieveReviewList(userId);
     return res.send(response(baseResponse.SUCCESS, reviewByUserId));
@@ -108,7 +125,7 @@ exports.getReviewByMe = async function (req, res) {
 
     const userId = req.verifiedToken.userId;
 
-    if (!userId) return res.send(errResponse(REVIEW_USERID_EMPTY));
+    if (!userId) return res.send(errResponse(baseResponse.REVIEW_USERID_EMPTY));
 
     const reviewByUserId = await reviewProvider.retrieveMyReviewList(userId);
     return res.send(response(baseResponse.SUCCESS, reviewByUserId));
@@ -123,7 +140,7 @@ exports.getReviewAboutMe = async function (req, res) {
 
     const userId = req.verifiedToken.userId;
 
-    if (!userId) return res.send(errResponse(REVIEW_USERID_EMPTY));
+    if (!userId) return res.send(errResponse(baseResponse.REVIEW_USERID_EMPTY));
 
     const reviewByUserId = await reviewProvider.retrieveReviewList(userId);
     return res.send(response(baseResponse.SUCCESS, reviewByUserId));
@@ -145,14 +162,14 @@ exports.patchMentorReviews = async function (req, res) {
 
     // 빈 값 체크
     if (!contents) {
-        return res.send(errResponse(REVIEW_CONTENTS_EMPTY));
+        return res.send(errResponse(baseResponse.REVIEW_CONTENTS_EMPTY));
     }
-    // if (!reviewId) return res.send(errResponse(REVIEW_USERID_EMPTY));
+    if (!reviewId) return res.send(errResponse(baseResponse.REVIEW_USERID_EMPTY));
     // 길이 체크
     if (contents.length > 300) {
         return res.send(errResponse(REVIEW_CONTENTS_LENGTH)); 
     }
-    
+    if (!reviewId) return res.send(errResponse(baseResponse.REVIEW_USERID_EMPTY));
     const updateReviewResponse = await reviewService.updateReview(
         contents,
         reviewId
@@ -174,7 +191,7 @@ exports.deleteReviews = async function(req, res) {
 
     const reviewId = req.params.reviewId;
 
-    if (!reviewId) return res.send(errResponse(REVIEW_USERID_EMPTY));
+    if (!reviewId) return res.send(errResponse(baseResponse.REVIEW_USERID_EMPTY));
 
     const deleteReviewResponse = await reviewService.deleteReview(reviewId);
     return res.send(deleteReviewResponse);

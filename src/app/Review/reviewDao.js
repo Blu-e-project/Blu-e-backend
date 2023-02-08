@@ -1,5 +1,61 @@
 const { POSTPICK_SUBJECT_LENGTH } = require("../../../config/baseResponseStatus");
 
+// 존재하는 닉네임인지 확인
+
+async function nicknameCheck(connection, nickname) {
+  const nicknameCheckQuery = `
+            SELECT userId
+            FROM user
+            WHERE nickname = ?
+          `;
+
+  const [nicknameCheckRow] = await connection.query(
+    nicknameCheckQuery,
+    nickname
+  );
+
+  return nicknameCheckRow;
+  
+};
+
+// 존재하는 매칭인지 확인
+async function matchingCheck(connection, userId, nickname, subject) {
+  const matchingCheckQuery = `
+          SELECT exists(
+            SELECT matchingId
+            FROM matching
+            WHERE (subject = "${subject}") AND ((userId = ${userId} AND targetId = (select userId from user where nickname = "${nickname}")) OR (userId = (select userId from user where nickname = "${nickname}") AND targetId = ${userId}))
+          ) as matchingCheck;
+          `;
+
+  const [matchingCheckRow] = await connection.query(
+    matchingCheckQuery,
+    userId, nickname, subject
+  );
+
+  return matchingCheckRow;
+  
+};
+
+//리뷰 작성여부 확인
+async function reviewCheck(connection, userId, nickname) {
+  const reviewCheckQuery = `
+          SELECT exists(
+            SELECT reviewId 
+            FROM review as r
+            JOIN matching as m
+            ON (m.matchingId = r.matchingId) AND ((m.userId=${userId} AND m.targetId = (SELECT userId from user where nickname = "${nickname}")) OR (m.userId = (SELECT userId from user where nickname = "${nickname}") AND m.targetId = ${userId}))
+          ) as reviewCheck;
+          `;
+
+  const [reviewCheckRow] = await connection.query(
+    reviewCheckQuery,
+    userId, nickname
+  );
+        
+  return reviewCheckRow;
+};
+
 // 리뷰 생성
 async function insertReview(connection, userId, nickname, subject, contents) {
   const insertReviewQuery = `
@@ -28,23 +84,13 @@ async function selectReviewByMe(connection, userId) {
   return reviewRow;
 }
 
-// // userId로 나에 대한 리뷰 조회
-// async function selectReviewAboutMe(connection, userId) {
-//   const selectReviewAboutMeQuery = `
-//                   SELECT reviewId, r.matchingId, (select nickname from user where userId = r.userId) as nickname, contents
-//                   FROM review as r
-//                   JOIN matching as m ON (r.matchingId=m.matchingId) and ((m.userId=r.userId AND m.targetId=${userId}) OR (m.userId=${userId} AND m.targetId=r.userId));
-//                    `;
-//   const [reviewRow] = await connection.query(selectReviewAboutMeQuery, userId);
-//   return reviewRow;
-// }
-
 // userId로 특정 유저에 대한 리뷰 조회//
 async function selectReviewUserId(connection, userId) {
   const selectReviewUserIdQuery = `
-                  SELECT reviewId, r.matchingId, (select nickname from user where userId = r.userId) as nickname, contents
+                  SELECT reviewId, r.matchingId, (select userImg from user where userId = r.userId) as userImg, (select nickname from user where userId = r.userId) as nickname, contents
                   FROM review as r
-                  JOIN matching as m ON (r.matchingId=m.matchingId) and ((m.userId=r.userId AND m.targetId=${userId}) OR (m.userId=${userId} AND m.targetId=r.userId))
+                  JOIN matching as m 
+                  ON (r.matchingId=m.matchingId) and ((m.userId=r.userId AND m.targetId=${userId}) OR (m.userId=${userId} AND m.targetId=r.userId))
                   ORDER BY reviewId;
                    `;
   const [reviewRow] = await connection.query(selectReviewUserIdQuery, userId);
@@ -76,10 +122,11 @@ async function deleteReview(connection, reviewId) {
 }
 
 module.exports = {
+  reviewCheck,
+  nicknameCheck,
+  matchingCheck,
   insertReview,
-  // selectReview,
   selectReviewByMe,
-  // selectReviewAboutMe,
   selectReviewUserId,
   updateReview,
   deleteReview,
