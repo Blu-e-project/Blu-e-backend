@@ -1,13 +1,13 @@
 // Report 생성
-async function insertReportInfo(connection, userId, targetnickname, title, contents, image) {
+async function insertReportInfo(connection, insertReportInfoParams) {
     const insertReportInfoQuery = `
           INSERT INTO report(userId, targetId, title, contents, image, createdAt, updatedAt)
-          VALUES (${userId}, (select userId from user where nickname = '${targetnickname}'), "${title}", "${contents}", "${image}", now(), now());
+          VALUES (?, (select userId from user where nickname = ?), ?, ?, ?, now(), now());
       `;
 
     const insertReportInfoRow = await connection.query(
       insertReportInfoQuery,
-      userId, targetnickname, title, contents, image,
+      insertReportInfoParams,
     );
   
     return insertReportInfoRow;

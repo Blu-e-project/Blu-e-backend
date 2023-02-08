@@ -19,7 +19,7 @@ exports.createReport = async function (userId, targetnickname, title, contents, 
             return errResponse(baseResponse.REPORT_MATCHING_EMPTH);
 
         const connection = await pool.getConnection(async (conn) => conn);     
-        const ReportResult = await reportDao.insertReportInfo(connection, userId, targetnickname, title, contents, image);
+        const ReportResult = await reportDao.insertReportInfo(connection, insertReportInfoParams);
         const UpdateWarning = await reportDao.updateWarningInfo(connection, targetnickname);
         
         console.log(`추가된 Report : ${ReportResult[0].insertId}`);
