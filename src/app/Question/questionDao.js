@@ -8,6 +8,16 @@ async function selectQuestion(connection,userId) {
     return questionRows;
   }
 
+// 특정 Q&A 조회
+async function selectQuestionByQuestionId(connection, userId, questionId) {
+  const selectQuestionQuery = `
+  select question.title, question.contents, answer.contents as answer from
+  answer right outer join question on answer.questionId = question.questionId where question.userId = ${userId} and question.questionId = ${questionId};
+                `;
+  const [questionRows] = await connection.query(selectQuestionQuery, userId, questionId);
+  return questionRows;
+}
+
 // Question 생성
 async function insertQuestionInfo(connection, insertQuestionInfoParams) {
   const insertQuestionInfoQuery = `
@@ -46,6 +56,7 @@ async function insertDefaultAnswerInfo(connection, userId) {
 
   module.exports = {
     selectQuestion,
+    selectQuestionByQuestionId,
     insertQuestionInfo,
     deleteQuestion,
     insertDefaultAnswerInfo,
