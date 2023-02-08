@@ -76,9 +76,11 @@ async function insertReview(connection, userId, nickname, subject, contents) {
 // userId로 내가 쓴 리뷰 조회
 async function selectReviewByMe(connection, userId) {
   const selectReviewByMeQuery = `
-                SELECT reviewId, r.matchingId, m.targetId,(select nickname from user where userId = m.targetId) as nickname,(select userImg from user where userId = m.targetId) as userImg, contents
+                SELECT reviewId, r.matchingId,
+                CASE WHEN m.userId = ${userId} THEN (SELECT userImg from user where userId=m.targetId)  else (select userImg from user where userId = m.userId) END as userImg, 
+                CASE WHEN m.userId = ${userId} THEN (SELECT nickname from user where userId=m.targetId)  else (select nickname from user where userId = m.userId) END as nickname, contents
                 FROM review r, user u, matching m
-                WHERE r.userId=u.userId and r.matchingId = m.matchingId and r.userId = ?;
+                WHERE r.userId=u.userId and r.matchingId = m.matchingId and r.userId = 6;
                  `;
   const [reviewRow] = await connection.query(selectReviewByMeQuery, userId);
   return reviewRow;
