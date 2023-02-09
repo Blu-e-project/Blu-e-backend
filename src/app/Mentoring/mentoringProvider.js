@@ -135,7 +135,7 @@ exports.userIdCheck = async function(pickId){
 
 exports.pickMatchingCheck = async function(userId){
   const connection = await pool.getConnection(async (conn) => conn);
-  const matchingCheckResult = await mentoringDao.matchingCheck(connection, userId);
+  const matchingCheckResult = await mentoringDao.matchingCheck(connection, pickId);
   connection.release();
 
   return matchingCheckResult;
