@@ -124,6 +124,20 @@ async function deleteSolution(connection, deleteSolutionparams) {
   );
   return deleteSolutionRows;
 }
+
+  // 문제 부분 조회(최신 5개)
+  async function selectProblemMain(connection) {
+    const selectProblemMainListQuery = `
+                    SELECT problemId, nickname, subject, unit, problem, contents, image
+                    FROM problem
+                    JOIN user ON problem.userId=user.userId
+                    ORDER BY problemId DESC
+                  `;
+    const [problemMainRows] = await connection.query(selectProblemMainListQuery);
+    console.log(problemMainRows);
+    return problemMainRows;
+  }
+
   
   module.exports = {
     insertProblem,
@@ -135,6 +149,7 @@ async function deleteSolution(connection, deleteSolutionparams) {
     selectSolution,
     selectProblemSolByMe,
     updateSolution,
-    deleteSolution
+    deleteSolution,
+    selectProblemMain
   };
   

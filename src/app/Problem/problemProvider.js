@@ -54,3 +54,13 @@ exports.retrieveProblemSolByMeList = async function (userId) {
 
   return problemListResult;
 };
+
+// 문제 부분 조회(최신 5개)
+exports.retrieveProblemMainList = async function () {
+
+  const connection = await pool.getConnection(async (conn) => conn);
+  const problemMainListResult = await problemDao.selectProblemMain(connection);
+  connection.release();
+
+  return problemMainListResult;
+};

@@ -31,5 +31,9 @@ module.exports = function(app){
 
     // 10. 해답 삭제 API
    app.delete('/problems/:problemId/solutions/:solutionId', jwtMiddleware, problem.deleteSolutions);
+
+    // 11. 문제 부분 조회(최신 5개)
+    app.get('/problems/main', jwtMiddleware, problem.getProblemsmain);
+
    
 };
