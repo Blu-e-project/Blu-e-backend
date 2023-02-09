@@ -53,7 +53,7 @@ exports.getTest = async function (req, res) {
  * [POST] /users/send
  */
 exports.send = async function (req, res) {
-    const phoneNumber = req.body.phoneNumber;
+    const phoneNumber = req.body.phoneNum;
 
     Cache.del(phoneNumber);
   
@@ -108,7 +108,7 @@ exports.send = async function (req, res) {
  * [POST] /users/verify
  */
 exports.verify = async function (req, res) {
-    const phoneNumber = req.body.phoneNumber;
+    const phoneNumber = req.body.phoneNum;
     const verifyCode = req.body.verifyCode;
 
     const CacheData = Cache.get(phoneNumber);
