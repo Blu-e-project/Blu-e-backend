@@ -24,9 +24,9 @@ exports.postMentorReviews = async function (req, res){
     };
     const matchingCheck = await reviewProvider.matchingCheck(userId, nickname, subject);
     console.log(matchingCheck);
-    // if (matchingCheck[0].matchingCheck === 0) {
-    //     return res.send(errResponse(baseResponse.REVIEW_MATCHING_NOT_EXIST));
-    // };
+    if (matchingCheck[0].matchingCheck === 0) {
+        return res.send(errResponse(baseResponse.REVIEW_MATCHING_NOT_EXIST));
+    };
     //리뷰 작성 권한 확인
     const reviewCheck = await reviewProvider.reviewCheck(userId, nickname);
     if (reviewCheck[0].reviewCheck !== 0){
