@@ -4,9 +4,10 @@ const { POSTPICK_SUBJECT_LENGTH } = require("../../../config/baseResponseStatus"
 
 async function nicknameCheck(connection, nickname) {
   const nicknameCheckQuery = `
-            SELECT userId
+            SELECT exists
+            (SELECT userId
             FROM user
-            WHERE nickname = ?
+            WHERE nickname = ?) as nicknameCheck;
           `;
 
   const [nicknameCheckRow] = await connection.query(
@@ -24,7 +25,7 @@ async function matchingCheck(connection, userId, nickname, subject) {
           SELECT exists(
             SELECT matchingId
             FROM matching
-            WHERE (subject = "${subject}") AND ((userId = ${userId} AND targetId = (select userId from user where nickname = "${nickname}")) OR (userId = (select userId from user where nickname = "${nickname}") AND targetId = ${userId}))
+            WHERE (subject = '${subject}') AND ((userId = ${userId} AND targetId = (select userId from user where nickname = '${nickname}')) OR (userId = (select userId from user where nickname = '${nickname}') AND targetId = ${userId}))
           ) as matchingCheck;
           `;
 
