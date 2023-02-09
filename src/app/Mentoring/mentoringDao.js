@@ -207,9 +207,9 @@ async function selectUserRole(connection, userId){
 // 멘토 구인글에 달린 댓글 조회
 async function selectMentorCom(connection, pickId) {
   const selectMentorComQuery = `
-      SELECT pickCommentId, pickId, nickname, contents
-      FROM pickcomment
-      JOIN user ON pickcomment.userId=user.userId and pickId = ?;
+    SELECT user.nickname, pickcomment.contents, user.userImg, pickcomment.createdAt
+    FROM pickcomment
+    JOIN user ON pickcomment.userId=user.userId and pickId = ?;
   `
   const [mentorComRows] = await connection.query(selectMentorComQuery, pickId);
   return mentorComRows;
@@ -272,7 +272,7 @@ async function insertMenteesCom(connection, insertMenteesComParams){
 // 멘티 구인글에 달린 댓글 조회
 async function selectMenteeCom(connection, pickId) {
   const selectMenteeComQuery = `
-      SELECT pickCommentId, pickId, nickname, contents
+      SELECT user.nickname, pickcomment.contents, user.userImg, pickcomment.createdAt
       FROM pickcomment
       JOIN user ON pickcomment.userId=user.userId and pickId = ?;
   `
