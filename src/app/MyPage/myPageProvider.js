@@ -43,7 +43,7 @@ exports.retrieveMyComPickMenteeList = async function (userId) {
 
 exports.mentoringList = async function(userId){
     const connection = await pool.getConnection(async (conn) => conn);
-    const mentoringListResult = await mentoringDao.mentoringList(connection, userId);
+    const mentoringListResult = await myPageDao.mentoringList(connection, userId);
     connection.release();
   
     return mentoringListResult;

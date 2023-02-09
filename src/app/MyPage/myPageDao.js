@@ -44,7 +44,7 @@ async function selectMyComPickMentee(connection, userId) {
 // 멘토링 내역 조회
 async function mentoringList(connection, userId){
     const mentoringListQuery = `
-        SELECT matching.userId, user.nickname, IF(datediff(pick.periodEnd,sysdate())>0, 1, 0) as state, user.userImg
+        SELECT user.nickname, IF(datediff(pick.periodEnd,sysdate())>0, "멘토링 진행 중", "멘토링 종료") as state, user.userImg
         FROM matching 
         JOIN user ON user.userId = ${userId}
         JOIN pick ON pick.userId = ${userId}
