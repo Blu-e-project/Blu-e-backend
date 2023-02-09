@@ -124,6 +124,11 @@ exports.deletePickMentor = async function(pickId, userId){
         if(userId!==userIdCheck){
             return errResponse(baseResponse.MENTORMENTEE_AUTH);
         }
+        const matchingRows = await mentoringProvider.pickMatchingCheck(userId);
+        const matchingCheck = matchingRows[0].userId
+        if(userId!==userIdCheck){
+            return errResponse(baseResponse.MENTORMENTEE_AUTH);
+        }
 
         const connection = await pool.getConnection(async (conn) => conn);
         const pickMentorIdResult = await mentoringDao.deletePickMentor(connection, pickId);
@@ -250,7 +255,9 @@ exports.deleteMenteesCom = async function(pickId, pickCommentId){
 
 exports.patchPickMentors = async function(pickId, userId, title, contents, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender){
     try {
+        console.log(pickId,  userId);
         const roleRows = await mentoringProvider.pickUserCheck(pickId, userId);
+        console.log(roleRows);
         const userIdCheck = roleRows[0].userId
         if(userId!==userIdCheck){
             return errResponse(baseResponse.MENTORMENTEE_AUTH);
