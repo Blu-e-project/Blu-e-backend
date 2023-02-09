@@ -2,7 +2,7 @@
   // 문제 생성
   async function insertProblem(connection, insertProblemParams) {
     const insertProblemQuery = `
-          INSERT INTO Problem(userId, subject, unit, problem, contents, image)
+          INSERT INTO problem(userId, subject, unit, problem, contents, image)
           VALUES (?, ?, ?, ?, ?, ?);
       `;
     const insertProblemRow = await connection.query(
@@ -51,7 +51,7 @@ async function selectProblemByUserId(connection, userId) {
 //문제 삭제
 async function deleteProblem(connection, problemId) {
   const deleteProblemQuery = `
-                DELETE FROM Problem 
+                DELETE FROM problem 
                 WHERE problemId = ?;
                 `;
   const deleteProblemRows = await connection.query(deleteProblemQuery, problemId);
@@ -61,7 +61,7 @@ async function deleteProblem(connection, problemId) {
 // 답변 생성
   async function insertSolution(connection, insertSolutionParams) {
     const insertSolutionQuery = `
-          INSERT INTO Solution(userId, problemId, contents)
+          INSERT INTO solution(userId, problemId, contents)
           VALUES (?, ?, ?);
       `;
     const insertSolutionRow = await connection.query(
