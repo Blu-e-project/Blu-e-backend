@@ -81,7 +81,7 @@ async function selectReviewByMe(connection, userId) {
                 CASE WHEN m.userId = ${userId} THEN (SELECT userImg from user where userId=m.targetId)  else (select userImg from user where userId = m.userId) END as userImg, 
                 CASE WHEN m.userId = ${userId} THEN (SELECT nickname from user where userId=m.targetId)  else (select nickname from user where userId = m.userId) END as nickname, contents
                 FROM review r, user u, matching m
-                WHERE r.userId=u.userId and r.matchingId = m.matchingId and r.userId = 6;
+                WHERE r.userId=u.userId and r.matchingId = m.matchingId and r.userId = ${userId};
                  `;
   const [reviewRow] = await connection.query(selectReviewByMeQuery, userId);
   return reviewRow;
