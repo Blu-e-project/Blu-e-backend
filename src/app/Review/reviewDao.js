@@ -45,7 +45,7 @@ async function reviewCheck(connection, userId, nickname) {
             SELECT reviewId 
             FROM review as r
             JOIN matching as m
-            ON (m.matchingId = r.matchingId) AND ((m.userId=${userId} AND m.targetId = (SELECT userId from user where nickname = "${nickname}")) OR (m.userId = (SELECT userId from user where nickname = "${nickname}") AND m.targetId = ${userId}))
+            ON (m.matchingId = r.matchingId) AND ((m.userId=${userId} AND m.targetId = (SELECT userId from user where nickname = "${nickname}")) OR (m.userId = (SELECT userId from user where nickname = "${nickname}") AND m.targetId = ${userId})) AND (r.userId = ${userId})
           ) as reviewCheck;
           `;
 
