@@ -18,6 +18,7 @@ exports.postMentorReviews = async function (req, res){
 
     //입력 정보 확인
     const nicknameCheck = await reviewProvider.nicknameCheck(nickname);
+    console.log(nicknameCheck[0].nicknameCheck);
     if (!nicknameCheck[0].nicknameCheck == 0){
         return res.send(errResponse(baseResponse.REVIEW_NICKNAME_NOT_EXIST));
     };
