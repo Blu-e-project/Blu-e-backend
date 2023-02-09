@@ -124,11 +124,11 @@ exports.deletePickMentor = async function(pickId, userId){
         if(userId!==userIdCheck){
             return errResponse(baseResponse.MENTORMENTEE_AUTH);
         }
-        const matchingRows = await mentoringProvider.pickMatchingCheck(userId);
-        const matchingCheck = matchingRows[0].userId
-        if(userId!==userIdCheck){
+        const matchingCheck = await mentoringProvider.pickMatchingCheck(userId);
+        if(matchingCheck!==1){
             return errResponse(baseResponse.MENTORMENTEE_AUTH);
         }
+
 
         const connection = await pool.getConnection(async (conn) => conn);
         const pickMentorIdResult = await mentoringDao.deletePickMentor(connection, pickId);
