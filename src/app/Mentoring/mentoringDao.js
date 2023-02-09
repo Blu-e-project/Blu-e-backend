@@ -182,7 +182,7 @@ async function selectPickMentor(connection) {
 // 멘토 구인글에 댓글 생성
 async function insertMentorsCom(connection, insertMentorsComParams){
   const insertMentorsComQuery = `
-      INSERT INTO pickcomment(userId, pickId, role, contents)
+      INSERT INTO pickComment(userId, pickId, role, contents)
       VALUES (?, ?, ?, ?);
   `;
   const insertMentorsComRow = await connection.query(
@@ -207,9 +207,9 @@ async function selectUserRole(connection, userId){
 // 멘토 구인글에 달린 댓글 조회
 async function selectMentorCom(connection, pickId) {
   const selectMentorComQuery = `
-    SELECT user.nickname, pickcomment.contents, user.userImg, pickcomment.createdAt
-    FROM pickcomment
-    JOIN user ON pickcomment.userId=user.userId and pickId = ?;
+    SELECT user.nickname, pickComment.contents, user.userImg, pickComment.createdAt
+    FROM pickComment
+    JOIN user ON pickComment.userId=user.userId and pickId = ?;
   `
   const [mentorComRows] = await connection.query(selectMentorComQuery, pickId);
   return mentorComRows;
@@ -218,7 +218,7 @@ async function selectMentorCom(connection, pickId) {
 // 멘토 구인글 댓글 수정
 async function updateMentorsCom(connection, updateMentorsComParams){
   const updateMentorsComQuery = `
-      UPDATE pickcomment
+      UPDATE pickComment
       SET contents = ?
       WHERE pickId = ? and pickCommentId = ?;
   `
@@ -232,7 +232,7 @@ async function updateMentorsCom(connection, updateMentorsComParams){
 // 멘토 구인글 댓글 삭제
 async function deleteMentorsCom(connection, deleteMentorsComParams){
   const deleteMentorsComQuery = `
-      DELETE FROM pickcomment
+      DELETE FROM pickComment
       WHERE pickId = ? and pickCommentId = ?;
   `
   const deleteMentorsComRow = await connection.query(
@@ -248,7 +248,7 @@ async function deleteMentorsCom(connection, deleteMentorsComParams){
 async function selectPickComByUserId(connection, pickCommentId) {
   const selectPickComUserQuery = `
                     SELECT userId, contents
-                    FROM pickcomment
+                    FROM pickComment
                     WHERE userId = ? AND pickId= ?;
     `
     const [roleRows] = await connection.query(selectPickComUserQuery, pickCommentId);
@@ -258,7 +258,7 @@ async function selectPickComByUserId(connection, pickCommentId) {
 // 멘토 구인글에 댓글 생성
 async function insertMenteesCom(connection, insertMenteesComParams){
   const insertMenteesComQuery = `
-      INSERT INTO pickcomment(userId, pickId, role, contents)
+      INSERT INTO pickComment(userId, pickId, role, contents)
       VALUES (?, ?, ?, ?);
   `;
   const insertMenteesComRow = await connection.query(
@@ -272,9 +272,9 @@ async function insertMenteesCom(connection, insertMenteesComParams){
 // 멘티 구인글에 달린 댓글 조회
 async function selectMenteeCom(connection, pickId) {
   const selectMenteeComQuery = `
-      SELECT user.nickname, pickcomment.contents, user.userImg, pickcomment.createdAt
-      FROM pickcomment
-      JOIN user ON pickcomment.userId=user.userId and pickId = ?;
+      SELECT user.nickname, pickComment.contents, user.userImg, pickComment.createdAt
+      FROM pickComment
+      JOIN user ON pickComment.userId=user.userId and pickId = ?;
   `
   const [menteeComRows] = await connection.query(selectMenteeComQuery, pickId);
   return menteeComRows;
@@ -283,7 +283,7 @@ async function selectMenteeCom(connection, pickId) {
 // 멘티 구인글 댓글 수정
 async function updateMenteesCom(connection, updateMenteesComParams){
   const updateMenteesComQuery = `
-      UPDATE pickcomment
+      UPDATE pickComment
       SET contents = ?
       WHERE pickId = ? and pickCommentId = ?;
   `
@@ -297,7 +297,7 @@ async function updateMenteesCom(connection, updateMenteesComParams){
 // 멘티 구인글 댓글 삭제
 async function deleteMenteesCom(connection, deleteMenteesComParams){
   const deleteMenteesComQuery = `
-      DELETE FROM pickcomment
+      DELETE FROM pickComment
       WHERE pickId = ? and pickCommentId = ?;
   `
   const deleteMenteesComRow = await connection.query(
@@ -313,7 +313,7 @@ async function deleteMenteesCom(connection, deleteMenteesComParams){
 async function selectPickComUser(connection, pickCommentId) {
   const selectPickComUserQuery = `
                     SELECT userId
-                    FROM pickcomment
+                    FROM pickComment
                     WHERE pickCommentId = ?;
     `
     const [roleRows] = await connection.query(selectPickComUserQuery, pickCommentId);
@@ -336,7 +336,7 @@ async function insertMatching(connection, userId, pickId, pickCommentId){
       INSERT INTO matching(userId, targetId, subject)
       VALUES (${userId},
       (SELECT userId
-        FROM pickcomment
+        FROM pickComment
         WHERE pickCommentId=${pickCommentId}),
       (SELECT subject
         FROM pick
@@ -362,14 +362,14 @@ async function updateStatus(connection, pickId){
 // 알 수 있는 건 userId와 파라미터로 넘어오는 pickId
 async function selectMatchingCom(connection, pickId){
   const selectMatchingComQuery = `
-        SELECT user.nickname, user.userImg, pickcomment.contents, pickcomment.updatedAt
-        FROM pickcomment
-        JOIN user ON user.userId = pickcomment.userId
-        WHERE pickcomment.userId = (
+        SELECT user.nickname, user.userImg, pickComment.contents, pickComment.updatedAt
+        FROM pickComment
+        JOIN user ON user.userId = pickComment.userId
+        WHERE pickComment.userId = (
         SELECT targetId
         FROM matching
         JOIN pick ON pick.userId = matching.userId
-        JOIN pickcomment on pickcomment.pickId=${pickId} AND pickcomment.userId=matching.targetId)
+        JOIN pickComment on pickComment.pickId=${pickId} AND pickComment.userId=matching.targetId)
         `
     const matchingCom = await connection.query(selectMatchingComQuery, pickId);
     return matchingCom;
