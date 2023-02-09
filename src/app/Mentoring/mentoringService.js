@@ -151,7 +151,7 @@ exports.deletePickMentee = async function(pickId, userId){
             return errResponse(baseResponse.MENTORMENTEE_AUTH);
         }
         const matchingCheck = await mentoringProvider.pickMatchingCheck(pickId);
-        if(matchingCheck===1){
+        if(matchingCheck[0].matchingCheck===1){
             return errResponse(baseResponse.MATCHING_AUTH);
         }
 
