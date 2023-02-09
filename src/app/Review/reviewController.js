@@ -23,7 +23,6 @@ exports.postMentorReviews = async function (req, res){
         return res.send(errResponse(baseResponse.REVIEW_NICKNAME_NOT_EXIST));
     };
     const matchingCheck = await reviewProvider.matchingCheck(userId, nickname, subject);
-    console.log(matchingCheck);
     if (matchingCheck[0].matchingCheck === 0) {
         return res.send(errResponse(baseResponse.REVIEW_MATCHING_NOT_EXIST));
     };
@@ -76,11 +75,11 @@ exports.postMenteeReviews = async function (req, res){
     
     //입력 정보 확인
     const nicknameCheck = await reviewProvider.nicknameCheck(nickname);
-    if (!nicknameCheck[0].nicknameCheck == 0){
+    if (nicknameCheck[0].nicknameCheck === 0){
         return res.send(errResponse(baseResponse.REVIEW_NICKNAME_NOT_EXIST));
     };
     const matchingCheck = await reviewProvider.matchingCheck(userId, nickname, subject);
-    if (matchingCheck[0].matchingCheck == 0) {
+    if (matchingCheck[0].matchingCheck === 0) {
         return res.send(errResponse(baseResponse.REVIEW_MATCHING_NOT_EXIST));
     };
     //리뷰 작성 권한 확인
