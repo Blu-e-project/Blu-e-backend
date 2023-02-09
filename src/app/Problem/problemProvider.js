@@ -59,8 +59,8 @@ exports.retrieveProblemSolByMeList = async function (userId) {
 exports.retrieveProblemMainList = async function () {
 
   const connection = await pool.getConnection(async (conn) => conn);
-  const problemMainListResult = await problemDao.selectProblemMain(connection);
+  const problemListMainResult = await problemDao.selectProblemMain(connection);
   connection.release();
 
-  return problemMainListResult;
+  return problemListMainResult;
 };

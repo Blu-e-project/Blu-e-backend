@@ -69,16 +69,15 @@ exports.getProblems = async function (req, res) {
 /**
  * API No. 11
  * API Name : 문제 부분 조회 API
- * [GET] /problems/main
+ * [GET] /problem-five
  */
-exports.getProblemsmain = async function (req, res) {
+exports.getProblemsMain = async function (req, res) {
 
-    // 문제 부분 조회
-    const problemmainListResult = await problemProvider.retrieveProblemMainList();
-    return res.send(response(baseResponse.SUCCESS, problemmainListResult));
+    // 문제 전체 조회
+    const problemListMainResult = await problemProvider.retrieveProblemMainList();
+    return res.send(response(baseResponse.SUCCESS, problemListMainResult));
 
 };
-
 
 /**
  * API No. 3

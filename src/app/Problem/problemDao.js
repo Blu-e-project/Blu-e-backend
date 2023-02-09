@@ -132,9 +132,9 @@ async function deleteSolution(connection, deleteSolutionparams) {
                     FROM problem
                     JOIN user ON problem.userId=user.userId
                     ORDER BY problemId DESC
+                    LIMIT 5
                   `;
     const [problemMainRows] = await connection.query(selectProblemMainListQuery);
-    console.log(problemMainRows);
     return problemMainRows;
   }
 
