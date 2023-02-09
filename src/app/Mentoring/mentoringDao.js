@@ -1,7 +1,7 @@
   // 멘토 구인글 전체 조회
 async function selectPickMentor(connection) {
   const selectPickMentorListQuery = `
-                    SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
+                    SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender
                     FROM pick 
                     WHERE role = 2
                     order by pickMenteeId desc;
@@ -14,7 +14,7 @@ async function selectPickMentor(connection) {
   // 멘티 구인글 전체 조회
   async function selectPickMentee(connection) {
     const selectPickMenteeListQuery = `
-                    SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
+                    SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender
                     FROM pick 
                     WHERE role = 1
                     order by pickMenteeId desc;
@@ -26,7 +26,7 @@ async function selectPickMentor(connection) {
     // 멘토 구인글 부분 조회(5개)
    async function selectPickMentorMain(connection) {
     const selectPickMentorMainListQuery = `
-                      SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
+                      SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender
                       FROM pick
                       WHERE role = 2
                       ORDER BY viewCount desc
@@ -40,7 +40,7 @@ async function selectPickMentor(connection) {
     // 멘티 구인글 부분 조회(5개)
     async function selectPickMenteeMain(connection) {
       const selectPickMenteeMainListQuery = `
-                      SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, menteeGender
+                      SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender
                       FROM pick 
                       WHERE role = 1
                       ORDER BY viewCount desc
