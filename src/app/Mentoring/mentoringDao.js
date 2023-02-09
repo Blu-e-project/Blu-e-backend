@@ -385,16 +385,14 @@ async function userIdCheck(connection, pickId){
     return userIdCheckRow;
 }
 
-// 매칭테이블에서의 userId와 로그인한 사용자의 userId가 같은지 확인
+// 구인글의 모집 현황 확인 (모집완료면 삭제 불가, 모집 중이면 삭제 가능)
 async function matchingCheck(connection, pickId){
   const userIdCheckQuery = `
-          SELECT exists(
-            SELECT p.userId
-            FROM pick p, matching m, pickComment c
-            WHERE p.pickId=${pickId} AND p.subject=m.subject AND m.targetId=c.userId AND c.pickId=${pickId}
-          ) as matchingCheck;
+                SELECT CASE status when 1 THEN 0 else 1 END as status
+                FROM pick
+                WHERE pickId = ?;
           `
-    const userIdCheckRow = await connection.query(userIdCheckQuery, pickId);
+    const [userIdCheckRow] = await connection.query(userIdCheckQuery, pickId);
     return userIdCheckRow;
 }
 
