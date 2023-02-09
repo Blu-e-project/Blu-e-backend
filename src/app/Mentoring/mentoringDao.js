@@ -389,7 +389,7 @@ async function userIdCheck(connection, pickId){
 async function matchingCheck(connection, userId){
   const userIdCheckQuery = `
           SELECT exists(
-            SELECT userId 
+            SELECT p.userId 
             FROM pick as p
             JOIN matching as m
             ON (m.userId=p.userId) AND (m.userId=${userId})
