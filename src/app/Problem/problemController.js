@@ -66,6 +66,19 @@ exports.getProblems = async function (req, res) {
 
 };
 
+/**
+ * API No. 11
+ * API Name : 문제 부분 조회 API
+ * [GET] /problems/main
+ */
+exports.getProblemsmain = async function (req, res) {
+
+    // 문제 부분 조회
+    const problemmainListResult = await problemProvider.retrieveProblemMainList();
+    return res.send(response(baseResponse.SUCCESS, problemmainListResult));
+
+};
+
 
 /**
  * API No. 3
@@ -237,3 +250,5 @@ exports.deleteSolutions = async function(req, res) {
     );
     return res.send(deleteSolutionResponse);
 };
+
+
