@@ -4,7 +4,7 @@ async function selectPickMentor(connection) {
                     SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender
                     FROM pick 
                     WHERE role = 2
-                    order by pickMenteeId desc;
+                    order by pickId desc;
                 `;
   const [pickMentorRows] = await connection.query(selectPickMentorListQuery);
   return pickMentorRows;
@@ -17,7 +17,7 @@ async function selectPickMentor(connection) {
                     SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender
                     FROM pick 
                     WHERE role = 1
-                    order by pickMenteeId desc;
+                    order by pickId desc;
                   `;
     const [pickMenteeRows] = await connection.query(selectPickMenteeListQuery);
     return pickMenteeRows;
