@@ -384,6 +384,18 @@ async function userIdCheck(connection, pickId){
     const userIdCheckRow = await connection.query(userIdCheckQuery, pickId);
     return userIdCheckRow;
 }
+// 매칭테이블에서의 userId와 pick테이블의 userId가 같은지 확인
+async function matchingCheck(connection, userId){
+  const userIdCheckQuery = `
+          SELECT 
+          SELECT userId
+          FROM pick
+          WHERE pickId = ?;
+          SELECT IF(SELECT IF, 'TRUE', 'FALSE') AS result
+        `
+    const userIdCheckRow = await connection.query(userIdCheckQuery, pickId);
+    return userIdCheckRow;
+}
 
 
   module.exports = {
