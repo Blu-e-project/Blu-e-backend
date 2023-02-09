@@ -92,6 +92,7 @@ module.exports = {
     POSTPICK_MENTEELEVEL_LENGTH : {"isSuccess": false, "code": 2617, "message": "희망 멘티수준을 10자 이내로 입력해주세요."},
 
     MENTORMENTEE_AUTH : {"isSuccess": false, "code": 2618, "message": "접근 권한이 없습니다."},
+    MATCHING_AUTH : {"isSuccess": false, "code": 2619, "message": "매칭테이블에 있습니다."},
 
 
     PICKCOMMENT_COMMENT_EMPTY : { "isSuccess": false,"code": 2700,"message":"댓글 내용을 입력해주세요." },
