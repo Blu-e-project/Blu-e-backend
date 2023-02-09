@@ -182,7 +182,7 @@ async function selectPickMentor(connection) {
 // 멘토 구인글에 댓글 생성
 async function insertMentorsCom(connection, insertMentorsComParams){
   const insertMentorsComQuery = `
-      INSERT INTO pickComment(userId, pickId, role, contents)
+      INSERT INTO pickcomment(userId, pickId, role, contents)
       VALUES (?, ?, ?, ?);
   `;
   const insertMentorsComRow = await connection.query(
@@ -258,7 +258,7 @@ async function selectPickComByUserId(connection, pickCommentId) {
 // 멘토 구인글에 댓글 생성
 async function insertMenteesCom(connection, insertMenteesComParams){
   const insertMenteesComQuery = `
-      INSERT INTO pickComment(userId, pickId, role, contents)
+      INSERT INTO pickcomment(userId, pickId, role, contents)
       VALUES (?, ?, ?, ?);
   `;
   const insertMenteesComRow = await connection.query(
@@ -362,14 +362,14 @@ async function updateStatus(connection, pickId){
 // 알 수 있는 건 userId와 파라미터로 넘어오는 pickId
 async function selectMatchingCom(connection, pickId){
   const selectMatchingComQuery = `
-        SELECT user.nickname, user.userImg, pickComment.contents, pickComment.updatedAt
-        FROM pickComment
-        JOIN user ON user.userId = pickComment.userId
-        WHERE pickComment.userId = (
+        SELECT user.nickname, user.userImg, pickcomment.contents, pickcomment.updatedAt
+        FROM pickcomment
+        JOIN user ON user.userId = pickcomment.userId
+        WHERE pickcomment.userId = (
         SELECT targetId
         FROM matching
         JOIN pick ON pick.userId = matching.userId
-        JOIN pickComment on pickComment.pickId=${pickId} AND pickComment.userId=matching.targetId)
+        JOIN pickcomment on pickcomment.pickId=${pickId} AND pickcomment.userId=matching.targetId)
         `
     const matchingCom = await connection.query(selectMatchingComQuery, pickId);
     return matchingCom;
