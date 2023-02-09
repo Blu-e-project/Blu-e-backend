@@ -54,7 +54,7 @@ async function selectPickMentor(connection) {
     // 멘토 구인글 작성
     async function insertPickMentors(connection, insertPickMentorsParams) {
       const insertPickMentorsQuery = `
-            INSERT INTO Pick(userId, title, contents, status, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender, role, viewCount)
+            INSERT INTO pick(userId, title, contents, status, area, mentoringMethod, mentorCareer, subject, periodStart, periodEnd, wishGender, role, viewCount)
             VALUES (?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, 2, 0);
         `;
       const insertPickMentorsRows = await connection.query(
@@ -68,7 +68,7 @@ async function selectPickMentor(connection) {
     // 멘티 구인글 작성
     async function insertPickMentees(connection, insertPickMenteesParams) {
       const insertPickMenteesQuery = `
-            INSERT INTO Pick(userId, title, contents, status, area, mentoringMethod, menteeLevel, subject, periodStart, periodEnd, wishGender, role, viewCount)
+            INSERT INTO pick(userId, title, contents, status, area, mentoringMethod, menteeLevel, subject, periodStart, periodEnd, wishGender, role, viewCount)
             VALUES (?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, 1, 0);
         `;
       const insertPickMenteesRows = await connection.query(
@@ -84,7 +84,7 @@ async function selectPickMentor(connection) {
    async function selectPickMentorById(connection, pickId) {
      const selectPickMentorIdQuery = `
                  SELECT u.nickname, p.title, p.contents, CASE p.status when 1 THEN '모집중' else '모집완료' END as status, p.mentoringMethod, p.mentorCareer, p.subject, p.periodStart, p.periodEnd, p.wishGender, p.viewCount, date(p.createdAt) as 'createdAt', date(p.updatedAt) as 'updatedAt' 
-                 FROM Pick p, User u 
+                 FROM pick p, user u 
                  WHERE p.role=2 AND p.pickId=? AND p.userId=u.userId;
                  `;
      const [pickMentorRow] = await connection.query(selectPickMentorIdQuery, pickId);
@@ -95,7 +95,7 @@ async function selectPickMentor(connection) {
     async function selectPickMenteeById(connection, pickId) {
       const selectPickMenteeIdQuery = `
                 SELECT u.nickname, p.title, p.contents, CASE p.status when 1 THEN '모집중' else '모집완료' END as status, p.mentoringMethod, p.menteeLevel, p.subject, p.periodStart, p.periodEnd, p.wishGender, p.viewCount, date(p.createdAt) as 'createdAt', date(p.updatedAt) as 'updatedAt' 
-                FROM Pick p, User u 
+                FROM pick p, user u 
                 WHERE p.role=1 AND p.pickId=? AND p.userId=u.userId;
                   `;
       const [pickMenteeRow] = await connection.query(selectPickMenteeIdQuery, pickId);
@@ -105,7 +105,7 @@ async function selectPickMentor(connection) {
     // 멘토 구인글 조회수 증가
     async function updateViewCount2(connection, pickId) {
       const updateViewCountQuery = `
-                UPDATE Pick
+                UPDATE pick
                 SET viewCount = viewCount + 1
                 WHERE pickId=? and role=2
                  `;
@@ -116,7 +116,7 @@ async function selectPickMentor(connection) {
     // 멘티 구인글 조회수 증가
     async function updateViewCount1(connection, pickId) {
       const updateViewCountQuery = `
-                UPDATE Pick
+                UPDATE pick
                 SET viewCount = viewCount + 1
                 WHERE pickId=? and role=1
                  `;
@@ -139,7 +139,7 @@ async function selectPickMentor(connection) {
     // 멘토 구인글 수정
     async function updatePickMentors(connection, patchPickMentorsParams) {
       const updatePickMentorIdQuery = `
-                  UPDATE Pick 
+                  UPDATE pick 
                   SET title=?, contents=?, area=?, mentoringMethod=?, mentorCareer=?, subject=?, periodStart=?, periodEnd=?, wishGender=?
                   WHERE pickId=? and role=2;
                   `;
@@ -150,7 +150,7 @@ async function selectPickMentor(connection) {
      // 멘티 구인글 수정
      async function updatePickMentees(connection, patchPickMenteesParams) {
       const updatePickMenteeIdQuery = `
-                  UPDATE Pick 
+                  UPDATE pick 
                   SET title=?, contents=?, area=?, mentoringMethod=?, menteeLevel=?, subject=?, periodStart=?, periodEnd=?, wishGender=?
                   WHERE pickId=? and role=1;
                   `;
@@ -161,7 +161,7 @@ async function selectPickMentor(connection) {
     // 멘토 구인글 삭제
     async function deletePickMentor(connection, pickId) {
       const deletePickMentorQuery = `
-                    DELETE FROM Pick
+                    DELETE FROM pick
                     WHERE pickId = ?;
                     `;
       const deletePickMentorRows = await connection.query(deletePickMentorQuery, pickId);
@@ -171,7 +171,7 @@ async function selectPickMentor(connection) {
     // 멘티 구인글 삭제
     async function deletePickMentee(connection, pickId) {
       const deletePickMenteeQuery = `
-                    DELETE FROM Pick
+                    DELETE FROM pick
                     WHERE pickId = ?;
                     `;
       const deletePickMenteeRows = await connection.query(deletePickMenteeQuery, pickId);
