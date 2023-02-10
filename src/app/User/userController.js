@@ -185,7 +185,7 @@ exports.postSignUpMentor = async function (req, res) {
         id, password, phoneNum, name, nickname, birth, education, department, grade, address, introduce, role, status, userImg
     );
     
-    return res.send(signUpResponse);
+    return res.send(response(baseResponse.SUCCESS, postSignUpMentor));
 }
 
 
@@ -200,7 +200,7 @@ exports.login = async function (req, res) {
 
     const signInResponse = await userService.postSignIn(id, password);
 
-    return res.send(signInResponse);
+    return res.send(response(baseResponse.SUCCESS, signInResponse));
 }
 
 
