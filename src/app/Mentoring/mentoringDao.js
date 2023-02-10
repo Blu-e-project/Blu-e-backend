@@ -207,7 +207,7 @@ async function selectUserRole(connection, userId){
 // 멘토 구인글에 달린 댓글 조회
 async function selectMentorCom(connection, pickId) {
   const selectMentorComQuery = `
-    SELECT user.nickname, pickComment.contents, user.userImg, pickComment.createdAt
+    SELECT user.userId, pickComment.pickId, pickComment.pickCommentId, user.nickname, pickComment.contents, user.userImg, pickComment.createdAt
     FROM pickComment
     JOIN user ON pickComment.userId=user.userId and pickId = ?;
   `
@@ -272,7 +272,7 @@ async function insertMenteesCom(connection, insertMenteesComParams){
 // 멘티 구인글에 달린 댓글 조회
 async function selectMenteeCom(connection, pickId) {
   const selectMenteeComQuery = `
-      SELECT user.nickname, pickComment.contents, user.userImg, pickComment.createdAt
+      SELECT user.userId, pickComment.pickId, pickComment.pickCommentId, user.nickname, pickComment.contents, user.userImg, pickComment.createdAt
       FROM pickComment
       JOIN user ON pickComment.userId=user.userId and pickId = ?;
   `
@@ -362,7 +362,7 @@ async function updateStatus(connection, pickId){
 // 알 수 있는 건 userId와 파라미터로 넘어오는 pickId
 async function selectMatchingCom(connection, pickId){
   const selectMatchingComQuery = `
-        SELECT user.nickname, user.userImg, pickComment.contents, pickComment.updatedAt
+        SELECT pickComment.userId, pickComment.pickId, pickComment.pickCommentId, user.nickname, pickComment.contents, user.userImg, pickComment.createdAt
         FROM pickComment
         JOIN user ON user.userId = pickComment.userId
         WHERE pickComment.userId = (
