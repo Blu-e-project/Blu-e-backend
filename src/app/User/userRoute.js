@@ -13,7 +13,7 @@ module.exports = function(app){
     app.post('/users/verify', user.verify);
 
     // 아이디 찾기 API
-    app.get('/users/id', user.findId);
+    app.post('/users/id', user.findId);
 
     // 비밀번호 재설정 API
     app.patch('/users/password', user.resetPassword);
