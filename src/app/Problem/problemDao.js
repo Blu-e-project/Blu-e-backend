@@ -131,8 +131,8 @@ async function deleteSolution(connection, deleteSolutionparams) {
                   SELECT p.userId, p.problemId, u.nickname, p.subject, p.unit, p.problem, p.contents, p.image
                   FROM problem p, user u
                   WHERE p.userId=u.userId
-                  ORDER BY problemId DESC;
-                    LIMIT 5
+                  ORDER BY problemId DESC
+                  LIMIT 5;
                   `;
     const [problemMainRows] = await connection.query(selectProblemMainListQuery);
     return problemMainRows;
