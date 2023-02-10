@@ -69,7 +69,7 @@ async function selectUserAccount(connection, id) {
   // 멘토 전체 조회(최근 가입한 순)
   async function selectMentor(connection) {
     const selectMentorListQuery = `
-                  SELECT userId, nickname, userImg 
+                  SELECT userId, nickname, userImg, role
                   FROM user 
                   WHERE role=1
                   ORDER BY userId DESC;
@@ -83,7 +83,7 @@ async function selectUserAccount(connection, id) {
   // 멘티 전체 조회(최근 가입한 순)
   async function selectMentee(connection) {
     const selectMenteeListQuery = `
-                  SELECT userId, nickname, userImg 
+                  SELECT userId, nickname, userImg, role
                   FROM user 
                   WHERE role=2
                   ORDER BY userId DESC;
@@ -96,7 +96,7 @@ async function selectUserAccount(connection, id) {
     // 멘토 부분 조회(최신 5개)
     async function selectNewMentor(connection) {
       const selectNewMentorListQuery = `
-                    SELECT userId, nickname, userImg 
+                    SELECT userId, nickname, userImg, role
                     FROM user 
                     WHERE role=1
                     ORDER BY userId DESC
@@ -111,7 +111,7 @@ async function selectUserAccount(connection, id) {
     // 멘티 부분 조회(최신 5개)
     async function selectNewMentee(connection) {
       const selectMenteeListQuery = `
-                    SELECT userId, nickname, userImg 
+                    SELECT userId, nickname, userImg, role 
                     FROM user 
                     WHERE role=2
                     ORDER BY userId DESC
@@ -125,7 +125,7 @@ async function selectUserAccount(connection, id) {
   // 특정 멘토 정보 조회
   async function selectMentorById(connection, userId){
     const selectMentorByIdQuery = `
-                SELECT name, nickname, birth, education, department, address, introduce, userImg
+                SELECT userId, name, nickname, birth, education, department, address, introduce, userImg, role
                 FROM user
                 WHERE role=1 and userId=?
                 `;
@@ -137,7 +137,7 @@ async function selectUserAccount(connection, id) {
   // 특정 멘티 정보 조회
   async function selectMenteeById(connection, userId){
     const selectMenteeByIdQuery = `
-                SELECT name, nickname, birth, education, grade, address, introduce, userImg
+                SELECT userId, name, nickname, birth, education, grade, address, introduce, userImg, role
                 FROM user
                 WHERE role=2 and userId=?
                 `;

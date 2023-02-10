@@ -1,7 +1,7 @@
   // 멘토 구인글 전체 조회
 async function selectPickMentor(connection) {
   const selectPickMentorListQuery = `
-                    SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender
+                    SELECT userId, pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender, role
                     FROM pick 
                     WHERE role = 2
                     order by pickId desc;
@@ -14,7 +14,7 @@ async function selectPickMentor(connection) {
   // 멘티 구인글 전체 조회
   async function selectPickMentee(connection) {
     const selectPickMenteeListQuery = `
-                    SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender
+                    SELECT userId, pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender, role
                     FROM pick 
                     WHERE role = 1
                     order by pickId desc;
@@ -26,7 +26,7 @@ async function selectPickMentor(connection) {
     // 멘토 구인글 부분 조회(5개)
    async function selectPickMentorMain(connection) {
     const selectPickMentorMainListQuery = `
-                      SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender
+                      SELECT userId, pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender, role
                       FROM pick
                       WHERE role = 2
                       ORDER BY viewCount desc
@@ -40,7 +40,7 @@ async function selectPickMentor(connection) {
     // 멘티 구인글 부분 조회(5개)
     async function selectPickMenteeMain(connection) {
       const selectPickMenteeMainListQuery = `
-                      SELECT pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender
+                      SELECT userId, pickId, title, subject, concat(date_format(periodStart, "%y.%m"), "~", date_format(periodEnd, "%y.%m")) as period, mentoringMethod, wishGender, role
                       FROM pick 
                       WHERE role = 1
                       ORDER BY viewCount desc
@@ -83,7 +83,7 @@ async function selectPickMentor(connection) {
     // 특정 멘토 구인글 조회
    async function selectPickMentorById(connection, pickId) {
      const selectPickMentorIdQuery = `
-                 SELECT u.nickname, p.title, p.contents, CASE p.status when 1 THEN '모집중' else '모집완료' END as status, p.mentoringMethod, p.mentorCareer, p.subject, p.periodStart, p.periodEnd, p.wishGender, p.viewCount, date(p.createdAt) as 'createdAt', date(p.updatedAt) as 'updatedAt' 
+                 SELECT u.userId, u.nickname, u.role, p.pickId, p.title, p.contents, p.status, p.mentoringMethod, p.mentorCareer, p.subject, p.periodStart, p.periodEnd, p.wishGender, p.viewCount, date(p.createdAt) as 'createdAt', date(p.updatedAt) as 'updatedAt' 
                  FROM pick p, user u 
                  WHERE p.role=2 AND p.pickId=? AND p.userId=u.userId;
                  `;
@@ -94,7 +94,7 @@ async function selectPickMentor(connection) {
     // 특정 멘티 구인글 조회
     async function selectPickMenteeById(connection, pickId) {
       const selectPickMenteeIdQuery = `
-                SELECT u.nickname, p.title, p.contents, CASE p.status when 1 THEN '모집중' else '모집완료' END as status, p.mentoringMethod, p.menteeLevel, p.subject, p.periodStart, p.periodEnd, p.wishGender, p.viewCount, date(p.createdAt) as 'createdAt', date(p.updatedAt) as 'updatedAt' 
+                SELECT u.userId, u.nickname, u.role, p.pickId, p.title, p.contents, p.status, p.mentoringMethod, p.menteeLevel, p.subject, p.periodStart, p.periodEnd, p.wishGender, p.viewCount, date(p.createdAt) as 'createdAt', date(p.updatedAt) as 'updatedAt' 
                 FROM pick p, user u 
                 WHERE p.role=1 AND p.pickId=? AND p.userId=u.userId;
                   `;
@@ -207,7 +207,7 @@ async function selectUserRole(connection, userId){
 // 멘토 구인글에 달린 댓글 조회
 async function selectMentorCom(connection, pickId) {
   const selectMentorComQuery = `
-    SELECT user.userId, pickComment.pickId, pickComment.pickCommentId, user.nickname, pickComment.contents, user.userImg, pickComment.createdAt
+    SELECT user.userId, pickComment.pickId, pickComment.pickCommentId, user.nickname, user.role, pickComment.contents, user.userImg, pickComment.createdAt
     FROM pickComment
     JOIN user ON pickComment.userId=user.userId and pickId = ?;
   `
@@ -272,7 +272,7 @@ async function insertMenteesCom(connection, insertMenteesComParams){
 // 멘티 구인글에 달린 댓글 조회
 async function selectMenteeCom(connection, pickId) {
   const selectMenteeComQuery = `
-      SELECT user.userId, pickComment.pickId, pickComment.pickCommentId, user.nickname, pickComment.contents, user.userImg, pickComment.createdAt
+      SELECT user.userId, pickComment.pickId, pickComment.pickCommentId, user.nickname, user.role, pickComment.contents, user.userImg, pickComment.createdAt
       FROM pickComment
       JOIN user ON pickComment.userId=user.userId and pickId = ?;
   `
@@ -362,7 +362,7 @@ async function updateStatus(connection, pickId){
 // 알 수 있는 건 userId와 파라미터로 넘어오는 pickId
 async function selectMatchingCom(connection, pickId){
   const selectMatchingComQuery = `
-        SELECT pickComment.userId, pickComment.pickId, pickComment.pickCommentId, user.nickname, pickComment.contents, user.userImg, pickComment.createdAt
+        SELECT pickComment.userId, pickComment.pickId, pickComment.pickCommentId, user.nickname, user.role, pickComment.contents, user.userImg, pickComment.createdAt
         FROM pickComment
         JOIN user ON user.userId = pickComment.userId
         WHERE pickComment.userId = (
