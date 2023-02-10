@@ -76,7 +76,7 @@ async function deleteProblem(connection, problemId) {
   async function selectSolution(connection, problemId) {
 
     const selectSolutionListQuery = `
-                        SELECT solutionId, problemId, userImg, nickname, contents, date_format(solution.updatedAt, '%Y.%m.%d') as updatedAt
+                        SELECT solutionId, problemId, userId, userImg, nickname, contents, date_format(solution.updatedAt, '%Y.%m.%d') as updatedAt
                         FROM solution
                         JOIN user ON solution.userId=user.userId and problemId = ?;
                         `
