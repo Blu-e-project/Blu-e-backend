@@ -185,7 +185,7 @@ exports.postSignUpMentor = async function (req, res) {
         id, password, phoneNum, name, nickname, birth, education, department, grade, address, introduce, role, status, userImg
     );
     
-    return res.send(response(baseResponse.SUCCESS, postSignUpMentor));
+    return res.send(response(baseResponse.SUCCESS, signUpResponse));
 }
 
 
@@ -342,5 +342,5 @@ exports.resetPassword = async function (req, res) {
     
     const resetPasswordResponse = await userService.patchResetPassword(id, password);
     //console.log(resetPasswordResponse);
-    return res.send(resetPasswordResponse);
+    return res.send(response(baseResponse.SUCCESS, resetPasswordResponse));
 }
