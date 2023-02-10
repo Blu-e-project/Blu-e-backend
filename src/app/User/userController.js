@@ -54,7 +54,7 @@ exports.send = async function (req, res) {
 
     const hash = hmac.finalize();
     const signature = hash.toString(CryptoJS.enc.Base64);
-    
+
     const phoneNumber = req.body.phoneNum;
 
     Cache.del(phoneNumber);
@@ -303,7 +303,7 @@ exports.findId = async function (req, res) {
     const findIdResponse = await userProvider.retrieveIdByPhone(phoneNum);
     console.log(findIdResponse.length)
     if (findIdResponse.length <= 0)
-        return res.send(errResponse(baseResponse.FIND_ID_WRONG));
+        return res.send(errResponse(baseResponse.USER_USERID_NOT_EXIST));
 
     return res.send(response(baseResponse.SUCCESS, findIdResponse));
 }
@@ -332,7 +332,7 @@ exports.resetPassword = async function (req, res) {
     // 가입했는지 확인
     const findIdResponse = await userProvider.retrieveIdByPhone(phoneNum);
     if (findIdResponse.length <= 0)
-        return res.send(errResponse(baseResponse.FIND_ID_WRONG));
+        return res.send(errResponse(baseResponse.USER_USERID_NOT_EXIST));
     else if (findIdResponse[0].id !== id)
         return res.send(errResponse(baseResponse.RESETPASSWORD_ID_WRONG));
     console.log(findIdResponse[0].id);

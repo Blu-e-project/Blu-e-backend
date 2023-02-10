@@ -27,6 +27,14 @@ module.exports = {
     SMS_SEND_FAILURE:{ "isSuccess": false,"code": 2019,"message":"인증 문자 발신에 실패했습니다." },
     FAILURE_SMS_AUTHENTICATION : { "isSuccess": false,"code": 2020,"message":"휴대폰 번호 인증 실패했습니다." },
 
+    RESETPASSWORD_ID_EMPTY: { "isSuccess": false, "code": 2021, "message": "아이디를 입력해주세요."},
+    RESETPASSWORD_ID_LENGTH: { "isSuccess": false, "code": 2022, "message": "아이디는 35자리 이하로 입력해주세요."},
+    RESETPASSWORD_PASSWORD_EMPTY: { "isSuccess": false, "code": 2023, "message": "비밀번호를 입력해주세요."},
+    RESETPASSWORD_PASSWORD_LENGTH: { "isSuccess": false, "code": 2024, "message": "비밀번호는 20자리 이하로 입력해주세요."},
+    RESETPASSWORD_PASSWORDCHECK_EMPTY: { "isSuccess": false, "code": 2025, "message": "비밀번호 재확인을 입력해주세요."},
+    RESETPASSWORD_PASSWORD_WRONG: { "isSuccess": false, "code": 2026, "message": "비밀번호 재입력이 올바르지 않습니다."},
+    RESETPASSWORD_ID_WRONG: { "isSuccess": false, "code": 2027, "message": "가입하신 아이디가 올바르지 않습니다."},
+
     POSTPROBLEM_SUBJECT_EMPTY : { "isSuccess": false, "code": 2100, "message": "과목을 입력해주세요." },
     POSTPROBLEM_PROBLEM_EMPTY : { "isSuccess": false, "code": 2101, "message": "문제를 입력해주세요." },
     POSTPROBLEM_CONTENTS_EMPTY : { "isSuccess": false, "code": 2102, "message": "질문을 입력해주세요." },
