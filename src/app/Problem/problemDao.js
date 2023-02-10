@@ -16,9 +16,9 @@
   // 전체 문제 조회(최신순)
 async function selectProblem(connection) {
   const selectProblemListQuery = `
-                  SELECT problemId, nickname, subject, unit, problem, contents, image
-                  FROM problem 
-                  JOIN user ON problem.userId=user.userId
+                  SELECT p.userId, p.problemId, u.nickname, p.subject, p.unit, p.problem, p.contents, p.image
+                  FROM problem p, user u
+                  WHERE p.userId=u.userId
                   ORDER BY problemId DESC;
                 `;
   const [problemRows] = await connection.query(selectProblemListQuery);
@@ -29,7 +29,7 @@ async function selectProblem(connection) {
 // problemId로 문제 조회
 async function selectProblemId(connection, problemId) {
   const selectProblemIdQuery = `
-                 SELECT problemId, userImg, nickname, subject, unit, problem, contents, image, date_format(p.createdAt, '%Y.%m.%d') as createdAt, date_format(p.updatedAt, '%Y.%m.%d') as updatedAt
+                 SELECT p.userId, p.problemId, u.userImg, u.nickname, p.subject, p.unit, p.problem, p.contents, p.image, date_format(p.createdAt, '%Y.%m.%d') as createdAt, date_format(p.updatedAt, '%Y.%m.%d') as updatedAt
                  FROM user u, problem p 
                  WHERE u.userId=p.userId and problemId = ?;
                  `;
@@ -128,7 +128,7 @@ async function deleteSolution(connection, deleteSolutionparams) {
   // 문제 부분 조회(최신 5개)
   async function selectProblemMain(connection) {
     const selectProblemMainListQuery = `
-                    SELECT problemId, nickname, subject, unit, problem, contents, image
+                    SELECT userId, problemId, nickname, subject, unit, problem, contents, image
                     FROM problem
                     JOIN user ON problem.userId=user.userId
                     ORDER BY problemId DESC
