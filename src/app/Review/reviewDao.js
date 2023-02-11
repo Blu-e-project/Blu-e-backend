@@ -45,7 +45,7 @@ async function reviewCheck(connection, userId, nickname) {
             SELECT reviewId 
             FROM review as r
             JOIN matching as m
-            ON (m.matchingId = r.matchingId) AND ((m.userId=${userId} AND m.targetId = (SELECT userId from user where nickname = "${nickname}")) OR (m.userId = (SELECT userId from user where nickname = "${nickname}") AND m.targetId = ${userId})) AND (r.userId = ${userId})
+            ON (m.matchingId = r.matchingId) AND (((SELECT userId FROM pick WHERE pick.pickId = m.pickId)=${userId} AND (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = m.pickCommentId) = (SELECT userId from user where nickname = "${nickname}")) OR ((SELECT userId FROM pick WHERE pick.pickId = m.pickId) = (SELECT userId from user where nickname = "${nickname}") AND (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = m.pickCommentId) = ${userId})) AND (r.userId = ${userId})
           ) as reviewCheck;
           `;
 
@@ -60,13 +60,12 @@ async function reviewCheck(connection, userId, nickname) {
 // 리뷰 생성
 async function insertReview(connection, userId, nickname, subject, contents) {
   const insertReviewQuery = `
-      INSERT INTO review(userId, matchingId, subject, contents) 
-      VALUES (1, (SELECT matchingId FROM matching WHERE (subject = "${subject}") 
-      AND ((pickId in (select pickId from pick where userId = ${userId}) 
-      and pickCommentId in (select pickCommentId from pickComment join user on nickname = "${nickname}")) 
-      OR (pickId in (select pickId from pick join user on nickname = "${nickname}") 
-      AND pickCommentId in (select pickCommentId from pickComment where userId = ${userId})))), "${subject}", "${contents}");
-      `;
+        INSERT INTO review(userId, matchingId, subject, contents)
+        VALUES (${userId},
+        (SELECT matchingId FROM matching
+        WHERE (subject = "${subject}") AND (((SELECT userId FROM pick WHERE pick.pickId = m.pickId)= ${userId} and (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = m.pickCommentId) = (select userId from user where nickname = "${nickname}")) OR ((SELECT userId FROM pick WHERE pick.pickId = m.pickId) = (select userId from user where nickname = "${nickname}") AND (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = m.pickCommentId)=${userId}))), 
+        "${subject}", "${contents}");
+        `;
   const insertReviewRow = await connection.query(
     insertReviewQuery,
     userId, nickname, subject, contents
