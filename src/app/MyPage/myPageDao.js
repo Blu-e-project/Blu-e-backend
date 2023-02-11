@@ -45,10 +45,10 @@ async function selectMyComPickMentee(connection, userId) {
 async function mentoringList(connection, userId){
     const mentoringListQuery = `
         SELECT matching.matchingId, user.nickname, IF(datediff(pick.periodEnd,sysdate())>0, 1, 0) as state, user.userImg
-        FROM matching 
+        FROM matching
         JOIN user ON user.userId = ${userId}
         JOIN pick ON pick.userId = ${userId}
-        WHERE (SELECT userId FROM pick WHERE pick.pickId = m.pickId) = ${userId} OR (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = m.pickCommentId) = ${userId}
+        WHERE (SELECT userId FROM pick WHERE pick.pickId = matching.pickId) = ${userId} OR (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = matching.pickCommentId) = ${userId}
     ;
     `;
     const [mentoringListRows] = await connection.query(mentoringListQuery, userId);
