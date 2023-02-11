@@ -25,7 +25,7 @@ async function matchingCheck(connection, userId, nickname, subject) {
           SELECT exists(
             SELECT matchingId
             FROM matching
-            WHERE (subject = "${subject}") AND ((pickId in (select pickId from pick where userId = ${userId}) AND pickCommentId in (select pickCommentId from pickComment join user on nickname = "${nickname}")) OR (pickCommentId in (select pickCommentId from pickComment join user on nickname = "${nickname}") AND pickCommentId in (select pickCommentId from pickComment where userId = ${userId})));
+            WHERE (subject = "${subject}") AND ((pickId in (select pickId from pick where userId = ${userId}) AND pickCommentId in (select pickCommentId from pickComment join user on nickname = "${nickname}")) OR (pickCommentId in (select pickCommentId from pickComment join user on nickname = "${nickname}") AND pickCommentId in (select pickCommentId from pickComment where userId = ${userId})))
           ) as matchingCheck;
           `;
 
@@ -63,7 +63,7 @@ async function insertReview(connection, userId, nickname, subject, contents) {
         INSERT INTO review(userId, matchingId, subject, contents)
         VALUES (${userId},
         (SELECT matchingId FROM matching
-        WHERE (subject = "${subject}") AND (((SELECT userId FROM pick WHERE pick.pickId = m.pickId)= ${userId} and (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = m.pickCommentId) = (select userId from user where nickname = "${nickname}")) OR ((SELECT userId FROM pick WHERE pick.pickId = m.pickId) = (select userId from user where nickname = "${nickname}") AND (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = m.pickCommentId)=${userId}))), 
+        WHERE (subject = "${subject}") AND (((SELECT userId FROM pick WHERE pick.pickId = matching.pickId)= ${userId} and (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = matching.pickCommentId) = (select userId from user where nickname = "${nickname}")) OR ((SELECT userId FROM pick WHERE pick.pickId = matching.pickId) = (select userId from user where nickname = "${nickname}") AND (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = matching.pickCommentId)=${userId}))), 
         "${subject}", "${contents}");
         `;
   const insertReviewRow = await connection.query(
