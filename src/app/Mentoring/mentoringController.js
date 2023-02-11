@@ -585,8 +585,8 @@ exports.getPickMenteesCom = async function (req, res){
     // 1. status가 1이면 매칭 완료 안 된 구인 글 -> 댓글 전부 다 보여주기
     //                                         -> pick 글 쓴 사람한테는 댓글의 수락 버튼 보여지도록 하기
     const pickStatus = await mentoringProvider.pickStatusCheck(pickId) // pick의 status 확인
-    console.log(pickStatus[0].status)
-    console.log(pickStatus[0].pickId)
+    // console.log(pickStatus[0].status)
+    // console.log(pickStatus[0].pickId)
     if (pickStatus[0].status === 1){
         pickMenteesComListResult = await mentoringProvider.retrievePickMenteeComList(pickId); // 댓글 전부 보여주기
         return res.send(response(baseResponse.SUCCESS, pickMenteesComListResult))}
