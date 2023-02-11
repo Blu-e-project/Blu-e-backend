@@ -78,8 +78,8 @@ async function insertReview(connection, userId, nickname, subject, contents) {
 async function selectReviewByMe(connection, userId) {
   const selectReviewByMeQuery = `
                 SELECT reviewId, r.matchingId,
-                CASE WHEN m.userId = ${userId} THEN (SELECT userImg from user where userId=m.targetId)  else (select userImg from user where userId = m.userId) END as userImg, 
-                CASE WHEN m.userId = ${userId} THEN (SELECT nickname from user where userId=m.targetId)  else (select nickname from user where userId = m.userId) END as nickname, contents
+                CASE WHEN (SELECT userId FROM pick WHERE pick.pickId = m.pickId) = ${userId} THEN (SELECT userImg FROM user WHERE userId=(SELECT userId FROM pickComment WHERE pickComment.pickCommentId = m.pickCommentId))  else (select userImg from user where userId = (SELECT userId FROM pick WHERE pick.pickId = m.pickId)) END as userImg, 
+                CASE WHEN (SELECT userId FROM pick WHERE pick.pickId = m.pickId) = ${userId} THEN (SELECT nickname from user where userId=(SELECT userId FROM pickComment WHERE pickComment.pickCommentId = m.pickCommentId))  else (select nickname from user where userId = (SELECT userId FROM pick WHERE pick.pickId = m.pickId)) END as nickname, contents
                 FROM review r, user u, matching m
                 WHERE r.userId=u.userId and r.matchingId = m.matchingId and r.userId = ${userId};
                  `;
@@ -89,11 +89,12 @@ async function selectReviewByMe(connection, userId) {
 // userId로 특정 유저에 대한 리뷰 조회//
 async function selectReviewUserId(connection, userId) {
   const selectReviewUserIdQuery = `
-                  SELECT reviewId, r.matchingId, (select userImg from user where userId = r.userId) as userImg, (select nickname from user where userId = r.userId) as nickname, contents
-                  FROM review as r
-                  JOIN matching as m 
-                  ON (r.matchingId=m.matchingId) and ((m.userId=r.userId AND m.targetId=${userId}) OR (m.userId=${userId} AND m.targetId=r.userId))
-                  ORDER BY reviewId;
+                SELECT reviewId, r.matchingId, (select userImg from user where userId = r.userId) as userImg, (select nickname from user where userId = r.userId) as nickname, contents
+                FROM review as r
+                JOIN matching as m 
+                ON (r.matchingId=m.matchingId) and ((r.userId = (SELECT userId FROM pick WHERE pick.pickId = m.pickId) AND (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = m.pickCommentId)=${userId})
+                OR ((SELECT userId FROM pick WHERE pick.pickId = m.pickId)=${userId} AND r.userId = (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = m.pickCommentId)))
+                ORDER BY reviewId;
                    `;
   const [reviewRow] = await connection.query(selectReviewUserIdQuery, userId);
   return reviewRow;
