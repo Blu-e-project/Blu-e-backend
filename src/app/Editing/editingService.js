@@ -46,3 +46,21 @@ exports.editPassword = async function (password, userId) {
         return errResponse(baseResponse.DB_ERROR);
     }
 }
+
+
+exports.editImage = async function (image, userId) {
+    try {
+        const updateImageInfoParams = [image, userId];
+        const connection = await pool.getConnection(async (conn) => conn);
+        const editImageResult = await editingDao.updateImageInfo(connection, updateImageInfoParams);
+
+        console.log(`${userId}의 이미지 정보 수정 완료`);
+        connection.release();
+
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - editUser Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}

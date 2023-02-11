@@ -34,8 +34,21 @@ async function updatePasswordInfo(connection, updatePasswordInfoParams) {
 }
 
 
+// 이미지 정보 수정
+async function updateImageInfo(connection, updateImageInfoParams) {
+    const updateImageQuery = `
+    UPDATE user 
+    SET userImg = ?, updatedAt = now()
+    WHERE (userId = ?);`;
+
+    const updateImageRow = await connection.query(updateImageQuery, updateImageInfoParams);
+    return updateImageRow;
+}
+
+
 module.exports = {
     updateUserInfo,
     selectUserNickname,
     updatePasswordInfo,
+    updateImageInfo,
  };
