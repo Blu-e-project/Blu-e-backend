@@ -477,11 +477,10 @@ exports.getPickMentorsCom = async function (req, res){
         console.log(pickMentorsComListResult[0])
         return res.send(response(baseResponse.SUCCESS, pickMentorsComListResult))}
     else if (pickStatus[0].status === 0){
-        return res.send(response(baseResponse.SUCCESS, []))
+        pickMentorsComListResult = await mentoringProvider.retrievePickMentorCom(pickId); // 매칭된 댓글만 보여주기
+        console.log(pickMentorsComListResult[0])
+        return res.send(response(baseResponse.SUCCESS, pickMentorsComListResult[0]))
     }
-        //pickMentorsComListResult = await mentoringProvider.retrievePickMentorCom(pickId); // 매칭된 댓글만 보여주기
-        //console.log(pickMentorsComListResult[0])
-        //return res.send(response(baseResponse.SUCCESS, pickMentorsComListResult[0]))}
 }
 
 /**
@@ -593,11 +592,8 @@ exports.getPickMenteesCom = async function (req, res){
         pickMenteesComListResult = await mentoringProvider.retrievePickMenteeComList(pickId); // 댓글 전부 보여주기
         return res.send(response(baseResponse.SUCCESS, pickMenteesComListResult))}
     else if (pickStatus[0].status === 0){
-            return res.send(response(baseResponse.SUCCESS, []))
-    }
-    //else if (pickStatus[0].status === 0){
-    //    pickMenteesComListResult = await mentoringProvider.retrievePickMenteeCom(pickId); // 매칭된 댓글만 보여주기
-    //    return res.send(response(baseResponse.SUCCESS, pickMenteesComListResult[0]))}
+        pickMenteesComListResult = await mentoringProvider.retrievePickMenteeCom(pickId); // 매칭된 댓글만 보여주기
+        return res.send(response(baseResponse.SUCCESS, pickMenteesComListResult[0]))}
     
 }
 

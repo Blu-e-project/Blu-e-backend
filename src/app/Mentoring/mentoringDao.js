@@ -331,19 +331,16 @@ async function pickStatusCheck(connection, pickId) {
     return pickRows;
 }
 
-async function insertMatching(connection, userId, pickId, pickCommentId){
+async function insertMatching(connection, pickId, pickCommentId){
   const insertMatchingQuery = `
-      INSERT INTO matching(userId, targetId, subject)
-      VALUES (${userId},
-      (SELECT userId
-        FROM pickComment
-        WHERE pickCommentId=${pickCommentId}),
+      INSERT INTO matching(pickId, pickCommentId, subject)
+      VALUES (${pickId}, ${pickCommentId},
       (SELECT subject
         FROM pick
         WHERE pickId=${pickId})
       );
     `
-    const [matchingRows] = await connection.query(insertMatchingQuery, userId, pickId, pickCommentId);
+    const [matchingRows] = await connection.query(insertMatchingQuery, pickId, pickCommentId);
     return matchingRows;
 }
 
@@ -358,22 +355,18 @@ async function updateStatus(connection, pickId){
 }
 
 // 매칭된 사람 댓글만 보여지게 하기
-// 매칭 테이블은 matchingId, userId, targetId만 있음
-// 알 수 있는 건 userId와 파라미터로 넘어오는 pickId
+// 매칭테이블 속성: matchingId, pickId, pickCommentId, subject
 async function selectMatchingCom(connection, pickId){
   const selectMatchingComQuery = `
         SELECT pickComment.userId, pickComment.pickId, pickComment.pickCommentId, user.nickname, user.role, pickComment.contents, user.userImg, pickComment.createdAt
         FROM pickComment
         JOIN user ON user.userId = pickComment.userId
-        WHERE pickComment.pickId = (
-          SELECT pickId
-          FROM pick
-          WHERE pick.pickId = ${pickId}
-        ) AND pickComment.userId IN (
-        SELECT targetId
+        WHERE pickComment.pickId = ${pickId}
+        AND pickComment.pickCommentId = (
+        SELECT matching.pickCommentId
         FROM matching
-        JOIN pick ON pick.userId = matching.userId AND pick.pickId = ${pickId}
-        JOIN pickComment on pickComment.pickId=${pickId} AND pickComment.userId=matching.targetId)
+        WHERE matching.pickId = ${pickId}
+        );
         `
     const matchingCom = await connection.query(selectMatchingComQuery, pickId);
     return matchingCom;

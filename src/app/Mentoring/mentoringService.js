@@ -347,7 +347,7 @@ exports.createMatching = async function (userId, pickId, pickCommentId){
         const connection = await pool.getConnection(async (conn) => conn);
 
         // matching 테이블에 추가
-        const insertMatchingResult = await mentoringDao.insertMatching(connection, userId, pickId, pickCommentId);
+        const insertMatchingResult = await mentoringDao.insertMatching(connection, pickId, pickCommentId);
         console.log(`추가된 매칭 : ${insertMatchingResult[0]}`)
 
         // 매칭 완료이므로, pick 테이블 status는 0으로 업데이트
