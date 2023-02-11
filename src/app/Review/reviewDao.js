@@ -25,7 +25,7 @@ async function matchingCheck(connection, userId, nickname, subject) {
           SELECT exists(
             SELECT matchingId
             FROM matching
-            WHERE (subject = '${subject}') AND ((userId = ${userId} AND targetId = (select userId from user where nickname = '${nickname}')) OR (userId = (select userId from user where nickname = '${nickname}') AND targetId = ${userId}))
+            WHERE (subject = "${subject}") AND ((pickId in (select pickId from pick where userId = ${userId}) AND pickCommentId in (select pickCommentId from pickComment join user on nickname = "${nickname}")) OR (pickCommentId in (select pickCommentId from pickComment join user on nickname = "${nickname}") AND pickCommentId in (select pickCommentId from pickComment where userId = ${userId})));
           ) as matchingCheck;
           `;
 
@@ -60,11 +60,12 @@ async function reviewCheck(connection, userId, nickname) {
 // 리뷰 생성
 async function insertReview(connection, userId, nickname, subject, contents) {
   const insertReviewQuery = `
-          INSERT INTO review(userId, matchingId, subject, contents)
-          VALUES (${userId},
-          (SELECT matchingId FROM matching
-          WHERE (subject = "${subject}") AND ((userId= ${userId} and targetId = (select userId from user where nickname = "${nickname}")) OR (userId = (select userId from user where nickname = "${nickname}") AND targetId=${userId}))), 
-          "${subject}", "${contents}");
+      INSERT INTO review(userId, matchingId, subject, contents) 
+      VALUES (1, (SELECT matchingId FROM matching WHERE (subject = "${subject}") 
+      AND ((pickId in (select pickId from pick where userId = ${userId}) 
+      and pickCommentId in (select pickCommentId from pickComment join user on nickname = "${nickname}")) 
+      OR (pickId in (select pickId from pick join user on nickname = "${nickname}") 
+      AND pickCommentId in (select pickCommentId from pickComment where userId = ${userId})))), "${subject}", "${contents}");
       `;
   const insertReviewRow = await connection.query(
     insertReviewQuery,
