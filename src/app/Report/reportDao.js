@@ -42,8 +42,10 @@ async function updateStatusInfo(connection, targetnickname) {
 
 async function matchingCheck(connection, userId, targetnickname) {
   const matchingCheckInfoQuery = `
-  select matchingId from matching where (userId = ${userId} and targetId = (select userId from user where nickname = "${targetnickname}"))
-  or (userId = (select userId from user where nickname = "${targetnickname}") and targetId = ${userId}); ;
+  SELECT matchingId 
+  FROM matching 
+  WHERE (matching.pickId IN (SELECT pickId FROM pick WHERE pick.userId = ${userId}) AND matching.pickCommentId IN (SELECT pickCommentId FROM pickComment WHERE pickComment.userId = (SELECT userId FROM user WHERE nickname = "${targetnickname}"))) 
+  OR (matching.pickId IN (SELECT pickId FROM pick WHERE pick.userId = (SELECT userId FROM user WHERE nickname = "${targetnickname}")) AND matching.pickCommentId  IN (SELECT pickCommentId FROM pickComment WHERE pickComment.userId = ${userId}));
     `;
 
   const matchingCheckInfoRow = await connection.query(
