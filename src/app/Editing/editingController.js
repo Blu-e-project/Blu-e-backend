@@ -87,3 +87,26 @@ exports.patchPassword = async function (req, res) {
         return res.send(updatePasswordResponse);
     }
 };
+
+
+/**
+ * API No. 3
+ * API Name : 이미지 정보 수정
+ * [PATCH] /mypages/user/image
+ * body : image
+ */
+exports.patchImage = async function (req, res) {
+
+    const userId = req.verifiedToken.userId;
+
+    const image = req.body.image;
+
+    // if (!image) return res.send(response(baseResponse.EDITING_USERID_IMAGE));
+
+    const updateImageResponse = await editingService.editImage(
+        image,
+        userId,
+    );
+
+    return res.send(updateImageResponse);
+};
