@@ -48,7 +48,7 @@ async function mentoringList(connection, userId){
         FROM matching 
         JOIN user ON user.userId = ${userId}
         JOIN pick ON pick.userId = ${userId}
-        WHERE matching.pickId =(select pickId from pick where userId = ${userId}) OR matching.pickCommentId = (select pickCommentId from pickComment where userId = ${userId})
+        WHERE matching.pickId in (select pickId from pick where userId = ${userId}) OR matching.pickCommentId in (select pickCommentId from pickComment where userId = ${userId})
     ;
     `;
     const [mentoringListRows] = await connection.query(mentoringListQuery, userId);
