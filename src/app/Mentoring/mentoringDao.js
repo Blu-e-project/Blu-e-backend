@@ -365,7 +365,7 @@ async function selectMatchingCom(connection, pickId){
         SELECT pickComment.userId, pickComment.pickId, pickComment.pickCommentId, user.nickname, user.role, pickComment.contents, user.userImg, pickComment.createdAt
         FROM pickComment
         JOIN user ON user.userId = pickComment.userId
-        WHERE pickComment.userId = (
+        WHERE pickComment.userId IN (
         SELECT targetId
         FROM matching
         JOIN pick ON pick.userId = matching.userId
