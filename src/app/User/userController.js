@@ -171,11 +171,11 @@ exports.postSignUpMentor = async function (req, res) {
         return res.send(response(baseResponse.SIGNUP_NICKNAME_LENGTH));  
     else if (education.length > 20)
         return res.send(response(baseResponse.SIGNUP_EDUCATION_LENGTH));
-    else if (department.length > 20)
+    else if (department && department.length > 20)
         return res.send(response(baseResponse.SIGNUP_DEPARTMENT_LENGTH));
-    else if (address.length > 20)
+    else if (address && address.length > 20)
         return res.send(response(baseResponse.SIGNUP_ADDRESS_LENGTH));
-    else if (introduce.length > 20)
+    else if (introduce && introduce.length > 20)
         return res.send(response(baseResponse.SIGNUP_INTRODUCE_LENGTH));
 
 
