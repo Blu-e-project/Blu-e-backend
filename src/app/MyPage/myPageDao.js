@@ -44,12 +44,10 @@ async function selectMyComPickMentee(connection, userId) {
 // 멘토링 내역 조회
 async function mentoringList(connection, userId){
     const mentoringListQuery = `
-        SELECT distinct matching.matchingId, user.nickname, IF(datediff(pick.periodEnd,sysdate())>0, 1, 0) as state, user.userImg
-        FROM matching
-        JOIN user ON user.userId = ${userId}
-        JOIN pick ON pick.userId = ${userId}
-        WHERE (SELECT userId FROM pick WHERE pick.pickId = matching.pickId) = ${userId} OR (SELECT userId FROM pickComment WHERE pickComment.pickCommentId = matching.pickCommentId) = ${userId}
-    ;
+    SELECT matchingId, user.userImg, user.nickname, IF(datediff(pick.periodEnd,sysdate())>0, 1, 0) as state
+    FROM user, matching, pick, pickComment
+    WHERE (user.userId = pickComment.userId and pick.userId = ${userId} and matching.pickCommentId = pickComment.pickCommentId and pick.pickId = pickComment.pickId)
+    OR (user.userId = pick.userId and pickComment.userId = ${userId} and matching.pickCommentId = pickComment.pickCommentId and pick.pickId = pickComment.pickId);
     `;
     const [mentoringListRows] = await connection.query(mentoringListQuery, userId);
     return mentoringListRows;
